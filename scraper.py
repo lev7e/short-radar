@@ -122,49 +122,56 @@ def workdays_back(n):
 
 def _normalize_ce_row(row, hdrs):
     """
-    Chartexchange HTML tablo satırını API alanlarına normalize eder.
-    HTML başlıkları scraper versiyonuna göre değişebilir — hepsini dene.
+    Chartexchange HTML tablo satırını normalize eder.
+    Log'dan tespit edilen gerçek kolon adları:
+    '#', 'Symbol', 'BorrowFee%IBKR', 'BorrowSharesAvailableIBKR',
+    'SharesFloat', 'MarketCap', 'Price', 'Change\xa0%', 'Volume',
+    '10DayAvgVolume', 'ShortVolume%', 'ShortInterest%', 'SI%Change',
+    'ShortVolume%30D', 'PreMarketPrice', 'PreMarketChange%'
     """
-    # Ticker: ilk kolon genellikle "Display", "Symbol", "Ticker" veya "display"
-    ticker = ""
-    for k in ["Display", "Symbol", "Ticker", "display", "symbol", "ticker"]:
-        if k in row and row[k]:
-            ticker = str(row[k]).strip().split()[0]  # "AAPL (Apple)" → "AAPL"
-            break
-    if not ticker and hdrs:
-        ticker = str(row.get(hdrs[0],"")).strip().split()[0]
-
     def pick(*keys):
         for k in keys:
-            if k in row and row[k] not in ("", "-", "N/A", None):
-                return row[k]
+            v = row.get(k)
+            if v not in ("", "-", "N/A", None, "0"):
+                return str(v).replace("\xa0","").strip()
         return None
+
+    # Ticker: Symbol kolonu
+    ticker = pick("Symbol", "symbol", "Ticker", "ticker", "Display", "display")
+    if not ticker and hdrs and len(hdrs) > 1:
+        # İkinci kolon genellikle Symbol (#, Symbol, ...)
+        ticker = str(row.get(hdrs[1], "")).strip()
+    if not ticker:
+        return {"ticker": "", "symbol": ""}
 
     return {
         "symbol":                       ticker,
         "ticker":                       ticker,
-        "borrow_fee_rate_ib":           pick("Borrow Rate", "Borrow Fee", "C2B Rate", "C2B%",
-                                             "borrow_fee_rate_ib", "borrowFeeRateIb",
-                                             "Borrow Fee Rate", "Fee Rate"),
-        "borrow_fee_avail_ib":          pick("Available", "Avail", "Shares Avail",
-                                             "borrow_fee_avail_ib"),
-        "shares_float":                 pick("Float", "Float Shares", "shares_float",
-                                             "Shares Float"),
-        "reg_price":                    pick("Price", "Last", "reg_price", "Close"),
-        "reg_change_pct":               pick("Change %", "Chg %", "Change", "reg_change_pct"),
+        # Gerçek CE kolon adları (log'dan)
+        "borrow_fee_rate_ib":           pick("BorrowFee%IBKR", "Borrow Rate", "C2B Rate",
+                                             "borrow_fee_rate_ib", "BorrowFee%"),
+        "borrow_fee_avail_ib":          pick("BorrowSharesAvailableIBKR", "Available",
+                                             "borrow_fee_avail_ib", "SharesAvailable"),
+        "shares_float":                 pick("SharesFloat", "Float", "shares_float",
+                                             "Shares Float", "FloatShares"),
+        "reg_price":                    pick("Price", "reg_price", "Close", "Last"),
+        "reg_change_pct":               pick("Change\xa0%", "Change%", "Change %",
+                                             "reg_change_pct", "Chg%"),
         "reg_volume":                   pick("Volume", "Vol", "reg_volume"),
-        "10_day_avg_vol":               pick("Avg Vol", "10D Avg Vol", "10_day_avg_vol",
-                                             "Avg Volume"),
-        "shortint_pct":                 pick("SI %", "Short Int %", "Short Interest %",
-                                             "shortint_pct", "SI%"),
-        "shortint_position_change_pct": pick("SI Chg %", "SI Change", "shortint_position_change_pct"),
-        "shortvol_all_short_pct":       pick("Short Vol %", "Short Volume %",
+        "10_day_avg_vol":               pick("10DayAvgVolume", "Avg Vol", "AvgVolume",
+                                             "10_day_avg_vol", "10D Avg Vol"),
+        "shortint_pct":                 pick("ShortInterest%", "SI%", "Short Interest %",
+                                             "shortint_pct", "ShortInt%"),
+        "shortint_position_change_pct": pick("SI%Change", "SI Chg %", "SIChange",
+                                             "shortint_position_change_pct"),
+        "shortvol_all_short_pct":       pick("ShortVolume%", "Short Vol %",
                                              "shortvol_all_short_pct"),
-        "shortvol_all_short_pct_30d":   pick("30D Short %", "shortvol_all_short_pct_30d"),
-        "pre_price":                    pick("Pre Price", "pre_price"),
-        "pre_change_pct":               pick("Pre Chg %", "pre_change_pct"),
-        "_source":                      "html_table",
-        "_raw":                         row,   # debug için orijinal satır
+        "shortvol_all_short_pct_30d":   pick("ShortVolume%30D", "30D Short %",
+                                             "shortvol_all_short_pct_30d"),
+        "pre_price":                    pick("PreMarketPrice", "Pre Price", "pre_price"),
+        "pre_change_pct":               pick("PreMarketChange%", "Pre Chg %", "pre_change_pct"),
+        "market_cap":                   pick("MarketCap", "Market Cap", "market_cap"),
+        "_source":                      "ce_html",
     }
 
 
@@ -484,60 +491,58 @@ def fetch_regsho():
 # ══════════════════════════════════════════════════
 def fetch_finra_short_interest():
     """
-    FINRA biweekly short interest.
-    cdn.finra.org GitHub Actions IP'lerini bazen blokluyor.
-    Hem CDN hem alternatif URL'leri dener.
+    FINRA SI artık kullanılmıyor — askedgar API kullanılıyor.
+    Bu fonksiyon geriye dönük uyumluluk için bırakıldı.
     """
-    print("\n[FINRA SI] Short interest çekiliyor...")
-    result = {}
-    exchanges = [("FNSQ","NASDAQ"), ("FNYS","NYSE"), ("FNOQ","OTC")]
-    bases = [
-        "https://cdn.finra.org/equity/regsho/biweekly",
-        "https://www.finra.org/sites/default/files/regsho/biweekly",
-    ]
+    return {}
 
-    for prefix, exch in exchanges:
-        found = False
-        for date_str in workdays_back(90):
-            for base in bases:
-                url = f"{base}/{prefix}{date_str}.txt"
-                try:
-                    r = requests.get(url, headers=BROWSER_HEADERS, timeout=20)
-                    if r.status_code != 200:
-                        continue
-                    text = r.text
-                    if "|" not in text or len(text) < 100:
-                        continue
-                    count = 0
-                    for line in text.strip().split("\n")[1:]:
-                        parts = line.strip().split("|")
-                        if len(parts) < 3:
-                            continue
-                        ticker = parts[0].strip().upper()
-                        if not ticker or ticker == "SYMBOL":
-                            continue
-                        try:
-                            si = int(str(parts[2]).replace(",", ""))
-                        except Exception:
-                            continue
-                        if ticker not in result or date_str > result[ticker]["si_date"]:
-                            result[ticker] = {"short_interest": si,
-                                              "si_date": date_str,
-                                              "exchange": exch}
-                        count += 1
-                    print(f"    {exch} ({date_str}): {count} ticker")
-                    found = True
-                    break
-                except Exception as e:
-                    print(f"    {exch} {date_str}: {e}")
-            if found:
-                break
-            time.sleep(0.05)
-        if not found:
-            print(f"    {exch}: dosya bulunamadı (son 90 gün)")
 
-    print(f"    Toplam FINRA SI: {len(result)} ticker")
-    SOURCE_STATUS["finra_si"] = f"ok:{len(result)}" if result else "error:not_found"
+def fetch_askedgar_si(tickers: list) -> dict:
+    """
+    askedgar.io /v1/stocks/short-interest?ticker=X
+    Login gerektirmez. short_interest + days_to_cover döner.
+    
+    Test çıktısı (2026-03-01):
+    {"settlement_date":"2026-02-13","ticker":"NVDL",
+     "short_interest":10861177,"avg_daily_volume":12233497,"days_to_cover":1}
+    """
+    print(f"\n[ASKEDGAR SI] {len(tickers)} ticker için SI çekiliyor...")
+    result   = {}
+    base_url = "https://api.askedgar.io/v1/stocks/short-interest"
+    headers  = {
+        **BROWSER_HEADERS,
+        "Accept":  "application/json",
+        "Referer": "https://app.askedgar.io/",
+        "Origin":  "https://app.askedgar.io",
+    }
+
+    ok, err = 0, 0
+    for ticker in tickers:
+        try:
+            r = requests.get(base_url, params={"ticker": ticker},
+                             headers=headers, timeout=10)
+            if r.status_code == 200:
+                data = r.json()
+                si  = data.get("short_interest")
+                dtc = data.get("days_to_cover")
+                adv = data.get("avg_daily_volume")
+                dt  = data.get("settlement_date","")
+                if si:
+                    result[ticker] = {
+                        "short_interest":    si,
+                        "si_date":           dt,
+                        "days_to_cover":     dtc,
+                        "avg_daily_volume":  adv,
+                    }
+                    ok += 1
+            else:
+                err += 1
+            time.sleep(0.15)
+        except Exception as e:
+            err += 1
+    
+    print(f"    Askedgar SI: {ok} ok, {err} hata, {len(result)} ticker")
+    SOURCE_STATUS["askedgar_si"] = f"ok:{len(result)}" if result else "error:no_data"
     return result
 
 
@@ -648,7 +653,7 @@ if __name__ == "__main__":
     sp       = fetch_splits()
     ins      = fetch_insider()
     s1       = fetch_sec_s1()
-    finra_si = fetch_finra_short_interest()
+    finra_si = {}   # artık kullanılmıyor
 
     # ── Yardımcı setler ─────────────────────────
     regsho_tickers = {
@@ -681,16 +686,22 @@ if __name__ == "__main__":
     float_tickers = list(regsho_tickers | set(split_map.keys()) | set(ce_map.keys()))
     float_map     = fetch_edgar_floats(float_tickers, split_map)
 
-    # FINRA SI → float_map'e ekle
+    # askedgar SI — RegSHO + CE tickerları için
+    askedgar_si = fetch_askedgar_si(float_tickers)
+
+    # askedgar SI → float_map'e ekle
     for ticker, fd in float_map.items():
-        fi       = finra_si.get(ticker, {})
+        fi       = askedgar_si.get(ticker, {})
         si_sh    = fi.get("short_interest")
         eff_fl   = fd.get("est_post_split_float") or fd.get("float_shares")
         warrant  = fd.get("warrant_shares") or 0
         diluted  = int(eff_fl + warrant) if eff_fl else None
         sf_pct   = round(si_sh / eff_fl * 100, 2) if (si_sh and eff_fl) else None
         avg_vol  = avg_vol_map.get(ticker)
-        dtc      = round(si_sh / avg_vol, 2) if (si_sh and avg_vol and avg_vol>0) else None
+        # DTC: askedgar'dan direkt geliyorsa onu kullan, yoksa hesapla
+        dtc_api  = fi.get("days_to_cover")
+        dtc_calc = round(si_sh / avg_vol, 2) if (si_sh and avg_vol and avg_vol>0) else None
+        dtc      = dtc_api if dtc_api else dtc_calc
         fd.update({"finra_si": si_sh, "finra_si_date": fi.get("si_date",""),
                    "short_float_pct": sf_pct, "diluted_float": diluted,
                    "dtc": dtc, "effective_float": eff_fl})
@@ -781,7 +792,7 @@ if __name__ == "__main__":
             "insider":        len(ins),
             "s1_edgar":       len(s1),
             "floats":         len(float_map),
-            "finra_si":       len(finra_si),
+            "askedgar_si":    len(askedgar_si),
             "summary":        len(summary_map),
         },
     })

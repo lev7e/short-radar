@@ -1,24 +1,26 @@
 {
-  "updated_at": "2026-03-01T15:13:51.361721+00:00",
-  "elapsed_sec": 35,
+  "updated_at": "2026-03-01T15:36:08.440636+00:00",
+  "elapsed_sec": 42,
   "scraper_ok": true,
-  "protected_files": [],
+  "protected_files": [
+    "s1"
+  ],
   "source_status": {
-    "chartexchange": "error:Expecting value: line 1 column 1 (char 0)",
+    "chartexchange": "ok:235",
     "regsho": "ok:55",
     "splits": "ok:0",
     "insider": "ok:0",
-    "s1": "ok:14",
-    "finra_si": "error:no_data",
+    "s1": "ok:0",
+    "finra_si": "error:not_found",
     "edgar_float": "ok:29"
   },
   "counts": {
-    "chartexchange": 0,
+    "chartexchange": 235,
     "regsho": 55,
     "splits_reverse": 0,
     "splits_upcoming": 0,
     "insider": 0,
-    "s1_edgar": 14,
+    "s1_edgar": 0,
     "floats": 29,
     "finra_si": 0,
     "summary": 55

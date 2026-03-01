@@ -441,14 +441,22 @@ async function loadAll(){
       if(ago>26){ staleEl.style.display=""; staleEl.textContent=`⚠ ${Math.round(ago)}s önce`; }
       else staleEl.style.display="none";
     }
-    // Scraper hata kontrolü
+    // Scraper hata kontrolü + kaynak durumu
     const errEl = document.getElementById("scraper-err");
-    if(meta && (meta.scraper_ok===false || (meta.protected_files&&meta.protected_files.length))){
-      const pf = (meta.protected_files||[]).join(", ");
-      errEl.style.display="";
-      errEl.dataset.detail = pf ? `Korunan: ${pf} — önceki veri gösteriliyor` : "Önceki veri gösteriliyor";
-    } else {
-      errEl.style.display="none";
+    if(meta){
+      const ss   = meta.source_status||{};
+      const errs = Object.entries(ss).filter(([k,v])=>v&&v.startsWith("error")).map(([k,v])=>`${k}: ${v}`);
+      const pf   = (meta.protected_files||[]);
+      if(meta.scraper_ok===false || pf.length || errs.length){
+        errEl.style.display="";
+        const detail = [
+          pf.length   ? `Korunan: ${pf.join(", ")}` : "",
+          errs.length ? `Hata: ${errs.join(" | ")}`  : "",
+        ].filter(Boolean).join(" — ");
+        errEl.dataset.detail = detail || "Önceki veri gösteriliyor";
+      } else {
+        errEl.style.display="none";
+      }
     }
     renderStats(); renderAll();
   } catch(e) {
@@ -728,16 +736,29 @@ function renderS1(){
   if(fv!=="all") rows=rows.filter(r=>r.form===fv);
   const body=document.getElementById("body-s1");
   if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">Sonuç yok</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>`<tr>
-    <td class="ticker">${r.ticker||"—"}${newDot(r.filed_date||"")}</td>
-    <td style="font-size:10px;color:var(--muted)">${(r.company||"-").slice(0,22)}</td>
-    <td>${formBadge(r.form)}</td>
-    <td style="font-size:10px">${r.filed_date||"-"}</td>
-    <td>${fmt(r.float)||"-"}</td>
-    <td>${sfCell(r.short_float_pct)}</td>
-    <td style="text-align:center">${r.reg_sho||"❌"}</td>
-    <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc)">↗</a></td>
-  </tr>`).join("");
+  body.innerHTML=rows.map(r=>{
+    // Ticker boş olabilir (pre-IPO şirketler henüz ticker almamış)
+    // Bu durumda şirket adı öne çıkar
+    const tickerDisp = r.ticker
+      ? `<span class="ticker">${r.ticker}</span>${newDot(r.filed_date||"")}`
+      : `<span style="color:var(--muted);font-size:10px">—</span>`;
+    // Şirket adı: ticker yoksa daha uzun göster
+    const nameLen = r.ticker ? 22 : 32;
+    const nameDisp = (r.company||"-").slice(0,nameLen);
+    const nameStyle = r.ticker
+      ? "font-size:10px;color:var(--muted)"
+      : "font-size:11px;color:var(--text);font-weight:500";
+    return `<tr>
+      <td>${tickerDisp}</td>
+      <td style="${nameStyle}">${nameDisp}${newDot(r.filed_date||"")}</td>
+      <td>${formBadge(r.form)}</td>
+      <td style="font-size:10px">${r.filed_date||"-"}</td>
+      <td>${fmt(r.float)||"-"}</td>
+      <td>${sfCell(r.short_float_pct)}</td>
+      <td style="text-align:center">${r.reg_sho||"❌"}</td>
+      <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc)">↗</a></td>
+    </tr>`;
+  }).join("");
 }
 
 function renderC2B(){

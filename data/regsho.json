@@ -1,5 +1,492 @@
 [
   {
-    "NASDAQ (Q,G,S)": "54"
+    "Symbol": "AIXI",
+    "Security Name": "XIAO-I CORP ADS NEW (CYM)",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "AMZD",
+    "Security Name": "DIREXION SHS ETF TR DAILY AMZN",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "APPX",
+    "Security Name": "INVMENT MNGERS SER TR II TRADR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "AREB",
+    "Security Name": "AMERICAN REBEL HLDGS INC  COM",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "BHAT",
+    "Security Name": "BLUE HAT INTERACTIVE ENTMT TEC",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "BNAI",
+    "Security Name": "BRAND ENGAGEMENT NETWORK INC C",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "BRTX",
+    "Security Name": "BIORESTORATIVE THERAPIES INC.C",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "CDIO",
+    "Security Name": "CARDIO DIAGNOSTICS HLDGS INC C",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "CISS",
+    "Security Name": "C3IS INC COM NEW JAN 2026 (MHL",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "DYTA",
+    "Security Name": "RBB FD INC SGI DYNAMIC TACTICA",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "ELPW",
+    "Security Name": "ELONG PWR HLDG LTD SHS CL A (N",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "EMPD",
+    "Security Name": "EMPERY DIGITAL INC. COMMON STO",
+    "Market Category": "Q",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "FEED",
+    "Security Name": "ENVUE MEDICAL, INC. COMMON STO",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "FIGG",
+    "Security Name": "THEMES ETF TR LEVERAGE SHS 2X",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "GGLS",
+    "Security Name": "DIREXION SHS ETF TR DAILY GOOG",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "GV",
+    "Security Name": "VISIONARY HLDGS INC COM NEW  (",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "HBR",
+    "Security Name": "CANARY HBAR ETF SHS BEN INT",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "HIMZ",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "HOOX",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "IONZ",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "JZXN",
+    "Security Name": "JIUZI HLDGS INC ORD SHS NEW US",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "KXIN",
+    "Security Name": "KAIXIN HLDGS ORD SHS NEW US$1.",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "LFS",
+    "Security Name": "LEIFRAS CO LTD ADS REPSTG ORD",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "LGHL",
+    "Security Name": "LION GROUP HLDG LTD ADR NEW 20",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "MGRX",
+    "Security Name": "MANGOCEUTICALS INC COM NEW (TX",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "MLEC",
+    "Security Name": "MOOLEC SCIENCE SA  ORD SHS NEW",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "MSTX",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "MYCH",
+    "Security Name": "SSGA ACTIVE TRUST STATE STREET",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "NCI",
+    "Security Name": "NEO-CONCEPT INTL GRP HLDNGS LT",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "NOWL",
+    "Security Name": "GRANITESHARES ETF TR 2X LONG N",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "NVDL",
+    "Security Name": "GRANITESHARES ETF TR 2X LONG N",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "OKLL",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "OLB",
+    "Security Name": "OLB GROUP INC COM PAR $0.0001",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "PBOG",
+    "Security Name": "TIDAL ETF TR IV PORT BLDG BLK",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "PDC",
+    "Security Name": "PERPETUALS.COM LTD ADR(JPN)",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "PFSA",
+    "Security Name": "PROFUSA INC COM NEW",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "PLTZ",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "QBTZ",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RGTX",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RGTZ",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RIME",
+    "Security Name": "ALGORHYTHM HLDGS INC COM PAR $",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RKLZ",
+    "Security Name": "TIDAL TR II DEFIANCE DILY TARG",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RUBI",
+    "Security Name": "RUBICO INC COM  PAR $ (MHL)",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "RVSN",
+    "Security Name": "RAIL VISION LTD SHS NEW  SHS N",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "SMCX",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "SMST",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "SMX",
+    "Security Name": "SMX SEC MATTERS PLC ORD SHS NE",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "SOUX",
+    "Security Name": "TIDAL TR II DEFIANCE DAILY TAR",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "SVRN",
+    "Security Name": "OCEANPAL INC COM PAR $0.01 NEW",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "TDI",
+    "Security Name": "TOUCHSTONE ETF TR DYNAMIC INTE",
+    "Market Category": "G",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "UOKA",
+    "Security Name": "MDJM LTD USD CL A ORD SHS (CYM",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "VEEE",
+    "Security Name": "TWIN VEE POWERCATS CO COM NEW",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "XRXDW",
+    "Security Name": "XEROX HLDGS CORP WT EXP 02/11/",
+    "Market Category": "Q",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "XTKG",
+    "Security Name": "X3 HOLDINGS CO LTD ORD SHS NEW",
+    "Market Category": "S",
+    "Reg SHO Threshold Flag": "Y",
+    "Rule 3210": "N",
+    "Filler": "",
+    "_source": "NASDAQ"
+  },
+  {
+    "Symbol": "20260227230020",
+    "_source": "NASDAQ"
   }
 ]

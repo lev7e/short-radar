@@ -271,17 +271,26 @@ def fetch_chartexchange():
                     soup = BeautifulSoup(html, "html.parser")
                     table = soup.find("table")
                     if table:
+                        # th yoksa thead>td veya ilk tr>td'den başlık al
                         hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
+                        all_trs = table.find_all("tr")
+                        if not hdrs and all_trs:
+                            # İlk tr'yi başlık kabul et
+                            hdrs = [td.get_text(strip=True) for td in all_trs[0].find_all("td")]
+                            data_trs = all_trs[1:]
+                        else:
+                            data_trs = all_trs[1:]
+                        print(f"    CE tablo başlıkları: {hdrs[:8]}")
                         raw_rows = []
-                        for tr in table.find_all("tr")[1:]:
+                        for tr in data_trs:
                             cells = [td.get_text(strip=True) for td in tr.find_all("td")]
                             if cells and len(cells) >= 3:
                                 raw_rows.append(dict(zip(hdrs, cells)))
                         if raw_rows:
-                            # HTML kolon adlarını API kolon adlarına çevir
-                            # İlk satıra bakarak eşleştir
                             rows = [_normalize_ce_row(r, hdrs) for r in raw_rows]
-                            print(f"    HTML tablo: {len(rows)} satır (başlıklar: {hdrs[:5]})")
+                            # Geçerli ticker olan satırları filtrele
+                            rows = [r for r in rows if r.get("ticker","").strip()]
+                            print(f"    HTML tablo: {len(rows)} geçerli satır")
                         if not rows:
                             rows = None
 
@@ -628,8 +637,13 @@ def fetch_sec_s1():
 
             data = r.json()
             hits = data.get("hits", {}).get("hits", [])
-            print(f"    {form_type}: {len(hits)} hit — ilk kayıt alanları: "
-                  f"{list(hits[0].get('_source',{}).keys())[:8] if hits else '[]'}")
+            if hits:
+                s0 = hits[0].get("_source",{})
+                dn0 = s0.get("display_names","")
+                print(f"    {form_type}: {len(hits)} hit")
+                print(f"      Alanlar: {list(s0.keys())[:8]}")
+                dn_sample = str(dn0[0]) if isinstance(dn0,list) and dn0 else repr(dn0)[:80]
+                print(f"      display_names[0]: {dn_sample}")
 
             for hit in hits:
                 s = hit.get("_source", {})
@@ -655,10 +669,12 @@ def fetch_sec_s1():
                 filed = (s.get("file_date") or s.get("filed_at") or
                          s.get("fileDate") or "")
 
-                # Dedup: entity+tarih kombinasyonu
+                # Dedup
                 uid = f"{entity}|{filed}"
-                if uid in seen or not entity:
+                if uid in seen:
                     continue
+                if not entity and not ticker:
+                    continue   # hiçbir tanımlayıcı yok
                 seen.add(uid)
 
                 # Ticker yoksa şirket adında ara

@@ -301,12 +301,20 @@ def fetch_chartexchange():
                         for tr in data_trs:
                             cells = [td.get_text(strip=True) for td in tr.find_all(["td","th"])]
                             if cells and len(cells) >= 3:
-                                raw_rows.append(dict(zip(hdrs, cells)) if hdrs else {"_cells": cells})
+                                raw_rows.append(cells)
                         print(f"    Ham satır: {len(raw_rows)}, örnek: {str(raw_rows[0])[:150] if raw_rows else 'yok'}")
+
+                        # hdrs boşsa ilk satır başlıktır
+                        if not hdrs and raw_rows:
+                            hdrs = raw_rows[0]
+                            raw_rows = raw_rows[1:]
+                            print(f"    İlk satırdan başlık: {hdrs[:8]}")
+
                         if raw_rows and hdrs:
-                            rows = [_normalize_ce_row(r, hdrs) for r in raw_rows]
+                            dict_rows = [dict(zip(hdrs, cells)) for cells in raw_rows]
+                            rows = [_normalize_ce_row(r, hdrs) for r in dict_rows]
                             rows = [r for r in rows if r.get("ticker","").strip()]
-                            print(f"    Normalize edilmiş: {len(rows)} ticker")
+                            print(f"    Normalize: {len(rows)} ticker")
                         if not rows:
                             rows = None
 

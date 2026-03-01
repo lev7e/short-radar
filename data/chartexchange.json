@@ -1,7 +1,7 @@
 [
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "Pre-market",
+    "ticker": "Pre-market",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -16,11 +16,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "Pre-market\u00a0%"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.26",
+    "ticker": "+1.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -35,11 +37,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.26",
+    "ticker": "-1.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -54,11 +58,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -73,11 +79,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.78",
+    "ticker": "+3.78",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -92,11 +100,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.78"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-9.76",
+    "ticker": "-9.76",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -111,11 +121,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-9.76"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.38",
+    "ticker": "-5.38",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -130,11 +142,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.38"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.24",
+    "ticker": "-0.24",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -149,11 +163,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.24"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -168,11 +184,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.47",
+    "ticker": "-1.47",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -187,11 +205,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.47"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.03",
+    "ticker": "-1.03",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -206,11 +226,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.03"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.36",
+    "ticker": "-3.36",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -225,11 +247,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.36"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.08",
+    "ticker": "-2.08",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -244,11 +268,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.08"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.25",
+    "ticker": "-5.25",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -263,11 +289,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.25"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.99",
+    "ticker": "+2.99",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -282,11 +310,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.99"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.21",
+    "ticker": "-0.21",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -301,11 +331,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.21"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.11",
+    "ticker": "-3.11",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -320,11 +352,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.11"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.31",
+    "ticker": "+1.31",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -339,11 +373,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.31"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.74",
+    "ticker": "-1.74",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -358,11 +394,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.74"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+7.42",
+    "ticker": "+7.42",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -377,11 +415,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+7.42"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.26",
+    "ticker": "-1.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -396,11 +436,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.59",
+    "ticker": "-1.59",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -415,11 +457,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.59"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.36",
+    "ticker": "-3.36",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -434,11 +478,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.36"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.38",
+    "ticker": "-0.38",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -453,11 +499,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.38"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.62",
+    "ticker": "-4.62",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -472,11 +520,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.62"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.40",
+    "ticker": "-2.40",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -491,11 +541,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.40"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.67",
+    "ticker": "-3.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -510,11 +562,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-6.74",
+    "ticker": "-6.74",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -529,11 +583,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-6.74"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.27",
+    "ticker": "-2.27",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -548,11 +604,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.27"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.26",
+    "ticker": "+0.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -567,11 +625,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.97",
+    "ticker": "-0.97",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -586,11 +646,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.97"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.52",
+    "ticker": "+0.52",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -605,11 +667,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.52"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.03",
+    "ticker": "-2.03",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -624,11 +688,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.03"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.69",
+    "ticker": "-1.69",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -643,11 +709,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.69"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.90",
+    "ticker": "+1.90",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -662,11 +730,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.90"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.98",
+    "ticker": "-0.98",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -681,11 +751,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.98"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-6.21",
+    "ticker": "-6.21",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -700,11 +772,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-6.21"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.30",
+    "ticker": "+1.30",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -719,11 +793,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.30"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.94",
+    "ticker": "-0.94",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -738,11 +814,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.94"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.30",
+    "ticker": "-1.30",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -757,11 +835,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.30"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.25",
+    "ticker": "+1.25",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -776,11 +856,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.25"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.07",
+    "ticker": "+3.07",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -795,11 +877,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.07"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.92",
+    "ticker": "-1.92",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -814,11 +898,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.92"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.59",
+    "ticker": "-0.59",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -833,11 +919,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.59"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.33",
+    "ticker": "-2.33",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -852,11 +940,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.33"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.57",
+    "ticker": "+0.57",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -871,11 +961,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.57"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.89",
+    "ticker": "-0.89",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -890,11 +982,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.89"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -909,11 +1003,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.17",
+    "ticker": "+0.17",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -928,11 +1024,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.17"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.96",
+    "ticker": "-2.96",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -947,11 +1045,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.96"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.63",
+    "ticker": "-0.63",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -966,11 +1066,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.63"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -985,11 +1087,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.26",
+    "ticker": "+0.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1004,11 +1108,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.11",
+    "ticker": "-3.11",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1023,11 +1129,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.11"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1042,11 +1150,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.95",
+    "ticker": "+0.95",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1061,11 +1171,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.95"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.29",
+    "ticker": "-5.29",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1080,11 +1192,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.29"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-10.67",
+    "ticker": "-10.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1099,11 +1213,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-10.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+5.00",
+    "ticker": "+5.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1118,11 +1234,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+5.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.81",
+    "ticker": "+2.81",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1137,11 +1255,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.81"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1156,11 +1276,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1175,11 +1297,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.89",
+    "ticker": "-2.89",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1194,11 +1318,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.89"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-18.35",
+    "ticker": "-18.35",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1213,11 +1339,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-18.35"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1232,11 +1360,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.38",
+    "ticker": "+0.38",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1251,11 +1381,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.38"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1270,11 +1402,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.45",
+    "ticker": "-0.45",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1289,11 +1423,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.45"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-6.10",
+    "ticker": "-6.10",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1308,11 +1444,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-6.10"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1327,11 +1465,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.05",
+    "ticker": "+0.05",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1346,11 +1486,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.05"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1365,11 +1507,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.42",
+    "ticker": "-4.42",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1384,11 +1528,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.42"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.44",
+    "ticker": "-2.44",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1403,11 +1549,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.44"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.22",
+    "ticker": "-1.22",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1422,11 +1570,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.22"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.35",
+    "ticker": "+1.35",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1441,11 +1591,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.35"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.23",
+    "ticker": "-0.23",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1460,11 +1612,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.23"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1479,11 +1633,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+4.37",
+    "ticker": "+4.37",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1498,11 +1654,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+4.37"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.72",
+    "ticker": "-1.72",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1517,11 +1675,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.72"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1536,11 +1696,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.56",
+    "ticker": "-5.56",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1555,11 +1717,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.56"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.61",
+    "ticker": "-0.61",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1574,11 +1738,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.61"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.89",
+    "ticker": "-1.89",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1593,11 +1759,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.89"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1612,11 +1780,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.00",
+    "ticker": "-1.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1631,11 +1801,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.20",
+    "ticker": "+0.20",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1650,11 +1822,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.20"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+5.10",
+    "ticker": "+5.10",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1669,11 +1843,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+5.10"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.57",
+    "ticker": "-0.57",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1688,11 +1864,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.57"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1707,11 +1885,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.78",
+    "ticker": "-0.78",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1726,11 +1906,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.78"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.89",
+    "ticker": "-0.89",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1745,11 +1927,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.89"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+6.43",
+    "ticker": "+6.43",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1764,11 +1948,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+6.43"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1783,11 +1969,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.09",
+    "ticker": "-4.09",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1802,11 +1990,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.09"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.79",
+    "ticker": "+1.79",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1821,11 +2011,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.79"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.54",
+    "ticker": "-0.54",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1840,11 +2032,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.54"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.57",
+    "ticker": "-5.57",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1859,11 +2053,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.57"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1878,11 +2074,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.22",
+    "ticker": "+1.22",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1897,11 +2095,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.22"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.19",
+    "ticker": "-1.19",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1916,11 +2116,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.19"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "Pre-market",
+    "ticker": "Pre-market",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1935,11 +2137,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "Pre-market\u00a0%"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.81",
+    "ticker": "+0.81",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1954,11 +2158,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.81"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.17",
+    "ticker": "-2.17",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1973,11 +2179,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.17"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.65",
+    "ticker": "-0.65",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -1992,11 +2200,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.65"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2011,11 +2221,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2030,11 +2242,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2049,11 +2263,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.20",
+    "ticker": "-0.20",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2068,11 +2284,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.20"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.23",
+    "ticker": "-4.23",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2087,11 +2305,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.23"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.03",
+    "ticker": "-2.03",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2106,11 +2326,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.03"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.06",
+    "ticker": "+0.06",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2125,11 +2347,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.06"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2144,11 +2368,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.44",
+    "ticker": "+1.44",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2163,11 +2389,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.44"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2182,11 +2410,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2201,11 +2431,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+8.58",
+    "ticker": "+8.58",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2220,11 +2452,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+8.58"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2239,11 +2473,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+9.59",
+    "ticker": "+9.59",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2258,11 +2494,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+9.59"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.20",
+    "ticker": "-0.20",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2277,11 +2515,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.20"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+7.66",
+    "ticker": "+7.66",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2296,11 +2536,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+7.66"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.56",
+    "ticker": "-5.56",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2315,11 +2557,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.56"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-5.52",
+    "ticker": "-5.52",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2334,11 +2578,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-5.52"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.62",
+    "ticker": "+0.62",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2353,11 +2599,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.62"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2372,11 +2620,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.34",
+    "ticker": "-2.34",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2391,11 +2641,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.34"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.25",
+    "ticker": "-0.25",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2410,11 +2662,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.25"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.37",
+    "ticker": "+1.37",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2429,11 +2683,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.37"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.48",
+    "ticker": "+2.48",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2448,11 +2704,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.48"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2467,11 +2725,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.21",
+    "ticker": "-1.21",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2486,11 +2746,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.21"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-8.51",
+    "ticker": "-8.51",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2505,11 +2767,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-8.51"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.34",
+    "ticker": "-4.34",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2524,11 +2788,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.34"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2543,11 +2809,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.29",
+    "ticker": "+3.29",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2562,11 +2830,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.29"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2581,11 +2851,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2600,11 +2872,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.54",
+    "ticker": "-2.54",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2619,11 +2893,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.54"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.00",
+    "ticker": "+2.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2638,11 +2914,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2657,11 +2935,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.67",
+    "ticker": "-1.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2676,11 +2956,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+6.00",
+    "ticker": "+6.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2695,11 +2977,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+6.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.02",
+    "ticker": "-0.02",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2714,11 +2998,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.02"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.50",
+    "ticker": "-4.50",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2733,11 +3019,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.50"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2752,11 +3040,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2771,11 +3061,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.00",
+    "ticker": "+0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2790,11 +3082,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.70",
+    "ticker": "-2.70",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2809,11 +3103,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.70"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.12",
+    "ticker": "-1.12",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2828,11 +3124,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.12"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.85",
+    "ticker": "-3.85",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2847,11 +3145,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.85"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2866,11 +3166,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.53",
+    "ticker": "+0.53",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2885,11 +3187,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.53"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.97",
+    "ticker": "+2.97",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2904,11 +3208,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.97"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.96",
+    "ticker": "-2.96",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2923,11 +3229,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.96"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.19",
+    "ticker": "-0.19",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2942,11 +3250,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.19"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.98",
+    "ticker": "-1.98",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2961,11 +3271,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.98"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.32",
+    "ticker": "-1.32",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2980,11 +3292,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.32"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.67",
+    "ticker": "+3.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -2999,11 +3313,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.02",
+    "ticker": "-0.02",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3018,11 +3334,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.02"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3037,11 +3355,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3056,11 +3376,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3075,11 +3397,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.62",
+    "ticker": "-3.62",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3094,11 +3418,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.62"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.76",
+    "ticker": "+3.76",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3113,11 +3439,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.76"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.66",
+    "ticker": "-0.66",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3132,11 +3460,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.66"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3151,11 +3481,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+1.89",
+    "ticker": "+1.89",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3170,11 +3502,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+1.89"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3189,11 +3523,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3208,11 +3544,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.28",
+    "ticker": "-3.28",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3227,11 +3565,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.28"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3246,11 +3586,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3265,11 +3607,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3284,11 +3628,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3303,11 +3649,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.29",
+    "ticker": "-2.29",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3322,11 +3670,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.29"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.84",
+    "ticker": "+0.84",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3341,11 +3691,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.84"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3360,11 +3712,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-8.09",
+    "ticker": "-8.09",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3379,11 +3733,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-8.09"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3398,11 +3754,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.92",
+    "ticker": "-1.92",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3417,11 +3775,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.92"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.62",
+    "ticker": "-2.62",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3436,11 +3796,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.62"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.93",
+    "ticker": "+3.93",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3455,11 +3817,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.93"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-4.26",
+    "ticker": "-4.26",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3474,11 +3838,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-4.26"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3493,11 +3859,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.77",
+    "ticker": "-3.77",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3512,11 +3880,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.77"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+4.14",
+    "ticker": "+4.14",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3531,11 +3901,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+4.14"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3550,11 +3922,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3569,11 +3943,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.53",
+    "ticker": "+3.53",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3588,11 +3964,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.53"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3607,11 +3985,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.67",
+    "ticker": "+0.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3626,11 +4006,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.46",
+    "ticker": "+0.46",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3645,11 +4027,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.46"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.56",
+    "ticker": "+0.56",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3664,11 +4048,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.56"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-7.41",
+    "ticker": "-7.41",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3683,11 +4069,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-7.41"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-7.27",
+    "ticker": "-7.27",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3702,11 +4090,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-7.27"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.59",
+    "ticker": "+0.59",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3721,11 +4111,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.59"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+2.87",
+    "ticker": "+2.87",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3740,11 +4132,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+2.87"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.14",
+    "ticker": "+3.14",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3759,11 +4153,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.14"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.58",
+    "ticker": "+0.58",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3778,11 +4174,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.58"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3797,11 +4195,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3816,11 +4216,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3835,11 +4237,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "Pre-market",
+    "ticker": "Pre-market",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3854,11 +4258,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "Pre-market\u00a0%"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.71",
+    "ticker": "-1.71",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3873,11 +4279,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.71"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.44",
+    "ticker": "+0.44",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3892,11 +4300,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.44"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3911,11 +4321,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3930,11 +4342,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3949,11 +4363,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.94",
+    "ticker": "-0.94",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3968,11 +4384,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.94"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.83",
+    "ticker": "+0.83",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -3987,11 +4405,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.83"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.05",
+    "ticker": "+0.05",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4006,11 +4426,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.05"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+3.25",
+    "ticker": "+3.25",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4025,11 +4447,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+3.25"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.49",
+    "ticker": "-3.49",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4044,11 +4468,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.49"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+4.62",
+    "ticker": "+4.62",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4063,11 +4489,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+4.62"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4082,11 +4510,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4101,11 +4531,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+6.64",
+    "ticker": "+6.64",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4120,11 +4552,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+6.64"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4139,11 +4573,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+0.49",
+    "ticker": "+0.49",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4158,11 +4594,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+0.49"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.99",
+    "ticker": "-0.99",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4177,11 +4615,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.99"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4196,11 +4636,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.80",
+    "ticker": "-3.80",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4215,11 +4657,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.80"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.67",
+    "ticker": "-1.67",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4234,11 +4678,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.67"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4253,11 +4699,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4272,11 +4720,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-3.60",
+    "ticker": "-3.60",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4291,11 +4741,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-3.60"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4310,11 +4762,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "+18.38",
+    "ticker": "+18.38",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4329,11 +4783,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "+18.38"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-0.21",
+    "ticker": "-0.21",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4348,11 +4804,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-0.21"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4367,11 +4825,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-1.70",
+    "ticker": "-1.70",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4386,11 +4846,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-1.70"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "-2.50",
+    "ticker": "-2.50",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4405,11 +4867,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "-2.50"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4424,11 +4888,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4443,11 +4909,13 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   },
   {
-    "symbol": "",
-    "ticker": "",
+    "symbol": "0.00",
+    "ticker": "0.00",
     "borrow_fee_rate_ib": null,
     "borrow_fee_avail_ib": null,
     "shares_float": null,
@@ -4462,6 +4930,8 @@
     "pre_price": null,
     "pre_change_pct": null,
     "_source": "html_table",
-    "_raw": {}
+    "_raw": {
+      "": "0.00"
+    }
   }
 ]

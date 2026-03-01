@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-03-01T15:51:26.398949+00:00",
-  "elapsed_sec": 70,
+  "updated_at": "2026-03-01T20:07:44.188719+00:00",
+  "elapsed_sec": 80,
   "scraper_ok": true,
   "protected_files": [
     "s1"
@@ -23,6 +23,6 @@
     "s1_edgar": 0,
     "floats": 29,
     "finra_si": 0,
-    "summary": 55
+    "summary": 208
   }
 }

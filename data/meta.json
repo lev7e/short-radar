@@ -1,0 +1,19 @@
+{
+  "updated_at": "2026-03-01T11:58:05.506368+00:00",
+  "elapsed_sec": 137,
+  "scraper_ok": false,
+  "protected_files": [
+    "summary"
+  ],
+  "counts": {
+    "chartexchange": 0,
+    "regsho": 1,
+    "splits_reverse": 473,
+    "splits_upcoming": 0,
+    "insider": 56,
+    "s1_edgar": 14,
+    "floats": 404,
+    "finra_si": 0,
+    "summary": 0
+  }
+}

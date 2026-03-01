@@ -120,6 +120,54 @@ def workdays_back(n):
     return days
 
 
+def _normalize_ce_row(row, hdrs):
+    """
+    Chartexchange HTML tablo satırını API alanlarına normalize eder.
+    HTML başlıkları scraper versiyonuna göre değişebilir — hepsini dene.
+    """
+    # Ticker: ilk kolon genellikle "Display", "Symbol", "Ticker" veya "display"
+    ticker = ""
+    for k in ["Display", "Symbol", "Ticker", "display", "symbol", "ticker"]:
+        if k in row and row[k]:
+            ticker = str(row[k]).strip().split()[0]  # "AAPL (Apple)" → "AAPL"
+            break
+    if not ticker and hdrs:
+        ticker = str(row.get(hdrs[0],"")).strip().split()[0]
+
+    def pick(*keys):
+        for k in keys:
+            if k in row and row[k] not in ("", "-", "N/A", None):
+                return row[k]
+        return None
+
+    return {
+        "symbol":                       ticker,
+        "ticker":                       ticker,
+        "borrow_fee_rate_ib":           pick("Borrow Rate", "Borrow Fee", "C2B Rate", "C2B%",
+                                             "borrow_fee_rate_ib", "borrowFeeRateIb",
+                                             "Borrow Fee Rate", "Fee Rate"),
+        "borrow_fee_avail_ib":          pick("Available", "Avail", "Shares Avail",
+                                             "borrow_fee_avail_ib"),
+        "shares_float":                 pick("Float", "Float Shares", "shares_float",
+                                             "Shares Float"),
+        "reg_price":                    pick("Price", "Last", "reg_price", "Close"),
+        "reg_change_pct":               pick("Change %", "Chg %", "Change", "reg_change_pct"),
+        "reg_volume":                   pick("Volume", "Vol", "reg_volume"),
+        "10_day_avg_vol":               pick("Avg Vol", "10D Avg Vol", "10_day_avg_vol",
+                                             "Avg Volume"),
+        "shortint_pct":                 pick("SI %", "Short Int %", "Short Interest %",
+                                             "shortint_pct", "SI%"),
+        "shortint_position_change_pct": pick("SI Chg %", "SI Change", "shortint_position_change_pct"),
+        "shortvol_all_short_pct":       pick("Short Vol %", "Short Volume %",
+                                             "shortvol_all_short_pct"),
+        "shortvol_all_short_pct_30d":   pick("30D Short %", "shortvol_all_short_pct_30d"),
+        "pre_price":                    pick("Pre Price", "pre_price"),
+        "pre_change_pct":               pick("Pre Chg %", "pre_change_pct"),
+        "_source":                      "html_table",
+        "_raw":                         row,   # debug için orijinal satır
+    }
+
+
 def next_data(html):
     """Next.js sayfasındaki __NEXT_DATA__ JSON'unu parse eder."""
     m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, re.DOTALL)
@@ -224,12 +272,16 @@ def fetch_chartexchange():
                     table = soup.find("table")
                     if table:
                         hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
-                        rows = []
+                        raw_rows = []
                         for tr in table.find_all("tr")[1:]:
                             cells = [td.get_text(strip=True) for td in tr.find_all("td")]
                             if cells and len(cells) >= 3:
-                                rows.append(dict(zip(hdrs, cells)))
-                        print(f"    HTML tablo: {len(rows)} satır")
+                                raw_rows.append(dict(zip(hdrs, cells)))
+                        if raw_rows:
+                            # HTML kolon adlarını API kolon adlarına çevir
+                            # İlk satıra bakarak eşleştir
+                            rows = [_normalize_ce_row(r, hdrs) for r in raw_rows]
+                            print(f"    HTML tablo: {len(rows)} satır (başlıklar: {hdrs[:5]})")
                         if not rows:
                             rows = None
 
@@ -349,21 +401,13 @@ def fetch_finra_short_interest():
 
     for prefix, exch in exchanges:
         found = False
-        for date_str in workdays_back(50):   # biweekly → 50 gün
+        for date_str in workdays_back(90):   # biweekly → 90 gün (uzun lookback)
             url = f"https://cdn.finra.org/equity/regsho/biweekly/{prefix}{date_str}.txt"
             try:
-                # HEAD yerine doğrudan GET — HEAD bazı CDN'lerde farklı yanıt verir
-                r = requests.get(url, headers=BROWSER_HEADERS, timeout=15,
-                                 stream=True)
-                # İlk chunk'u kontrol et
-                first = next(r.iter_content(512), b"")
-                if r.status_code != 200 or not first:
-                    r.close()
+                r = requests.get(url, headers=BROWSER_HEADERS, timeout=20)
+                if r.status_code != 200:
                     continue
-                # Gerisi varsa tam indir
-                content = first + b"".join(r.iter_content(65536))
-                r.close()
-                text = content.decode("utf-8", errors="replace")
+                text = r.text
                 if "|" not in text or len(text) < 100:
                     continue
                 count = 0
@@ -407,10 +451,12 @@ def fetch_splits():
     print("\n[3/6] Split listesi çekiliyor (StockAnalysis)...")
     rows = []
 
-    for label, url in {
-        "recent":   "https://stockanalysis.com/actions/splits/",
-        "upcoming": "https://stockanalysis.com/actions/splits/upcoming/",
-    }.items():
+    # StockAnalysis API endpoint — Next.js sayfasından daha güvenilir
+    API_URLS = {
+        "recent":   "https://stockanalysis.com/actions/splits/?p=quarterly",
+        "upcoming": "https://stockanalysis.com/actions/splits/upcoming/?p=quarterly",
+    }
+    for label, url in API_URLS.items():
         try:
             r = requests.get(url, headers={**BROWSER_HEADERS,
                              "Accept": "text/html,*/*"}, timeout=30)
@@ -503,13 +549,21 @@ def fetch_insider():
     print("\n[4/6] Finviz insider taranıyor...")
     rows = []
     try:
-        r = requests.get(
+        # Ana insidertrading sayfası (login gerektirmez)
+        for fin_url in [
             "https://finviz.com/insidertrading.ashx?or=-10&tv=100&tc=1&o=-transactionDate",
-            headers={**BROWSER_HEADERS,
-                     "Accept":  "text/html,*/*",
-                     "Referer": "https://finviz.com/"},
-            timeout=30,
-        )
+            "https://finviz.com/insidertrading?tc=1",
+        ]:
+            r = requests.get(
+                fin_url,
+                headers={**BROWSER_HEADERS,
+                         "Accept":  "text/html,*/*",
+                         "Referer": "https://finviz.com/"},
+                timeout=30,
+            )
+            print(f"    {fin_url.split('?')[0]}: HTTP {r.status_code}, {len(r.content)}b")
+            if r.status_code == 200 and len(r.content) > 10000:
+                break
         print(f"    HTTP {r.status_code}, {len(r.content)}b")
         soup = BeautifulSoup(r.text, "html.parser")
 
@@ -580,14 +634,26 @@ def fetch_sec_s1():
             for hit in hits:
                 s = hit.get("_source", {})
 
-                # Field adları farklı olabilir — hepsini dene
-                entity = (s.get("entity_name") or s.get("company_name") or
-                          s.get("entityName") or s.get("filer_name") or "").strip()
-                filed  = (s.get("file_date") or s.get("filed_at") or
-                          s.get("fileDate") or s.get("period_of_report") or "")
-                ticker = (s.get("ticker") or s.get("tickers") or "")
-                if isinstance(ticker, list):
-                    ticker = ticker[0] if ticker else ""
+                # display_names: [{"name": "Company Inc.", "ticker": "ABC", "cik": "..."}]
+                display = s.get("display_names") or []
+                if isinstance(display, list) and display:
+                    first   = display[0] if isinstance(display[0], dict) else {}
+                    entity  = first.get("name","").strip()
+                    ticker  = first.get("ticker","").strip()
+                else:
+                    entity = ""
+                    ticker = ""
+
+                # Fallback: eski alan adları
+                if not entity:
+                    entity = (s.get("entity_name") or s.get("company_name") or
+                              s.get("entityName") or s.get("filer_name") or "").strip()
+                if not ticker:
+                    t2 = s.get("ticker") or s.get("tickers") or ""
+                    ticker = (t2[0] if isinstance(t2, list) and t2 else str(t2)).strip()
+
+                filed = (s.get("file_date") or s.get("filed_at") or
+                         s.get("fileDate") or "")
 
                 # Dedup: entity+tarih kombinasyonu
                 uid = f"{entity}|{filed}"

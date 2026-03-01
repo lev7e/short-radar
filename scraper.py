@@ -271,26 +271,42 @@ def fetch_chartexchange():
                     soup = BeautifulSoup(html, "html.parser")
                     table = soup.find("table")
                     if table:
-                        # th yoksa thead>td veya ilk tr>td'den başlık al
-                        hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
+                        soup2 = BeautifulSoup(html, "html.parser")
+                        # CE tablo yapısını debug et
                         all_trs = table.find_all("tr")
+                        all_ths = table.find_all("th")
+                        print(f"    CE tablo: {len(all_trs)} tr, {len(all_ths)} th")
+                        if all_trs:
+                            first_tr = all_trs[0]
+                            print(f"    İlk tr içeriği: {str(first_tr)[:200]}")
+
+                        # Başlıkları bul: th → thead>td → ilk tr td → colgroup → data-* attr
+                        hdrs = []
+                        # 1. th
+                        hdrs = [th.get_text(strip=True) for th in all_ths if th.get_text(strip=True)]
+                        # 2. thead içindeki td
+                        if not hdrs:
+                            thead = table.find("thead")
+                            if thead:
+                                hdrs = [td.get_text(strip=True) for td in thead.find_all("td") if td.get_text(strip=True)]
+                        # 3. İlk tr'nin td'leri
                         if not hdrs and all_trs:
-                            # İlk tr'yi başlık kabul et
-                            hdrs = [td.get_text(strip=True) for td in all_trs[0].find_all("td")]
+                            hdrs = [td.get_text(strip=True) for td in all_trs[0].find_all("td") if td.get_text(strip=True)]
                             data_trs = all_trs[1:]
                         else:
-                            data_trs = all_trs[1:]
-                        print(f"    CE tablo başlıkları: {hdrs[:8]}")
+                            data_trs = all_trs[1:] if all_trs else []
+
+                        print(f"    Başlıklar: {hdrs[:8]}")
                         raw_rows = []
                         for tr in data_trs:
-                            cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                            cells = [td.get_text(strip=True) for td in tr.find_all(["td","th"])]
                             if cells and len(cells) >= 3:
-                                raw_rows.append(dict(zip(hdrs, cells)))
-                        if raw_rows:
+                                raw_rows.append(dict(zip(hdrs, cells)) if hdrs else {"_cells": cells})
+                        print(f"    Ham satır: {len(raw_rows)}, örnek: {str(raw_rows[0])[:150] if raw_rows else 'yok'}")
+                        if raw_rows and hdrs:
                             rows = [_normalize_ce_row(r, hdrs) for r in raw_rows]
-                            # Geçerli ticker olan satırları filtrele
                             rows = [r for r in rows if r.get("ticker","").strip()]
-                            print(f"    HTML tablo: {len(rows)} geçerli satır")
+                            print(f"    Normalize edilmiş: {len(rows)} ticker")
                         if not rows:
                             rows = None
 
@@ -316,8 +332,63 @@ def fetch_chartexchange():
 
     if all_rows:
         SOURCE_STATUS["chartexchange"] = f"ok:{len(all_rows)}"
+
+    # CE yetersizse iborrowdesk.com'dan ek veri çek
+    if len(all_rows) < 10:
+        print("    CE yetersiz, iborrowdesk.com deneniyor...")
+        ibd = fetch_iborrowdesk()
+        if ibd:
+            all_rows = ibd
+            SOURCE_STATUS["chartexchange"] = f"ok_ibd:{len(all_rows)}"
+
     save("chartexchange.json", all_rows, min_records=10)
     return all_rows
+
+
+def fetch_iborrowdesk():
+    """
+    iborrowdesk.com — borrow rate + availability
+    Herkese açık, login gerektirmez.
+    CSV export: https://iborrowdesk.com/api/ticker/AAPL
+    Tüm liste: sayfalı HTML scrape
+    """
+    print("    [iborrowdesk] taranıyor...")
+    rows = []
+    try:
+        # Ana liste sayfası
+        r = requests.get(
+            "https://iborrowdesk.com/",
+            headers={**BROWSER_HEADERS, "Accept": "text/html,*/*"},
+            timeout=20,
+        )
+        print(f"    iborrowdesk ana: HTTP {r.status_code}, {len(r.content)}b")
+        if r.status_code != 200:
+            return []
+
+        soup = BeautifulSoup(r.text, "html.parser")
+        table = soup.find("table")
+        if table:
+            hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
+            print(f"    iborrowdesk başlıklar: {hdrs}")
+            for tr in table.find_all("tr")[1:200]:
+                cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                if cells and len(cells) >= 2:
+                    row = dict(zip(hdrs, cells))
+                    # Normalize
+                    ticker = row.get("Symbol") or row.get("Ticker") or (cells[0] if cells else "")
+                    rate   = row.get("Fee") or row.get("Rate") or row.get("Borrow Rate","")
+                    avail  = row.get("Available") or row.get("Availability","")
+                    rows.append({
+                        "symbol":             ticker.strip(),
+                        "ticker":             ticker.strip(),
+                        "borrow_fee_rate_ib": rate.replace("%","").strip(),
+                        "borrow_fee_avail_ib":avail.replace(",","").strip(),
+                        "_source":            "iborrowdesk",
+                    })
+        print(f"    iborrowdesk: {len(rows)} ticker")
+    except Exception as e:
+        print(f"    iborrowdesk hata: {e}")
+    return rows
 
 
 # ══════════════════════════════════════════════════
@@ -404,344 +475,62 @@ def fetch_regsho():
 #    Log'da HEAD başarısız oluyordu. Direkt GET kullan.
 # ══════════════════════════════════════════════════
 def fetch_finra_short_interest():
+    """
+    FINRA biweekly short interest.
+    cdn.finra.org GitHub Actions IP'lerini bazen blokluyor.
+    Hem CDN hem alternatif URL'leri dener.
+    """
     print("\n[FINRA SI] Short interest çekiliyor...")
     result = {}
     exchanges = [("FNSQ","NASDAQ"), ("FNYS","NYSE"), ("FNOQ","OTC")]
+    bases = [
+        "https://cdn.finra.org/equity/regsho/biweekly",
+        "https://www.finra.org/sites/default/files/regsho/biweekly",
+    ]
 
     for prefix, exch in exchanges:
         found = False
-        for date_str in workdays_back(90):   # biweekly → 90 gün (uzun lookback)
-            url = f"https://cdn.finra.org/equity/regsho/biweekly/{prefix}{date_str}.txt"
-            try:
-                r = requests.get(url, headers=BROWSER_HEADERS, timeout=20)
-                if r.status_code != 200:
-                    continue
-                text = r.text
-                if "|" not in text or len(text) < 100:
-                    continue
-                count = 0
-                for line in text.strip().split("\n")[1:]:
-                    parts = line.strip().split("|")
-                    if len(parts) < 3:
+        for date_str in workdays_back(90):
+            for base in bases:
+                url = f"{base}/{prefix}{date_str}.txt"
+                try:
+                    r = requests.get(url, headers=BROWSER_HEADERS, timeout=20)
+                    if r.status_code != 200:
                         continue
-                    ticker = parts[0].strip().upper()
-                    if not ticker or ticker == "SYMBOL":
+                    text = r.text
+                    if "|" not in text or len(text) < 100:
                         continue
-                    try:
-                        si = int(str(parts[2]).replace(",", ""))
-                    except Exception:
-                        continue
-                    if ticker not in result or date_str > result[ticker]["si_date"]:
-                        result[ticker] = {"short_interest": si,
-                                          "si_date": date_str,
-                                          "exchange": exch}
-                    count += 1
-                print(f"    {exch} ({date_str}): {count} ticker")
-                found = True
+                    count = 0
+                    for line in text.strip().split("\n")[1:]:
+                        parts = line.strip().split("|")
+                        if len(parts) < 3:
+                            continue
+                        ticker = parts[0].strip().upper()
+                        if not ticker or ticker == "SYMBOL":
+                            continue
+                        try:
+                            si = int(str(parts[2]).replace(",", ""))
+                        except Exception:
+                            continue
+                        if ticker not in result or date_str > result[ticker]["si_date"]:
+                            result[ticker] = {"short_interest": si,
+                                              "si_date": date_str,
+                                              "exchange": exch}
+                        count += 1
+                    print(f"    {exch} ({date_str}): {count} ticker")
+                    found = True
+                    break
+                except Exception as e:
+                    print(f"    {exch} {date_str}: {e}")
+            if found:
                 break
-            except StopIteration:
-                pass
-            except Exception as e:
-                print(f"    {exch} {date_str}: {e}")
             time.sleep(0.05)
         if not found:
-            print(f"    {exch}: dosya bulunamadı (son 50 gün)")
+            print(f"    {exch}: dosya bulunamadı (son 90 gün)")
 
     print(f"    Toplam FINRA SI: {len(result)} ticker")
     SOURCE_STATUS["finra_si"] = f"ok:{len(result)}" if result else "error:not_found"
     return result
-
-
-# ══════════════════════════════════════════════════
-# 4. STOCK ANALYSIS — Reverse Splits
-#    Tablo bulunamıyor çünkü Next.js → __NEXT_DATA__ parse
-# ══════════════════════════════════════════════════
-def fetch_splits():
-    print("\n[3/6] Split listesi çekiliyor (StockAnalysis)...")
-    rows = []
-
-    # StockAnalysis API endpoint — Next.js sayfasından daha güvenilir
-    API_URLS = {
-        "recent":   "https://stockanalysis.com/actions/splits/?p=quarterly",
-        "upcoming": "https://stockanalysis.com/actions/splits/upcoming/?p=quarterly",
-    }
-    for label, url in API_URLS.items():
-        try:
-            r = requests.get(url, headers={**BROWSER_HEADERS,
-                             "Accept": "text/html,*/*"}, timeout=30)
-            print(f"    {label}: HTTP {r.status_code}, {len(r.content)}b")
-
-            page_rows = []
-
-            # Yöntem 1: __NEXT_DATA__ (Next.js)
-            nd = next_data(r.text)
-            if nd:
-                # Olası veri yolları
-                for path in [
-                    ["props","pageProps","data"],
-                    ["props","pageProps","splits"],
-                    ["props","pageProps","tableData"],
-                    ["props","pageProps","initialData"],
-                ]:
-                    node = nd
-                    try:
-                        for key in path:
-                            node = node[key]
-                        if isinstance(node, list) and node:
-                            page_rows = node
-                            print(f"    {label} __NEXT_DATA__[{'.'.join(path)}]: {len(page_rows)}")
-                            break
-                    except (KeyError, TypeError):
-                        pass
-
-                # Eğer bulunamadıysa tüm NEXT_DATA'yı tara
-                if not page_rows:
-                    nd_str = json.dumps(nd)
-                    # split ratio pattern ara
-                    matches = re.findall(
-                        r'\{"symbol":"([A-Z]+)"[^}]*"ratio":"([^"]+)"[^}]*"date":"([^"]+)"',
-                        nd_str
-                    )
-                    if matches:
-                        for sym, ratio, date in matches:
-                            page_rows.append({"Symbol": sym, "Ratio": ratio, "Date": date})
-                        print(f"    {label} regex: {len(page_rows)}")
-
-            # Yöntem 2: HTML tablo (fallback)
-            if not page_rows:
-                soup = BeautifulSoup(r.text, "html.parser")
-                table = soup.find("table")
-                if table:
-                    hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
-                    for tr in table.find_all("tr")[1:]:
-                        cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                        if cells:
-                            page_rows.append(dict(zip(hdrs, cells)))
-                    print(f"    {label} HTML tablo: {len(page_rows)}")
-
-            # Normalize
-            for row in page_rows:
-                # Field adları değişken olabilir
-                sym   = (row.get("Symbol") or row.get("symbol") or
-                         row.get("ticker") or row.get("Ticker",""))
-                ratio_str = (row.get("Ratio") or row.get("ratio") or
-                             row.get("Split Ratio") or row.get("splitRatio",""))
-                raw_date  = (row.get("Date") or row.get("date") or
-                             row.get("Split Date") or row.get("splitDate",""))
-                ratio = parse_split_ratio(str(ratio_str))
-                rows.append({
-                    "Symbol":      sym,
-                    "Ratio":       ratio_str,
-                    "Date":        normalize_date(str(raw_date)),
-                    "is_reverse":  ratio is not None,
-                    "split_ratio": ratio,
-                    "split_date":  normalize_date(str(raw_date)),
-                    "list_type":   label,
-                })
-
-            rev = sum(1 for x in rows if x.get("is_reverse") and x.get("list_type")==label)
-            print(f"    {label}: {rev} reverse split")
-            time.sleep(0.5)
-
-        except Exception as e:
-            print(f"    {label}: {e}")
-
-    SOURCE_STATUS["splits"] = f"ok:{sum(1 for x in rows if x.get('is_reverse'))}"
-    save("splits.json", rows, min_records=1)
-    return rows
-
-
-# ══════════════════════════════════════════════════
-# 5. FINVIZ — Insider (tablo yapısı değişmiş)
-# ══════════════════════════════════════════════════
-def fetch_insider():
-    print("\n[4/6] Finviz insider taranıyor...")
-    rows = []
-    try:
-        # Ana insidertrading sayfası (login gerektirmez)
-        for fin_url in [
-            "https://finviz.com/insidertrading.ashx?or=-10&tv=100&tc=1&o=-transactionDate",
-            "https://finviz.com/insidertrading?tc=1",
-        ]:
-            r = requests.get(
-                fin_url,
-                headers={**BROWSER_HEADERS,
-                         "Accept":  "text/html,*/*",
-                         "Referer": "https://finviz.com/"},
-                timeout=30,
-            )
-            print(f"    {fin_url.split('?')[0]}: HTTP {r.status_code}, {len(r.content)}b")
-            if r.status_code == 200 and len(r.content) > 10000:
-                break
-        print(f"    HTTP {r.status_code}, {len(r.content)}b")
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        # Birden fazla tablo seçici dene
-        table = None
-        for sel in [
-            lambda s: s.find("table", {"id": "insider-trading-table"}),
-            lambda s: s.find("table", class_=re.compile(r"insider|trading", re.I)),
-            lambda s: next((t for t in s.find_all("table")
-                            if any("Ticker" in str(th) for th in t.find_all("th"))), None),
-        ]:
-            table = sel(soup)
-            if table:
-                break
-
-        if table:
-            hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
-            print(f"    Tablo başlıkları: {hdrs[:8]}")
-            for tr in table.find_all("tr")[1:100]:
-                cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                if cells and len(cells) >= 4:
-                    rows.append(dict(zip(hdrs, cells)))
-        else:
-            # Son çare: tüm tabloları logla
-            tables = soup.find_all("table")
-            print(f"    Tablolar: {len(tables)}")
-            for i, t in enumerate(tables[:3]):
-                ths = [th.get_text(strip=True) for th in t.find_all("th")]
-                print(f"      Tablo {i}: {ths[:5]}")
-
-        print(f"    {len(rows)} insider işlem")
-        SOURCE_STATUS["insider"] = f"ok:{len(rows)}"
-    except Exception as e:
-        print(f"    Hata: {e}")
-        SOURCE_STATUS["insider"] = f"error:{e}"
-
-    save("insider.json", rows, min_records=5)
-    return rows
-
-
-# ══════════════════════════════════════════════════
-# 6. SEC EDGAR — S-1 / S-1/A
-#    Log'da 200 hit'ten 14 kayıt → field adları farklı
-# ══════════════════════════════════════════════════
-def fetch_sec_s1():
-    print("\n[5/6] SEC EDGAR S-1 başvuruları çekiliyor...")
-    rows, seen = [], set()
-    start = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
-    end   = datetime.now().strftime("%Y-%m-%d")
-
-    for form_type in ["S-1", "S-1/A"]:
-        try:
-            r = requests.get(
-                "https://efts.sec.gov/LATEST/search-index",
-                params={"forms": form_type, "dateRange": "custom",
-                        "startdt": start, "enddt": end},
-                headers=SEC_HEADERS, timeout=30,
-            )
-            print(f"    {form_type}: HTTP {r.status_code}")
-            if r.status_code != 200:
-                continue
-
-            data = r.json()
-            hits = data.get("hits", {}).get("hits", [])
-            if hits:
-                s0 = hits[0].get("_source",{})
-                dn0 = s0.get("display_names","")
-                print(f"    {form_type}: {len(hits)} hit")
-                print(f"      Alanlar: {list(s0.keys())[:8]}")
-                dn_sample = str(dn0[0]) if isinstance(dn0,list) and dn0 else repr(dn0)[:80]
-                print(f"      display_names[0]: {dn_sample}")
-
-            for hit in hits:
-                s = hit.get("_source", {})
-
-                # display_names: [{"name": "Company Inc.", "ticker": "ABC", "cik": "..."}]
-                display = s.get("display_names") or []
-                if isinstance(display, list) and display:
-                    first   = display[0] if isinstance(display[0], dict) else {}
-                    entity  = first.get("name","").strip()
-                    ticker  = first.get("ticker","").strip()
-                else:
-                    entity = ""
-                    ticker = ""
-
-                # Fallback: eski alan adları
-                if not entity:
-                    entity = (s.get("entity_name") or s.get("company_name") or
-                              s.get("entityName") or s.get("filer_name") or "").strip()
-                if not ticker:
-                    t2 = s.get("ticker") or s.get("tickers") or ""
-                    ticker = (t2[0] if isinstance(t2, list) and t2 else str(t2)).strip()
-
-                filed = (s.get("file_date") or s.get("filed_at") or
-                         s.get("fileDate") or "")
-
-                # Dedup
-                uid = f"{entity}|{filed}"
-                if uid in seen:
-                    continue
-                if not entity and not ticker:
-                    continue   # hiçbir tanımlayıcı yok
-                seen.add(uid)
-
-                # Ticker yoksa şirket adında ara
-                if not ticker:
-                    m = re.search(r"\(proposed[:\s]+([A-Za-z]{1,5})\)", entity, re.I)
-                    if m:
-                        ticker = m.group(1).upper()
-
-                rows.append({
-                    "form":       form_type,
-                    "ticker":     ticker,
-                    "company":    entity,
-                    "filed_date": filed,
-                    "edgar_url": (
-                        "https://www.sec.gov/cgi-bin/browse-edgar"
-                        f"?action=getcompany&company={requests.utils.quote(entity)}"
-                        "&type=S-1&dateb=&owner=include&count=10"
-                    ),
-                })
-            time.sleep(0.4)
-        except Exception as e:
-            print(f"    {form_type} hatası: {e}")
-
-    print(f"    Toplam: {len(rows)} başvuru")
-    SOURCE_STATUS["s1"] = f"ok:{len(rows)}"
-    save("s1_edgar.json", rows, min_records=1)
-    return rows
-
-
-# ══════════════════════════════════════════════════
-# 7. EDGAR XBRL — Float + Warrant
-# ══════════════════════════════════════════════════
-def _cik_map(tickers):
-    try:
-        r = requests.get("https://www.sec.gov/files/company_tickers.json",
-                         headers=SEC_HEADERS, timeout=30)
-        mapping = {}
-        for entry in r.json().values():
-            t = entry.get("ticker","").upper()
-            c = str(entry.get("cik_str","")).zfill(10)
-            if t:
-                mapping[t] = c
-        result = {t: mapping[t.upper()] for t in tickers if t.upper() in mapping}
-        print(f"    CIK: {len(result)}/{len(tickers)}")
-        return result
-    except Exception as e:
-        print(f"    CIK hatası: {e}")
-        return {}
-
-
-def _latest_xbrl(facts, *concepts):
-    priority = {"10-K":0,"10-Q":1,"S-1":2,"S-1/A":3,"8-K":4}
-    for concept in concepts:
-        for ns in ["us-gaap","dei"]:
-            node = facts.get("facts",{}).get(ns,{}).get(concept,{})
-            data = node.get("units",{}).get("shares",
-                   node.get("units",{}).get("USD",[]))
-            if not data:
-                continue
-            cands = [x for x in data if x.get("val") and x.get("end") and x.get("form")]
-            if not cands:
-                continue
-            cands.sort(key=lambda x: (x.get("end",""),
-                                      -priority.get(x.get("form",""),99)), reverse=True)
-            b = cands[0]
-            return b.get("val"), b.get("filed", b.get("end")), b.get("form")
-    return None, None, None
 
 
 def fetch_edgar_floats(tickers, split_map):

@@ -794,11 +794,27 @@ if __name__ == "__main__":
         if t:
             s1_map[t] = s
 
-    # ── Özet tablosu ────────────────────────────
+    # ── Tüm kaynaklardan birleşik ticker seti ────
+    # CE gelmese bile RegSHO + Split + FINRA SI tickerları görünür.
+    all_tickers = (
+        set(ce_map.keys())          # Chartexchange (C2B)
+        | regsho_tickers            # RegSHO listesi
+        | set(split_map.keys())     # Reverse split yapanlar
+        | set(float_map.keys())     # EDGAR float bilgisi olanlar
+    )
+    # Filtre: en az bir anlamlı veri kaynağından gelen tickerlar
+    # (sadece EDGAR'da ismi geçen ama hiç işlem görmeyen şirketleri atla)
+    def has_any_data(t):
+        return (t in ce_map or t in regsho_tickers or
+                t in split_map or finra_si.get(t))
+    all_tickers = {t for t in all_tickers if t and has_any_data(t)}
+    print(f"  Birleşik ticker seti: {len(all_tickers)} (CE:{len(ce_map)} RS:{len(regsho_tickers)} SP:{len(split_map)} FI:{len(float_map)})")
+
+    # ── Özet tablosu ─────────────────────────────
     summary_map = {}
-    for ticker, row in ce_map.items():
+    for ticker in sorted(all_tickers):
+        row = ce_map.get(ticker, {})   # CE verisi yoksa boş dict
         fd  = float_map.get(ticker, {})
-        fi  = finra_si.get(ticker, {})
         s1r = s1_map.get(ticker, {})
 
         eff_float = (fd.get("effective_float") or
@@ -808,9 +824,11 @@ if __name__ == "__main__":
 
         rec = {
             "ticker":               ticker,
+            # C2B — sadece CE gelirse dolu olur
             "c2b":                  to_float(row.get("borrow_fee_rate_ib") or
                                              row.get("borrowFeeRateIb")),
             "shares_avail":         to_float(row.get("borrow_fee_avail_ib")),
+            # Float
             "float":                (fd.get("est_post_split_float") or
                                      fd.get("float_shares") or
                                      to_float(row.get("shares_float"))),
@@ -820,18 +838,22 @@ if __name__ == "__main__":
             "est_post_split_float": fd.get("est_post_split_float"),
             "float_date":           fd.get("float_date",""),
             "float_form":           fd.get("float_form",""),
+            # Short interest
             "short_float_pct":      sf_pct,
             "finra_si":             fd.get("finra_si"),
             "finra_si_date":        fd.get("finra_si_date",""),
             "si_change":            to_float(row.get("shortint_position_change_pct")),
             "short_vol_pct":        to_float(row.get("shortvol_all_short_pct")),
             "short_vol_30d_pct":    to_float(row.get("shortvol_all_short_pct_30d")),
+            # DTC
             "dtc":                  fd.get("dtc"),
             "avg_vol_10d":          avg_vol_map.get(ticker),
+            # Fiyat
             "price":                to_float(row.get("reg_price")),
             "change_pct":           to_float(row.get("reg_change_pct")),
             "pre_price":            to_float(row.get("pre_price")),
             "pre_change":           to_float(row.get("pre_change_pct")),
+            # Flags
             "reg_sho":              "✅" if ticker in regsho_tickers else "❌",
             "has_split":            "✅" if ticker in split_map      else "-",
             "split_ratio":          split_map.get(ticker,{}).get("ratio"),
@@ -864,7 +886,7 @@ if __name__ == "__main__":
 
     # ── Dosyaları kaydet ────────────────────────
     results = {
-        "summary":  save("summary.json",        list(summary_map.values()), min_records=10),
+        "summary":  save("summary.json",        list(summary_map.values()), min_records=1),
         "regsho_t": save("regsho_tickers.json", list(regsho_tickers),       min_records=1),
         "s1":       save("s1_edgar.json",        s1,                        min_records=1),
     }

@@ -9,7 +9,7 @@
 <style>
 :root{
   --bg:#09090b;--surf:#111114;--surf2:#18181c;
-  --bdr:#27272a;--text:#e4e4e7;--muted:#52525b;
+  --bdr:#27272a;--text:#ffffff;--muted:#71717a;
   --acc:#22c55e;--red:#ef4444;--ylw:#eab308;--blu:#3b82f6;
   --mono:'IBM Plex Mono',monospace;
   --sans:'IBM Plex Sans',sans-serif;
@@ -148,8 +148,8 @@ td:first-child{text-align:left}
 <header>
   <div class="logo">SHORT<em>/</em>RADAR</div>
   <div id="status">
-    <span class="scraper-err" id="scraper-err">⛔ Scraper hatası</span>
-    <span class="stale" id="stale">⚠ Eski</span>
+    <span class="scraper-err" id="scraper-err">⛔ Scraper error</span>
+    <span class="stale" id="stale">⚠ Stale</span>
     <span class="dot"   id="dot"></span>
     <span id="upd">–</span>
     <button class="btn-r" onclick="loadAll()">↻</button>
@@ -158,38 +158,38 @@ td:first-child{text-align:left}
 
 <div class="tabs">
   <button class="tab on" onclick="switchTab('watchlist')">★ Takip</button>
-  <button class="tab"    onclick="switchTab('summary')">Özet</button>
+  <button class="tab"    onclick="switchTab('summary')">Summary</button>
   <button class="tab"    onclick="switchTab('splits')">Splits &amp; Float</button>
   <button class="tab"    onclick="switchTab('s1')">S1</button>
-  <button class="tab"    onclick="switchTab('ref')">Referans ▾</button>
+  <button class="tab"    onclick="switchTab('ref')">Reference ▾</button>
 </div>
 
 <div class="toolbar">
   <input  class="inp" id="search"  placeholder="Ticker ara…" oninput="renderAll()">
   <select class="sel" id="sq-flt"  onchange="renderAll()">
-    <option value="0">Tüm Squeeze</option>
+    <option value="0">All Squeeze</option>
     <option value="50">Skor ≥ 50</option>
     <option value="70">Skor ≥ 70</option>
   </select>
   <select class="sel" id="rs-flt"  onchange="renderAll()">
-    <option value="">Tüm</option>
+    <option value="">All</option>
     <option value="yes">RegSHO ✅</option>
   </select>
   <button class="chip" id="wl-chip" onclick="toggleWLOnly()">★ Watchlist</button>
 </div>
 
-<!-- ★ TAKİP -->
+<!-- ★ WATCHLIST -->
 <div class="panel on" id="panel-watchlist">
   <div class="wl-bar">
     <input class="inp" id="wl-inp" placeholder="TICKER ekle…"
            onkeydown="if(event.key==='Enter')addWL()">
-    <button class="wl-add" onclick="addWL()">+ Ekle</button>
+    <button class="wl-add" onclick="addWL()">+ Add</button>
   </div>
   <div class="tbl-wrap">
     <table id="tbl-watchlist">
       <thead><tr>
         <th onclick="srt('tbl-watchlist',0)">Ticker</th>
-        <th onclick="srt('tbl-watchlist',1)">RS Tarihi</th>
+        <th onclick="srt('tbl-watchlist',1)">RS Date</th>
         <th onclick="srt('tbl-watchlist',2)">Float (Post)</th>
         <th onclick="srt('tbl-watchlist',3)">Squeeze</th>
         <th onclick="srt('tbl-watchlist',4)">C2B%</th>
@@ -200,14 +200,14 @@ td:first-child{text-align:left}
         <th>–</th>
       </tr></thead>
       <tbody id="body-watchlist">
-        <tr><td colspan="10" class="empty">Henüz ticker eklenmedi.<br>
-          <small>Tablolardaki ☆ ikonuna veya yukarıdan ekleyin.</small></td></tr>
+        <tr><td colspan="10" class="empty">No tickers added yet.<br>
+          <small>Click ☆ in the table or add above.</small></td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- ÖZET -->
+<!-- SUMMARY -->
 <div class="panel" id="panel-summary">
   <div class="cards" id="stats"></div>
   <div class="tbl-wrap">
@@ -224,7 +224,7 @@ td:first-child{text-align:left}
         <th onclick="srt('tbl-summary',8)">RegSHO</th>
       </tr></thead>
       <tbody id="body-summary">
-        <tr><td colspan="9" class="loading">Yükleniyor</td></tr>
+        <tr><td colspan="9" class="loading">Loading</td></tr>
       </tbody>
     </table>
   </div>
@@ -240,15 +240,15 @@ td:first-child{text-align:left}
     <div class="toolbar" style="padding:6px 10px">
       <select class="sel" id="sp-type" onchange="renderAll()">
         <option value="all">Recent + Upcoming</option>
-        <option value="recent">Sadece Recent</option>
-        <option value="upcoming">Sadece Upcoming</option>
+        <option value="recent">Recent Only</option>
+        <option value="upcoming">Upcoming Only</option>
       </select>
     </div>
     <div class="tbl-wrap">
       <table id="tbl-splits">
         <thead><tr>
           <th onclick="srt('tbl-splits',0)">Ticker</th>
-          <th onclick="srt('tbl-splits',1)">Tarih</th>
+          <th onclick="srt('tbl-splits',1)">Date</th>
           <th onclick="srt('tbl-splits',2)">Oran</th>
           <th onclick="srt('tbl-splits',3)">Float (Pre)</th>
           <th onclick="srt('tbl-splits',4)">Float (Post✦)</th>
@@ -257,7 +257,7 @@ td:first-child{text-align:left}
           <th onclick="srt('tbl-splits',7)">Durum</th>
         </tr></thead>
         <tbody id="body-splits">
-          <tr><td colspan="8" class="loading">Yükleniyor</td></tr>
+          <tr><td colspan="8" class="loading">Loading</td></tr>
         </tbody>
       </table>
     </div>
@@ -279,7 +279,7 @@ td:first-child{text-align:left}
           <th onclick="srt('tbl-float',10)">⚠</th>
         </tr></thead>
         <tbody id="body-float">
-          <tr><td colspan="11" class="loading">Yükleniyor</td></tr>
+          <tr><td colspan="11" class="loading">Loading</td></tr>
         </tbody>
       </table>
     </div>
@@ -291,24 +291,24 @@ td:first-child{text-align:left}
   <div class="toolbar" style="padding:6px 10px">
     <select class="sel" id="s1-flt" onchange="renderAll()">
       <option value="all">S-1 + S-1/A</option>
-      <option value="S-1">Sadece S-1 (yeni)</option>
-      <option value="S-1/A">Sadece S-1/A (güncelleme)</option>
+      <option value="S-1">S-1 Only (new)</option>
+      <option value="S-1/A">S-1/A Only (amendment)</option>
     </select>
   </div>
   <div class="tbl-wrap">
     <table id="tbl-s1">
       <thead><tr>
         <th onclick="srt('tbl-s1',0)">Ticker</th>
-        <th onclick="srt('tbl-s1',1)">Şirket</th>
+        <th onclick="srt('tbl-s1',1)">Company</th>
         <th onclick="srt('tbl-s1',2)">Form</th>
-        <th onclick="srt('tbl-s1',3)">Tarih</th>
+        <th onclick="srt('tbl-s1',3)">Date</th>
         <th onclick="srt('tbl-s1',4)">Float</th>
         <th onclick="srt('tbl-s1',5)">SI%</th>
         <th onclick="srt('tbl-s1',6)">RegSHO</th>
         <th>↗</th>
       </tr></thead>
       <tbody id="body-s1">
-        <tr><td colspan="8" class="loading">Yükleniyor</td></tr>
+        <tr><td colspan="8" class="loading">Loading</td></tr>
       </tbody>
     </table>
   </div>
@@ -336,7 +336,7 @@ td:first-child{text-align:left}
           <th onclick="srt('tbl-c2b',8)">RegSHO</th>
         </tr></thead>
         <tbody id="body-c2b">
-          <tr><td colspan="9" class="loading">Yükleniyor</td></tr>
+          <tr><td colspan="9" class="loading">Loading</td></tr>
         </tbody>
       </table>
     </div>
@@ -347,10 +347,10 @@ td:first-child{text-align:left}
         <thead><tr>
           <th onclick="srt('tbl-regsho',0)">Ticker</th>
           <th onclick="srt('tbl-regsho',1)">Market</th>
-          <th onclick="srt('tbl-regsho',2)">Listeye Giriş</th>
+          <th onclick="srt('tbl-regsho',2)">Entry Date</th>
         </tr></thead>
         <tbody id="body-regsho">
-          <tr><td colspan="3" class="loading">Yükleniyor</td></tr>
+          <tr><td colspan="3" class="loading">Loading</td></tr>
         </tbody>
       </table>
     </div>
@@ -360,15 +360,15 @@ td:first-child{text-align:left}
       <table id="tbl-insider">
         <thead><tr>
           <th onclick="srt('tbl-insider',0)">Ticker</th>
-          <th onclick="srt('tbl-insider',1)">İşlem</th>
-          <th onclick="srt('tbl-insider',2)">Kişi</th>
-          <th onclick="srt('tbl-insider',3)">Tarih</th>
+          <th onclick="srt('tbl-insider',1)">Transaction</th>
+          <th onclick="srt('tbl-insider',2)">Person</th>
+          <th onclick="srt('tbl-insider',3)">Date</th>
           <th onclick="srt('tbl-insider',4)">Adet</th>
-          <th onclick="srt('tbl-insider',5)">Değer</th>
+          <th onclick="srt('tbl-insider',5)">Value</th>
           <th onclick="srt('tbl-insider',6)">RegSHO</th>
         </tr></thead>
         <tbody id="body-insider">
-          <tr><td colspan="7" class="loading">Yükleniyor</td></tr>
+          <tr><td colspan="7" class="loading">Loading</td></tr>
         </tbody>
       </table>
     </div>
@@ -438,10 +438,10 @@ async function loadAll(){
         d.toLocaleDateString("tr-TR")+" "+
         d.toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
       const staleEl = document.getElementById("stale");
-      if(ago>26){ staleEl.style.display=""; staleEl.textContent=`⚠ ${Math.round(ago)}s önce`; }
+      if(ago>26){ staleEl.style.display=""; staleEl.textContent=`⚠ ${Math.round(ago)}h ago`; }
       else staleEl.style.display="none";
     }
-    // Scraper hata kontrolü + kaynak durumu
+    // Scraper error check + source status
     const errEl = document.getElementById("scraper-err");
     if(meta){
       const ss   = meta.source_status||{};
@@ -451,9 +451,9 @@ async function loadAll(){
         errEl.style.display="";
         const detail = [
           pf.length   ? `Korunan: ${pf.join(", ")}` : "",
-          errs.length ? `Hata: ${errs.join(" | ")}`  : "",
+          errs.length ? `Error: ${errs.join(" | ")}`  : "",
         ].filter(Boolean).join(" — ");
-        errEl.dataset.detail = detail || "Önceki veri gösteriliyor";
+        errEl.dataset.detail = detail || "Showing previous data";
       } else {
         errEl.style.display="none";
       }
@@ -462,8 +462,8 @@ async function loadAll(){
   } catch(e) {
     console.warn(e);
     document.getElementById("body-summary").innerHTML =
-      `<tr><td colspan="9" class="empty">Veri yüklenemedi.<br>
-       <small>GitHub Actions henüz çalışmamış olabilir.</small></td></tr>`;
+      `<tr><td colspan="9" class="empty">Failed to load data.<br>
+       <small>GitHub Actions may not have run yet.</small></td></tr>`;
   }
 }
 
@@ -474,7 +474,7 @@ function renderStats(){
   const m    = D.meta?.counts||{};
   const high = D.summary.filter(r=>(r.squeeze_score||0)>=70).length;
   document.getElementById("stats").innerHTML = [
-    ["C2B Tarama", m.chartexchange??D.c2b.length,  ""],
+    ["C2B Scan", m.chartexchange??D.c2b.length,  ""],
     ["Reg SHO",    m.regsho??D.regsho.length,       "var(--red)"],
     ["Rev. Split", m.splits_reverse??0,             "var(--ylw)"],
     ["S1 (30g)",   m.s1_edgar??D.s1.length,         ""],
@@ -529,7 +529,7 @@ function isNew(d){
   const s=String(d).slice(0,10).replace(/(\d{4})(\d{2})(\d{2})/,"$1-$2-$3");
   return s===TODAY;
 }
-const newDot = d => isNew(d)?`<span class="new-dot" title="Bugün"></span>`:"";
+const newDot = d => isNew(d)?`<span class="new-dot" title="Today"></span>`:"";
 
 function formBadge(f){
   if(!f||f==="-") return "-";
@@ -566,7 +566,7 @@ function star(t){
 // Float display: warn if pre-split
 function floatCell(r){
   if(r.float_is_presplit)
-    return `<span class="warn" title="Split öncesi — Post sütununa bak">⚠ ${fmt(r.float)}</span>`;
+    return `<span class="warn" title="Pre-split — see Post column">⚠ ${fmt(r.float)}</span>`;
   return fmt(r.float)||"-";
 }
 
@@ -594,13 +594,13 @@ function renderWatchlist(){
   const wl=getWL();
   const body=document.getElementById("body-watchlist");
   if(!wl.length){
-    body.innerHTML=`<tr><td colspan="10" class="empty">Henüz ticker eklenmedi.<br>
-      <small>Tablolardaki ☆ ikonuna ya da yukarıdan ekleyin.</small></td></tr>`;
+    body.innerHTML=`<tr><td colspan="10" class="empty">No tickers added yet.<br>
+      <small>Click ☆ in the table or add above.</small></td></tr>`;
     return;
   }
   const rs=RS();
 
-  // Ticker → en yakın reverse split bilgisi
+  // Ticker → nearest reverse split info
   const splitM={};
   (D.splits||[]).filter(x=>x.is_reverse).forEach(x=>{
     const t2=x.Symbol||x.Ticker||x.symbol||x.ticker||"";
@@ -615,7 +615,7 @@ function renderWatchlist(){
     const fd = D.floats.find(s=>s.ticker===t)||{};
     const sp = splitM[t]||{};
 
-    // RS tarihi — 7 gün içi yeşil, 30 gün içi sarı, daha eski gri
+    // RS date — green if <7d, yellow if <30d, gray if older
     let rsDisp="-";
     if(sp.date){
       const daysAgo=(Date.now()-new Date(sp.date).getTime())/86400000;
@@ -624,13 +624,13 @@ function renderWatchlist(){
       rsDisp=`<span style="color:${col};font-size:10px">${lbl}</span>`;
     }
 
-    // Float — post-split tahmini varsa onu göster, yoksa EDGAR float
+    // Float — show post-split estimate if available, else EDGAR float
     const effFloat = fd.est_post_split_float || fd.float_shares || r.float;
     const isEst    = !!fd.est_post_split_float;
     const isWarn   = fd.float_is_presplit && !isEst;
     const floatVal = effFloat ? fmt(effFloat) : "-";
     const floatCls = isWarn?"warn":"pos";
-    const floatPfx = isWarn?"⚠ ":isEst?"✦ ":"";  // ✦ = tahmin
+    const floatPfx = isWarn?"⚠ ":isEst?"✦ ":"";  // ✦ = estimate
     const floatDate= fd.float_date
       ? `<div style="font-size:9px;color:var(--muted);margin-top:1px">${fd.float_date.slice(0,10)}</div>`
       : "";
@@ -656,7 +656,7 @@ function renderWatchlist(){
 function renderSummary(){
   const rows=flt(D.summary,["ticker"]);
   const body=document.getElementById("body-summary");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>`<tr class="${inWL(r.ticker)?"wl":""}">
     <td><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
     <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
@@ -675,7 +675,7 @@ function renderSplits(){
   let rows=flt(D.splits.filter(x=>x.is_reverse),["Symbol","Ticker","symbol","ticker"]);
   if(typeF!=="all") rows=rows.filter(r=>r.list_type===typeF);
   const body=document.getElementById("body-splits");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const t  =r.Symbol||r.Ticker||r.symbol||r.ticker||"-";
     const sm =D.summary.find(s=>s.ticker===t)||{};
@@ -702,18 +702,18 @@ function renderSplits(){
 function renderFloat(){
   const rows=flt(D.floats,["ticker"]);
   const body=document.getElementById("body-float");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="11" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="11" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const sm=D.summary.find(s=>s.ticker===r.ticker)||{};
     const fd=(r.float_date||"").slice(0,10);
     const floatD=r.float_is_presplit
-      ?`<span class="warn" title="Split öncesi">⚠ ${fmt(r.float_shares)}</span>`
+      ?`<span class="warn" title="Pre-split">⚠ ${fmt(r.float_shares)}</span>`
       :`<span class="pos">${fmt(r.float_shares)||"-"}</span>`;
     const est=r.est_post_split_float!=null
       ?`<span class="pos" title="÷${r.split_ratio}">${fmt(r.est_post_split_float)}</span>`
       :"-";
     const ofW=sm.offering_warning
-      ?`<span class="badge by" title="S-1/A var — float artmış olabilir">⚠</span>`:"-";
+      ?`<span class="badge by" title="S-1/A filed — float may have increased">⚠</span>`:"-";
     return `<tr class="${inWL(r.ticker)?"wl":""}">
       <td><span class="ticker">${r.ticker}</span>${newDot(fd)}</td>
       <td>${floatD}</td>
@@ -735,14 +735,14 @@ function renderS1(){
   let rows=flt(D.s1,["ticker","company"]);
   if(fv!=="all") rows=rows.filter(r=>r.form===fv);
   const body=document.getElementById("body-s1");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
-    // Ticker boş olabilir (pre-IPO şirketler henüz ticker almamış)
-    // Bu durumda şirket adı öne çıkar
+    // Ticker may be empty (pre-IPO companies not yet listed)
+    // Company name shown prominently in that case
     const tickerDisp = r.ticker
       ? `<span class="ticker">${r.ticker}</span>${newDot(r.filed_date||"")}`
       : `<span style="color:var(--muted);font-size:10px">—</span>`;
-    // Şirket adı: ticker yoksa daha uzun göster
+    // Company name: show longer if no ticker
     const nameLen = r.ticker ? 22 : 32;
     const nameDisp = (r.company||"-").slice(0,nameLen);
     const nameStyle = r.ticker
@@ -765,7 +765,7 @@ function renderC2B(){
   const rows=flt(D.c2b,["symbol","ticker","Symbol"]);
   const rs=RS();
   const body=document.getElementById("body-c2b");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const t  =r.symbol||r.ticker||r.Symbol||"-";
     const c2b=parseFloat(r.borrow_fee_rate_ib||r.borrowFeeRateIb||0);
@@ -788,7 +788,7 @@ function renderC2B(){
 function renderRegSHO(){
   const rows=flt(D.regsho,["Symbol","Ticker","symbol"]);
   const body=document.getElementById("body-regsho");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="3" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="3" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const t =r.Symbol||r.Ticker||r.symbol||"-";
     const dt=r["Threshold List Date"]||r.Date||r.date||"-";
@@ -804,7 +804,7 @@ function renderInsider(){
   const rows=flt(D.insider,["Ticker","ticker","Symbol"]);
   const rs=RS();
   const body=document.getElementById("body-insider");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">Sonuç yok</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const ks=Object.keys(r);
     const t  =r.Ticker||r.ticker||r.Symbol||r[ks[0]]||"-";
@@ -827,7 +827,7 @@ function renderInsider(){
 }
 
 // ════════════════════════════════════
-// SORT — sortDir tab değişince korunur
+// SORT — sortDir preserved across tab changes
 // ════════════════════════════════════
 function srt(tableId, col){
   const key=`${tableId}_${col}`;

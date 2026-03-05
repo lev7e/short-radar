@@ -1,4 +1,928 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>SHORT RADAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090b;--surf:#111114;--surf2:#18181c;
+  --bdr:#27272a;--text:#ffffff;--muted:#71717a;
+  --acc:#22c55e;--red:#ef4444;--ylw:#eab308;--blu:#3b82f6;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:300;
+  background:rgba(9,9,11,.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--bdr);
+  padding:8px 14px;display:flex;align-items:center;gap:8px;
+}
+.logo{font-family:var(--mono);font-weight:600;font-size:13px;
+  color:var(--acc);letter-spacing:.14em;white-space:nowrap}
+.logo em{color:var(--muted);font-style:normal;font-weight:400}
+#status{font-family:var(--mono);font-size:10px;color:var(--muted);
+  margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.stale{background:rgba(234,179,8,.12);color:var(--ylw);
+  border:1px solid rgba(234,179,8,.28);font-size:10px;font-family:var(--mono);
+  padding:3px 7px;border-radius:4px;display:none}
+.scraper-err{background:rgba(239,68,68,.12);color:var(--red);
+  border:1px solid rgba(239,68,68,.3);font-size:10px;font-family:var(--mono);
+  padding:3px 7px;border-radius:4px;display:none;cursor:default;position:relative}
+.scraper-err:hover::after{content:attr(data-detail);position:absolute;
+  right:0;top:26px;background:var(--surf2);border:1px solid var(--bdr);
+  border-radius:5px;padding:6px 10px;font-size:10px;color:var(--text);
+  white-space:nowrap;z-index:999}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--acc);
+  flex-shrink:0;animation:pulse 2.2s ease-in-out infinite;display:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.btn-r{background:none;border:1px solid var(--bdr);color:var(--muted);
+  font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:4px;cursor:pointer}
+.btn-r:hover{color:var(--acc);border-color:var(--acc)}
+
+/* TABS */
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;
+  background:var(--surf);border-bottom:1px solid var(--bdr)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;
+  text-transform:uppercase;padding:10px 15px;cursor:pointer;
+  white-space:nowrap;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;transition:.15s}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--acc);border-bottom-color:var(--acc)}
+
+/* TOOLBAR */
+.toolbar{
+  padding:7px 10px;background:var(--surf2);border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.inp{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--bdr);
+  color:var(--text);font-family:var(--mono);font-size:11px;
+  padding:6px 9px;border-radius:4px;outline:none}
+.inp:focus{border-color:var(--acc)}
+.inp::placeholder{color:var(--muted)}
+.sel{background:var(--bg);border:1px solid var(--bdr);color:var(--text);
+  font-family:var(--mono);font-size:11px;padding:5px 7px;
+  border-radius:4px;outline:none;cursor:pointer}
+.chip{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:4px;
+  cursor:pointer;border:1px solid rgba(34,197,94,.25);color:var(--acc);
+  background:rgba(34,197,94,.07);white-space:nowrap;transition:.15s}
+.chip:hover,.chip.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+
+/* PANELS / SUBTABS */
+.panel{display:none}.panel.on{display:block}
+.subtabs{display:flex;background:var(--surf2);border-bottom:1px solid var(--bdr)}
+.subtab{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;padding:8px 13px;cursor:pointer;
+  color:var(--muted);background:none;border:none;
+  border-bottom:2px solid transparent;transition:.15s}
+.subtab:hover{color:var(--text)}
+.subtab.on{color:var(--blu);border-bottom-color:var(--blu)}
+.subpanel{display:none}.subpanel.on{display:block}
+
+/* STAT CARDS */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:8px 10px}
+@media(min-width:480px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:720px){.cards{grid-template-columns:repeat(6,1fr)}}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:7px;padding:10px 12px}
+.card-l{font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.card-v{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--acc)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+thead th{
+  background:var(--surf);color:var(--muted);font-size:9px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;padding:7px 8px;
+  text-align:right;white-space:nowrap;border-bottom:1px solid var(--bdr);
+  cursor:pointer;user-select:none;position:sticky;top:0;z-index:10}
+thead th:first-child{text-align:left}
+.num{text-align:right;font-family:var(--mono);font-size:11px}
+thead th:hover{color:var(--acc)}
+thead th.asc::after{content:" ▲";color:var(--acc)}
+thead th.desc::after{content:" ▼";color:var(--acc)}
+tbody tr{border-bottom:1px solid rgba(39,39,42,.5);transition:background .1s}
+tbody tr:hover{background:rgba(255,255,255,.022)}
+tbody tr.wl{background:rgba(34,197,94,.035)}
+td{padding:7px 8px;text-align:right;white-space:nowrap}
+td:first-child{text-align:left}
+.ticker{font-weight:600;color:var(--acc);font-size:12px}
+
+/* SQUEEZE */
+.sq{display:flex;flex-direction:column;gap:3px;min-width:80px}
+.sq-row{display:flex;align-items:center;gap:5px}
+.sq-track{width:40px;height:4px;background:var(--bdr);border-radius:2px;overflow:hidden;flex-shrink:0}
+.sq-fill{height:100%;border-radius:2px;transition:width .3s}
+.sq-num{font-size:11px;font-weight:600;min-width:20px;text-align:right}
+.sq-tags{display:flex;flex-wrap:wrap;gap:2px;margin-top:1px}
+.sq-tag{font-family:var(--sans);font-size:9px;color:var(--muted);
+  background:rgba(255,255,255,.055);border-radius:2px;padding:1px 4px;white-space:nowrap}
+
+/* MISC */
+.pos{color:var(--acc)}.neg{color:var(--red)}.warn{color:var(--ylw)}
+.empty,.loading{text-align:center;padding:48px 20px;
+  color:var(--muted);font-family:var(--mono);font-size:11px}
+.loading::before{content:"⟳ ";display:inline-block;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge{display:inline-block;padding:2px 5px;border-radius:3px;font-size:9px;font-weight:600;letter-spacing:.04em}
+.bg{background:rgba(34,197,94,.12);color:var(--acc)}
+.br{background:rgba(239,68,68,.12);color:var(--red)}
+.by{background:rgba(234,179,8,.12);color:var(--ylw)}
+.bb{background:rgba(59,130,246,.12);color:var(--blu)}
+.bm{background:rgba(82,82,91,.14);color:var(--muted)}
+.new-dot{display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--acc);margin:0 3px;vertical-align:middle}
+.wl-bar{display:flex;gap:7px;padding:8px 10px;border-bottom:1px solid var(--bdr)}
+.wl-add{background:var(--acc);color:var(--bg);border:none;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  padding:6px 12px;border-radius:4px;cursor:pointer;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SHORT<em>/</em>RADAR</div>
+  <div id="status">
+    <span class="scraper-err" id="scraper-err">⛔ Scraper error</span>
+    <span class="stale" id="stale">⚠ Stale</span>
+    <span class="dot"   id="dot"></span>
+    <span id="upd">–</span>
+    <button class="btn-r" onclick="loadAll()">↻</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('watchlist')">★ Takip</button>
+  <button class="tab"    onclick="switchTab('summary')">Summary</button>
+  <button class="tab"    onclick="switchTab('splits')">Splits &amp; Float</button>
+  <button class="tab"    onclick="switchTab('s1')">S1</button>
+  <button class="tab"    onclick="switchTab('ref')">Reference ▾</button>
+</div>
+
+<div class="toolbar">
+  <input  class="inp" id="search"  placeholder="Ticker ara…" oninput="renderAll()">
+  <select class="sel" id="sq-flt"  onchange="renderAll()">
+    <option value="0">All Squeeze</option>
+    <option value="50">Skor ≥ 50</option>
+    <option value="70">Skor ≥ 70</option>
+  </select>
+  <select class="sel" id="rs-flt"  onchange="renderAll()">
+    <option value="">All</option>
+    <option value="yes">RegSHO ✅</option>
+  </select>
+  <button class="chip" id="wl-chip" onclick="toggleWLOnly()">★ Watchlist</button>
+</div>
+
+<!-- ★ WATCHLIST -->
+<div class="panel on" id="panel-watchlist">
+  <div class="wl-bar">
+    <input class="inp" id="wl-inp" placeholder="TICKER ekle…"
+           onkeydown="if(event.key==='Enter')addWL()">
+    <button class="wl-add" onclick="addWL()">+ Add</button>
+  </div>
+  <div class="tbl-wrap">
+    <table id="tbl-watchlist">
+      <thead><tr>
+        <th onclick="srt('tbl-watchlist',0)">Ticker</th>
+        <th onclick="srt('tbl-watchlist',1)">RS Date</th>
+        <th onclick="srt('tbl-watchlist',2)">Float (Post)</th>
+        <th onclick="srt('tbl-watchlist',3)">Squeeze</th>
+        <th onclick="srt('tbl-watchlist',4)">C2B%</th>
+        <th onclick="srt('tbl-watchlist',5)">SI%</th>
+        <th onclick="srt('tbl-watchlist',6)">DTC</th>
+        <th onclick="srt('tbl-watchlist',7)">RegSHO</th>
+        <th onclick="srt('tbl-watchlist',8)">Price</th>
+        <th>–</th>
+      </tr></thead>
+      <tbody id="body-watchlist">
+        <tr><td colspan="10" class="empty">No tickers added yet.<br>
+          <small>Click ☆ in the table or add above.</small></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="panel" id="panel-summary">
+  <div class="cards" id="stats"></div>
+  <div class="tbl-wrap">
+    <table id="tbl-summary">
+      <thead><tr>
+        <th onclick="srt('tbl-summary',0)"  title="Ticker symbol">Ticker</th>
+        <th onclick="srt('tbl-summary',1)"  title="Borrow fee rate (IBKR)">C2B%</th>
+        <th onclick="srt('tbl-summary',2)"  title="Shares available to borrow (IBKR)">Avail</th>
+        <th onclick="srt('tbl-summary',3)"  title="Shares float">Float</th>
+        <th onclick="srt('tbl-summary',4)"  title="Market cap">Mkt Cap</th>
+        <th onclick="srt('tbl-summary',5)"  title="Current price">Price</th>
+        <th onclick="srt('tbl-summary',6)"  title="Price change %">Chg%</th>
+        <th onclick="srt('tbl-summary',7)"  title="Volume">Vol</th>
+        <th onclick="srt('tbl-summary',8)"  title="10-day average volume">10D Avg</th>
+        <th onclick="srt('tbl-summary',9)"  title="Short volume (all)">SV</th>
+        <th onclick="srt('tbl-summary',10)" title="Short interest % (DTC database)">SI% DB</th>
+        <th onclick="srt('tbl-summary',11)" title="Short interest %">SI%</th>
+        <th onclick="srt('tbl-summary',12)" title="Short interest position change %">SI Chg%</th>
+        <th onclick="srt('tbl-summary',13)" title="Short volume % (all)">SV%</th>
+        <th onclick="srt('tbl-summary',14)" title="Short volume % 30-day">SV% 30d</th>
+        <th onclick="srt('tbl-summary',15)" title="Pre-market price">Pre</th>
+        <th onclick="srt('tbl-summary',16)" title="Pre-market change %">Pre%</th>
+        <th onclick="srt('tbl-summary',17)" title="On RegSHO threshold list">RegSHO</th>
+        <th onclick="srt('tbl-summary',18)" title="Most recent reverse split date">Last RS</th>
+        <th onclick="srt('tbl-summary',19)" title="Float from askedgar/EDGAR">AS Float</th>
+        <th onclick="srt('tbl-summary',20)" title="Short interest shares from askedgar">AS SI</th>
+        <th onclick="srt('tbl-summary',21)" title="Cash per share from askedgar">Cash/Sh</th>
+        <th onclick="srt('tbl-summary',22)" title="Squeeze score">⚡</th>
+      </tr></thead>
+      <tbody id="body-summary">
+        <tr><td colspan="23" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SPLITS & FLOAT -->
+<div class="panel" id="panel-splits">
+  <div class="subtabs">
+    <button class="subtab on" onclick="switchSub('splits','sp-splits')">Reverse Splits</button>
+    <button class="subtab"    onclick="switchSub('splits','sp-float')">Float Detail</button>
+  </div>
+  <div class="subpanel on" id="sp-splits">
+    <div class="toolbar" style="padding:6px 10px">
+      <select class="sel" id="sp-type" onchange="renderAll()">
+        <option value="all">Recent + Upcoming</option>
+        <option value="recent">Recent Only</option>
+        <option value="upcoming">Upcoming Only</option>
+      </select>
+    </div>
+    <div class="tbl-wrap">
+      <table id="tbl-splits">
+        <thead><tr>
+          <th onclick="srt('tbl-splits',0)">Ticker</th>
+          <th onclick="srt('tbl-splits',1)">Date</th>
+          <th onclick="srt('tbl-splits',2)">Oran</th>
+          <th onclick="srt('tbl-splits',3)">Float (Pre)</th>
+          <th onclick="srt('tbl-splits',4)">Float (Post✦)</th>
+          <th onclick="srt('tbl-splits',5)">SI%</th>
+          <th onclick="srt('tbl-splits',6)">Squeeze</th>
+          <th onclick="srt('tbl-splits',7)">Durum</th>
+        </tr></thead>
+        <tbody id="body-splits">
+          <tr><td colspan="8" class="loading">Loading</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="subpanel" id="sp-float">
+    <div class="tbl-wrap">
+      <table id="tbl-float">
+        <thead><tr>
+          <th onclick="srt('tbl-float',0)">Ticker</th>
+          <th onclick="srt('tbl-float',1)">Float</th>
+          <th onclick="srt('tbl-float',2)">Post-RS✦</th>
+          <th onclick="srt('tbl-float',3)">Warrant</th>
+          <th onclick="srt('tbl-float',4)">Diluted</th>
+          <th onclick="srt('tbl-float',5)">SI%</th>
+          <th onclick="srt('tbl-float',6)">DTC</th>
+          <th onclick="srt('tbl-float',7)">Float Tar.</th>
+          <th onclick="srt('tbl-float',8)">Form</th>
+          <th onclick="srt('tbl-float',9)">SI Tar.</th>
+          <th onclick="srt('tbl-float',10)">⚠</th>
+        </tr></thead>
+        <tbody id="body-float">
+          <tr><td colspan="11" class="loading">Loading</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S1 -->
+<div class="panel" id="panel-s1">
+  <div class="toolbar" style="padding:6px 10px">
+    <select class="sel" id="s1-flt" onchange="renderAll()">
+      <option value="all">S-1 + S-1/A</option>
+      <option value="S-1">S-1 Only (new)</option>
+      <option value="S-1/A">S-1/A Only (amendment)</option>
+    </select>
+  </div>
+  <div class="tbl-wrap">
+    <table id="tbl-s1">
+      <thead><tr>
+        <th onclick="srt('tbl-s1',0)">Ticker</th>
+        <th onclick="srt('tbl-s1',1)">Company</th>
+        <th onclick="srt('tbl-s1',2)">Form</th>
+        <th onclick="srt('tbl-s1',3)">Date</th>
+        <th onclick="srt('tbl-s1',4)">Float</th>
+        <th onclick="srt('tbl-s1',5)">SI%</th>
+        <th onclick="srt('tbl-s1',6)">RegSHO</th>
+        <th>↗</th>
+      </tr></thead>
+      <tbody id="body-s1">
+        <tr><td colspan="8" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REFERANS -->
+<div class="panel" id="panel-ref">
+  <div class="subtabs">
+    <button class="subtab on" onclick="switchSub('ref','ref-c2b')">C2B</button>
+    <button class="subtab"    onclick="switchSub('ref','ref-regsho')">Reg SHO</button>
+    <button class="subtab"    onclick="switchSub('ref','ref-insider')">Insider</button>
+  </div>
+  <div class="subpanel on" id="ref-c2b">
+    <div class="tbl-wrap">
+      <table id="tbl-c2b">
+        <thead><tr>
+          <th onclick="srt('tbl-c2b',0)">Ticker</th>
+          <th onclick="srt('tbl-c2b',1)">C2B%</th>
+          <th onclick="srt('tbl-c2b',2)">Avail</th>
+          <th onclick="srt('tbl-c2b',3)">Float</th>
+          <th onclick="srt('tbl-c2b',4)">SV%</th>
+          <th onclick="srt('tbl-c2b',5)">SV 30d%</th>
+          <th onclick="srt('tbl-c2b',6)">Price</th>
+          <th onclick="srt('tbl-c2b',7)">Pre%</th>
+          <th onclick="srt('tbl-c2b',8)">RegSHO</th>
+        </tr></thead>
+        <tbody id="body-c2b">
+          <tr><td colspan="23" class="loading">Loading</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="subpanel" id="ref-regsho">
+    <div class="tbl-wrap">
+      <table id="tbl-regsho">
+        <thead><tr>
+          <th onclick="srt('tbl-regsho',0)">Ticker</th>
+          <th onclick="srt('tbl-regsho',1)">Market</th>
+          <th onclick="srt('tbl-regsho',2)">Entry Date</th>
+        </tr></thead>
+        <tbody id="body-regsho">
+          <tr><td colspan="3" class="loading">Loading</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="subpanel" id="ref-insider">
+    <div class="tbl-wrap">
+      <table id="tbl-insider">
+        <thead><tr>
+          <th onclick="srt('tbl-insider',0)">Ticker</th>
+          <th onclick="srt('tbl-insider',1)">Transaction</th>
+          <th onclick="srt('tbl-insider',2)">Person</th>
+          <th onclick="srt('tbl-insider',3)">Date</th>
+          <th onclick="srt('tbl-insider',4)">Adet</th>
+          <th onclick="srt('tbl-insider',5)">Value</th>
+          <th onclick="srt('tbl-insider',6)">RegSHO</th>
+        </tr></thead>
+        <tbody id="body-insider">
+          <tr><td colspan="7" class="loading">Loading</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════
+// STATE
+// ════════════════════════════════════
+const BASE  = "./data/";
+const TODAY = new Date().toISOString().slice(0,10);
+const TABS  = ["watchlist","summary","splits","s1","ref"];
+
+let D  = { summary:[], floats:[], c2b:[], regsho:[], splits:[], insider:[], s1:[], meta:null };
+let UI = { tab:"watchlist", subSplits:"sp-splits", subRef:"ref-c2b", wlOnly:false, sortDir:{} };
+
+// ════════════════════════════════════
+// WATCHLIST (localStorage)
+// ════════════════════════════════════
+const getWL  = () => { try{ return JSON.parse(localStorage.getItem("wl")||"[]") }catch{ return [] } };
+const saveWL = a  => localStorage.setItem("wl", JSON.stringify(a));
+const inWL   = t  => getWL().includes(t.toUpperCase());
+
+function addWL(){
+  const inp = document.getElementById("wl-inp");
+  const t   = inp.value.trim().toUpperCase();
+  if(!t) return;
+  const wl = getWL();
+  if(!wl.includes(t)){ wl.push(t); saveWL(wl); }
+  inp.value = "";
+  renderWatchlist(); renderSummary();
+}
+function removeWL(t){ saveWL(getWL().filter(x=>x!==t)); renderWatchlist(); renderSummary(); }
+function toggleWatch(t){
+  const wl = getWL();
+  if(wl.includes(t)) saveWL(wl.filter(x=>x!==t));
+  else { wl.push(t); saveWL(wl); }
+  renderAll();
+}
+function toggleWLOnly(){
+  UI.wlOnly = !UI.wlOnly;
+  document.getElementById("wl-chip").classList.toggle("on", UI.wlOnly);
+  renderAll();
+}
+
+// ════════════════════════════════════
+// DATA LOAD
+// ════════════════════════════════════
+async function fetchJ(f){ const r=await fetch(BASE+f+"?t="+Date.now()); return r.ok?r.json():null; }
+
+async function loadAll(){
+  try {
+    const [meta,summary,floats,ce,rs,sp,ins,s1] = await Promise.all([
+      fetchJ("meta.json"), fetchJ("summary.json"), fetchJ("floats.json"),
+      fetchJ("chartexchange.json"), fetchJ("regsho.json"), fetchJ("splits.json"),
+      fetchJ("insider.json"), fetchJ("s1_edgar.json"),
+    ]);
+    D = { meta, summary:summary||[], floats:floats||[], c2b:ce||[],
+          regsho:rs||[], splits:sp||[], insider:ins||[], s1:s1||[] };
+
+    if(meta?.updated_at){
+      const d   = new Date(meta.updated_at);
+      const ago = (Date.now()-d.getTime())/3600000;
+      document.getElementById("dot").style.display = "";
+      document.getElementById("upd").textContent =
+        d.toLocaleDateString("en-US")+" "+
+        d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+      const staleEl = document.getElementById("stale");
+      if(ago>26){ staleEl.style.display=""; staleEl.textContent=`⚠ ${Math.round(ago)}h ago`; }
+      else staleEl.style.display="none";
+    }
+    // Scraper error check + source status
+    const errEl = document.getElementById("scraper-err");
+    if(meta){
+      const ss   = meta.source_status||{};
+      const errs = Object.entries(ss).filter(([k,v])=>v&&v.startsWith("error")).map(([k,v])=>`${k}: ${v}`);
+      const pf   = (meta.protected_files||[]);
+      if(meta.scraper_ok===false || pf.length || errs.length){
+        errEl.style.display="";
+        const detail = [
+          pf.length   ? `Korunan: ${pf.join(", ")}` : "",
+          errs.length ? `Error: ${errs.join(" | ")}`  : "",
+        ].filter(Boolean).join(" — ");
+        errEl.dataset.detail = detail || "Showing previous data";
+      } else {
+        errEl.style.display="none";
+      }
+    }
+    renderStats(); renderAll();
+  } catch(e) {
+    console.warn(e);
+    document.getElementById("body-summary").innerHTML =
+      `<tr><td colspan="9" class="empty">Failed to load data.<br>
+       <small>GitHub Actions may not have run yet.</small></td></tr>`;
+  }
+}
+
+// ════════════════════════════════════
+// STATS
+// ════════════════════════════════════
+function renderStats(){
+  const m    = D.meta?.counts||{};
+  const high = D.summary.filter(r=>(r.squeeze_score||0)>=70).length;
+  document.getElementById("stats").innerHTML = [
+    ["C2B Scan", m.chartexchange??D.c2b.length,  ""],
+    ["Reg SHO",    m.regsho??D.regsho.length,       "var(--red)"],
+    ["Rev. Split", m.splits_reverse??0,             "var(--ylw)"],
+    ["S1 (30g)",   m.s1_edgar??D.s1.length,         ""],
+    ["FINRA SI",   m.finra_si??0,                   "var(--blu)"],
+    ["Squeeze≥70", high,                            "var(--red)"],
+  ].map(([l,v,c])=>`
+    <div class="card">
+      <div class="card-l">${l}</div>
+      <div class="card-v" style="${c?"color:"+c:""}">${v}</div>
+    </div>`).join("");
+}
+
+// ════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════
+const q     = () => document.getElementById("search").value.toLowerCase().trim();
+const sqFlt = () => parseInt(document.getElementById("sq-flt").value)||0;
+const rsFlt = () => document.getElementById("rs-flt").value;
+const RS    = () => new Set(D.regsho.map(x=>x.Symbol||x.Ticker||""));
+const SPL   = () => new Set(D.splits.filter(x=>x.is_reverse).map(x=>x.Symbol||x.Ticker||x.symbol||x.ticker||""));
+
+function flt(rows, keys){
+  let r = rows;
+  const qv=q();
+  if(qv) r=r.filter(row=>keys.some(k=>String(row[k]||"").toLowerCase().includes(qv)));
+  const sf=sqFlt();
+  if(sf>0) r=r.filter(row=>(row.squeeze_score||0)>=sf);
+  if(rsFlt()==="yes") r=r.filter(row=>row.reg_sho==="✅"||RS().has(row.ticker||""));
+  if(UI.wlOnly){ const wl=new Set(getWL()); r=r.filter(row=>wl.has((row.ticker||row.Symbol||row.Ticker||"").toUpperCase())); }
+  return r;
+}
+
+function fmt(v){
+  const n=parseFloat(String(v).replace(/[,%]/g,""));
+  if(isNaN(n)||v==null||v==="-") return "-";
+  if(Math.abs(n)>=1e9) return (n/1e9).toFixed(1)+"B";
+  if(Math.abs(n)>=1e6) return (n/1e6).toFixed(1)+"M";
+  if(Math.abs(n)>=1e3) return (n/1e3).toFixed(1)+"K";
+  return String(n);
+}
+
+function pct(v){
+  const n=parseFloat(String(v).replace("%",""));
+  if(isNaN(n)||v==null||v==="-") return "-";
+  return `<span class="${n>0?"pos":n<0?"neg":""}">${n>0?"+":""}${n.toFixed(2)}%</span>`;
+}
+
+function price(v){ const n=parseFloat(v); return isNaN(n)||v==null?"-":"$"+n.toFixed(2); }
+
+function isNew(d){
+  if(!d) return false;
+  const s=String(d).slice(0,10).replace(/(\d{4})(\d{2})(\d{2})/,"$1-$2-$3");
+  return s===TODAY;
+}
+const newDot = d => isNew(d)?`<span class="new-dot" title="Today"></span>`:"";
+
+function formBadge(f){
+  if(!f||f==="-") return "-";
+  const c=["S-1","S-1/A","8-K"].includes(f)?"bg":f.includes("10-Q")?"by":"br";
+  return `<span class="badge ${c}">${f}</span>`;
+}
+
+function siDate(d){
+  if(!d||d.length!==8) return d||"-";
+  return d.slice(6,8)+"/"+d.slice(4,6)+"/"+d.slice(0,4);
+}
+
+// Squeeze bar + visible reason tags
+function sqBar(score, reasons){
+  if(score==null) return "-";
+  const col = score>=70?"var(--red)":score>=45?"var(--ylw)":"var(--acc)";
+  const tags = (reasons||"").split(",").filter(Boolean)
+    .map(r=>`<span class="sq-tag">${r.trim()}</span>`).join("");
+  return `<div class="sq">
+    <div class="sq-row">
+      <div class="sq-track"><div class="sq-fill" style="width:${score}%;background:${col}"></div></div>
+      <span class="sq-num" style="color:${col}">${score}</span>
+    </div>
+    ${tags?`<div class="sq-tags">${tags}</div>`:""}
+  </div>`;
+}
+
+// Watchlist star icon
+function star(t){
+  const on=inWL(t);
+  return `<span onclick="toggleWatch('${t}')" style="cursor:pointer;font-size:13px;color:${on?"var(--ylw)":"var(--muted)"};padding:0 3px">${on?"★":"☆"}</span>`;
+}
+
+// Float display: warn if pre-split
+function floatCell(r){
+  if(r.float_is_presplit)
+    return `<span class="warn" title="Pre-split — see Post column">⚠ ${fmt(r.float)}</span>`;
+  return fmt(r.float)||"-";
+}
+
+function sfCell(pctVal){
+  if(pctVal==null) return "-";
+  const n=parseFloat(pctVal);
+  return `<span class="${n>=30?"neg":n>=15?"warn":""}">${n}%</span>`;
+}
+
+function dtcCell(v){
+  if(v==null) return "-";
+  return `<span class="${v>=10?"neg":v>=5?"warn":""}">${v}d</span>`;
+}
+
+// ════════════════════════════════════
+// RENDER
+// ════════════════════════════════════
+function renderAll(){
+  renderWatchlist(); renderSummary();
+  renderSplits(); renderFloat();
+  renderS1(); renderC2B(); renderRegSHO(); renderInsider();
+}
+
+function renderWatchlist(){
+  const wl=getWL();
+  const body=document.getElementById("body-watchlist");
+  if(!wl.length){
+    body.innerHTML=`<tr><td colspan="10" class="empty">No tickers added yet.<br>
+      <small>Click ☆ in the table or add above.</small></td></tr>`;
+    return;
+  }
+  const rs=RS();
+
+  // Ticker → nearest reverse split info
+  const splitM={};
+  (D.splits||[]).filter(x=>x.is_reverse).forEach(x=>{
+    const t2=x.Symbol||x.Ticker||x.symbol||x.ticker||"";
+    if(t2&&!splitM[t2]) splitM[t2]={
+      date:  x.split_date||x.Date||x.date||"",
+      ratio: x.Ratio||x["Split Ratio"]||""
+    };
+  });
+
+  body.innerHTML=wl.map(t=>{
+    const r  = D.summary.find(s=>s.ticker===t)||{};
+    const fd = D.floats.find(s=>s.ticker===t)||{};
+    const sp = splitM[t]||{};
+
+    // RS date — green if <7d, yellow if <30d, gray if older
+    let rsDisp="-";
+    if(sp.date){
+      const daysAgo=(Date.now()-new Date(sp.date).getTime())/86400000;
+      const col=daysAgo<=7?"var(--acc)":daysAgo<=30?"var(--ylw)":"var(--muted)";
+      const lbl=sp.ratio?`${sp.date} <span style="opacity:.6">(${sp.ratio})</span>`:sp.date;
+      rsDisp=`<span style="color:${col};font-size:10px">${lbl}</span>`;
+    }
+
+    // Float — show post-split estimate if available, else EDGAR float
+    const effFloat = fd.est_post_split_float || fd.float_shares || r.float;
+    const isEst    = !!fd.est_post_split_float;
+    const isWarn   = fd.float_is_presplit && !isEst;
+    const floatVal = effFloat ? fmt(effFloat) : "-";
+    const floatCls = isWarn?"warn":"pos";
+    const floatPfx = isWarn?"⚠ ":isEst?"✦ ":"";  // ✦ = estimate
+    const floatDate= fd.float_date
+      ? `<div style="font-size:9px;color:var(--muted);margin-top:1px">${fd.float_date.slice(0,10)}</div>`
+      : "";
+
+    return `<tr class="wl">
+      <td><span class="ticker">${t}</span>${star(t)}</td>
+      <td>${rsDisp}</td>
+      <td>
+        <span class="${floatCls}">${floatPfx}${floatVal}</span>
+        ${floatDate}
+      </td>
+      <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
+      <td>${r.c2b!=null?`<span class="${r.c2b>=100?"neg":r.c2b>=50?"warn":""}">${r.c2b}%</span>`:"-"}</td>
+      <td>${sfCell(r.short_float_pct)}</td>
+      <td>${dtcCell(r.dtc)}</td>
+      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
+      <td style="color:var(--muted)">${price(r.price)}</td>
+      <td style="text-align:center"><span onclick="removeWL('${t}')" style="cursor:pointer;color:var(--red)">✕</span></td>
+    </tr>`;
+  }).join("");
+}
+
+function renderSummary(){
+  const rows=flt(D.summary,["ticker"]);
+  const body=document.getElementById("body-summary");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="23" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const c2b   = r.c2b!=null ? r.c2b : null;
+    const c2bCl = c2b>=100?"neg":c2b>=50?"warn":c2b>0?"":"";
+    const avail = r.shares_avail;
+    const asFL  = r.shares_outstanding || r.float;
+    const asSI  = r.finra_si;
+    const cash  = r.cash_per_share;
+    return `<tr class="${inWL(r.ticker)?"wl":""}">
+      <td><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
+      <td><span class="${c2bCl}">${c2b!=null?c2b+"%":"-"}</span></td>
+      <td class="num">${avail!=null?fmt(avail):"-"}</td>
+      <td class="num">${floatCell(r)}</td>
+      <td class="num">${r.market_cap!=null?fmtMC(r.market_cap):"-"}</td>
+      <td class="num">${price(r.price)}</td>
+      <td>${pct(r.change_pct)}</td>
+      <td class="num">${r.reg_volume!=null?fmt(r.reg_volume):"-"}</td>
+      <td class="num">${r.avg_vol_10d!=null?fmt(r.avg_vol_10d):"-"}</td>
+      <td class="num">${r.short_vol!=null?fmt(r.short_vol):"-"}</td>
+      <td class="num">${r.shortint_db_pct!=null?r.shortint_db_pct+"%":"-"}</td>
+      <td class="num">${sfCell(r.short_float_pct)}</td>
+      <td>${r.si_change!=null?pct(r.si_change):"-"}</td>
+      <td class="num">${r.short_vol_pct!=null?r.short_vol_pct+"%":"-"}</td>
+      <td class="num">${r.short_vol_pct_30d!=null?r.short_vol_pct_30d+"%":"-"}</td>
+      <td class="num">${r.pre_price!=null?price(r.pre_price):"-"}</td>
+      <td>${r.pre_change!=null?pct(r.pre_change):"-"}</td>
+      <td style="text-align:center">${r.reg_sho||"❌"}</td>
+      <td style="color:var(--muted);font-size:10px">${r.split_date||"-"}</td>
+      <td class="num">${asFL!=null?fmt(asFL):"-"}</td>
+      <td class="num">${asSI!=null?fmt(asSI):"-"}</td>
+      <td class="num" style="${cash>1?"color:var(--acc)":""}">${cash!=null?"$"+cash.toFixed(2):"-"}</td>
+      <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
+    </tr>`;
+  }).join("");
+}
+
+function fmtMC(v){
+  if(!v) return "-";
+  if(v>=1e9) return (v/1e9).toFixed(1)+"B";
+  if(v>=1e6) return (v/1e6).toFixed(1)+"M";
+  return fmt(v);
+}
+
+function renderSplits(){
+  const typeF=document.getElementById("sp-type").value;
+  let rows=flt(D.splits.filter(x=>x.is_reverse),["Symbol","Ticker","symbol","ticker"]);
+  if(typeF!=="all") rows=rows.filter(r=>r.list_type===typeF);
+  const body=document.getElementById("body-splits");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const t  =r.Symbol||r.Ticker||r.symbol||r.ticker||"-";
+    const sm =D.summary.find(s=>s.ticker===t)||{};
+    const fd =D.floats.find(s=>s.ticker===t)||{};
+    const dt =r.split_date||r.Date||r.date||"";
+    const est=fd.est_post_split_float!=null
+      ?`<span class="pos">${fmt(fd.est_post_split_float)}</span>`
+      :fd.float_shares&&r.split_ratio
+        ?`<span class="warn">~${fmt(fd.float_shares/r.split_ratio)}</span>`
+        :"-";
+    return `<tr class="${inWL(t)?"wl":""}">
+      <td><span class="ticker">${t}</span>${newDot(dt)}${star(t)}</td>
+      <td>${dt||"-"}</td>
+      <td style="font-weight:600">${r.Ratio||r["Split Ratio"]||"-"}</td>
+      <td style="color:var(--muted)">${fmt(fd.float_shares)||"-"}</td>
+      <td>${est}</td>
+      <td>${sfCell(sm.short_float_pct)}</td>
+      <td>${sqBar(sm.squeeze_score,sm.squeeze_reasons)}</td>
+      <td>${r.list_type==="upcoming"?'<span class="badge bb">UPCOMING</span>':'<span class="badge bm">RECENT</span>'}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderFloat(){
+  const rows=flt(D.floats,["ticker"]);
+  const body=document.getElementById("body-float");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="11" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const sm=D.summary.find(s=>s.ticker===r.ticker)||{};
+    const fd=(r.float_date||"").slice(0,10);
+    const floatD=r.float_is_presplit
+      ?`<span class="warn" title="Pre-split">⚠ ${fmt(r.float_shares)}</span>`
+      :`<span class="pos">${fmt(r.float_shares)||"-"}</span>`;
+    const est=r.est_post_split_float!=null
+      ?`<span class="pos" title="÷${r.split_ratio}">${fmt(r.est_post_split_float)}</span>`
+      :"-";
+    const ofW=sm.offering_warning
+      ?`<span class="badge by" title="S-1/A filed — float may have increased">⚠</span>`:"-";
+    return `<tr class="${inWL(r.ticker)?"wl":""}">
+      <td><span class="ticker">${r.ticker}</span>${newDot(fd)}</td>
+      <td>${floatD}</td>
+      <td>${est}</td>
+      <td style="color:var(--muted)">${fmt(r.warrant_shares)||"-"}</td>
+      <td style="color:var(--muted)">${fmt(r.diluted_float)||"-"}</td>
+      <td>${sfCell(r.short_float_pct)}</td>
+      <td>${dtcCell(r.dtc)}</td>
+      <td style="font-size:10px;color:var(--muted)">${fd||"-"}</td>
+      <td>${formBadge(r.float_form)}</td>
+      <td style="font-size:10px;color:var(--muted)">${siDate(r.finra_si_date)}</td>
+      <td>${ofW}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderS1(){
+  const fv=document.getElementById("s1-flt").value;
+  let rows=flt(D.s1,["ticker","company"]);
+  if(fv!=="all") rows=rows.filter(r=>r.form===fv);
+  const body=document.getElementById("body-s1");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    // Ticker may be empty (pre-IPO companies not yet listed)
+    // Company name shown prominently in that case
+    // Ticker may be empty for pre-IPO — show "—" but make company name prominent
+    const tickerDisp = r.ticker
+      ? `<span class="ticker">${r.ticker}</span>${newDot(r.filed_date||"")}`
+      : `<span style="color:var(--muted);font-size:10px" title="${r.company||""}">—</span>`;
+    const nameLen  = r.ticker ? 28 : 36;
+    const nameDisp = (r.company||"-").slice(0,nameLen);
+    const nameStyle = r.ticker
+      ? "font-size:10px;color:var(--muted)"
+      : "font-size:11px;color:var(--ylw);font-weight:500";
+    return `<tr>
+      <td>${tickerDisp}</td>
+      <td style="${nameStyle}">${nameDisp}${newDot(r.filed_date||"")}</td>
+      <td>${formBadge(r.form)}</td>
+      <td style="font-size:10px">${r.filed_date||"-"}</td>
+      <td>${fmt(r.float)||"-"}</td>
+      <td>${sfCell(r.short_float_pct)}</td>
+      <td style="text-align:center">${r.reg_sho||"❌"}</td>
+      <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc)">↗</a></td>
+    </tr>`;
+  }).join("");
+}
+
+function renderC2B(){
+  const rows=flt(D.c2b,["symbol","ticker","Symbol"]);
+  const rs=RS();
+  const body=document.getElementById("body-c2b");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const t  =r.symbol||r.ticker||r.Symbol||"-";
+    const c2b=parseFloat(r.borrow_fee_rate_ib||r.borrowFeeRateIb||0);
+    const sv =r.shortvol_all_short_pct||r.shortvolAllShortPct;
+    const sv3=r.shortvol_all_short_pct_30d||r.shortvolAllShortPct30d;
+    return `<tr class="${inWL(t)?"wl":""}">
+      <td><span class="ticker">${t}</span>${star(t)}</td>
+      <td><span class="${c2b>=100?"neg":c2b>=50?"warn":""}">${c2b?c2b+"%":"-"}</span></td>
+      <td>${fmt(r.borrow_fee_avail_ib||r.borrowFeeAvailIb)}</td>
+      <td>${fmt(r.shares_float||r.sharesFloat)}</td>
+      <td>${sv?sv+"%":"-"}</td>
+      <td>${sv3?sv3+"%":"-"}</td>
+      <td>${price(r.reg_price||r.regPrice)}</td>
+      <td>${pct(r.pre_change_pct||r.preChangePct)}</td>
+      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderRegSHO(){
+  const rows=flt(D.regsho,["Symbol","Ticker","symbol"]);
+  const body=document.getElementById("body-regsho");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="3" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const t =r.Symbol||r.Ticker||r.symbol||"-";
+    // Try every possible date field name the scraper might use
+    const dt = r["Threshold List Date"]||r["ThresholdListDate"]
+              ||r["Entry Date"]||r.Date||r.date||r.listed||"-";
+    const mkt= r.Market||r.Exchange||r.market||r.exchange||"-";
+    return `<tr>
+      <td class="ticker">${t}${newDot(dt)}</td>
+      <td style="color:var(--muted)">${mkt}</td>
+      <td style="font-family:var(--mono);font-size:10px">${dt}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderInsider(){
+  const rows=flt(D.insider,["Ticker","ticker","Symbol"]);
+  const rs=RS();
+  const body=document.getElementById("body-insider");
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`; return; }
+  body.innerHTML=rows.map(r=>{
+    const ks=Object.keys(r);
+    const t  =r.Ticker||r.ticker||r.Symbol||r[ks[0]]||"-";
+    const txn=r.Transaction||r.transaction||r[ks[1]]||"-";
+    const who=r["Insider Trading"]||r.Insider||r[ks[2]]||"-";
+    const dt =r.Date||r.date||r[ks[3]]||"-";
+    const sh =r.Shares||r["#Shares"]||r[ks[4]]||"-";
+    const val=r.Value||r["Value ($)"]||r[ks[5]]||"-";
+    const buy=String(txn).toLowerCase().match(/buy|purchase/);
+    return `<tr>
+      <td class="ticker">${t}</td>
+      <td><span class="badge ${buy?"bg":"br"}">${txn}</span></td>
+      <td style="font-size:10px;color:var(--muted)">${String(who).slice(0,18)}</td>
+      <td style="font-size:10px">${dt}</td>
+      <td>${fmt(sh)}</td>
+      <td>${val}</td>
+      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ════════════════════════════════════
+// SORT — sortDir preserved across tab changes
+// ════════════════════════════════════
+function srt(tableId, col){
+  const key=`${tableId}_${col}`;
+  const dir=UI.sortDir[key]==="asc"?"desc":"asc";
+  UI.sortDir[key]=dir;
+  const table=document.getElementById(tableId);
+  table.querySelectorAll("th").forEach((th,i)=>{
+    th.classList.remove("asc","desc");
+    if(i===col) th.classList.add(dir);
+  });
+  const tbody=table.querySelector("tbody");
+  const rows=Array.from(tbody.querySelectorAll("tr")).filter(r=>r.cells.length>1);
+  rows.sort((a,b)=>{
+    const av=a.cells[col]?.innerText.replace(/[^0-9.\-]/g,"")||"";
+    const bv=b.cells[col]?.innerText.replace(/[^0-9.\-]/g,"")||"";
+    const an=parseFloat(av),bn=parseFloat(bv);
+    const cmp=(!isNaN(an)&&!isNaN(bn))?an-bn:av.localeCompare(bv);
+    return dir==="asc"?cmp:-cmp;
+  });
+  rows.forEach(r=>tbody.appendChild(r));
+}
+
+// ════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════
+function switchTab(name){
+  UI.tab=name;
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("on",TABS[i]===name));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="panel-"+name));
+}
+
+function switchSub(panelId, subId){
+  document.querySelectorAll(`#panel-${panelId} .subpanel`).forEach(p=>p.classList.remove("on"));
+  document.getElementById(subId).classList.add("on");
+  document.querySelectorAll(`#panel-${panelId} .subtab`).forEach(t=>
+    t.classList.toggle("on", t.getAttribute("onclick")?.includes(subId))
+  );
+}
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+loadAll();
+setInterval(loadAll, 5*60*1000);
+</script>
+</body>
+</html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">

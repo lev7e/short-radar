@@ -27,7 +27,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AIAI",
+    "ticker": "",
     "company": "AIAI Holdings Corp  (AIAI)",
     "filed_date": "2026-03-04",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=AIAI%20Holdings%20Corp%20%20%28AIAI%29&type=S-1&dateb=&owner=include&count=10",
@@ -53,7 +53,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "TMGI",
+    "ticker": "",
     "company": "Transglobal Management Group, Inc.  (TMGI)",
     "filed_date": "2026-03-04",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Transglobal%20Management%20Group%2C%20Inc.%20%20%28TMGI%29&type=S-1&dateb=&owner=include&count=10",
@@ -66,7 +66,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "SKAI",
+    "ticker": "",
     "company": "Sky Acquisition Group  (SKAI)",
     "filed_date": "2026-03-04",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Sky%20Acquisition%20Group%20%20%28SKAI%29&type=S-1&dateb=&owner=include&count=10",
@@ -79,7 +79,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "PONO",
+    "ticker": "",
     "company": "Pono Capital Four, Inc.  (PONO)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Pono%20Capital%20Four%2C%20Inc.%20%20%28PONO%29&type=S-1&dateb=&owner=include&count=10",
@@ -92,7 +92,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "SBAQ",
+    "ticker": "",
     "company": "Subversive Bitcoin Acquisition Corp.  (SBAQ)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Subversive%20Bitcoin%20Acquisition%20Corp.%20%20%28SBAQ%29&type=S-1&dateb=&owner=include&count=10",
@@ -118,7 +118,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MDLN",
+    "ticker": "",
     "company": "Medline Inc.  (MDLN)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Medline%20Inc.%20%20%28MDLN%29&type=S-1&dateb=&owner=include&count=10",
@@ -131,7 +131,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "DMNT",
+    "ticker": "",
     "company": "DMINT, Inc.  (DMNT)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=DMINT%2C%20Inc.%20%20%28DMNT%29&type=S-1&dateb=&owner=include&count=10",
@@ -170,7 +170,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "CRGT",
+    "ticker": "",
     "company": "Cortigent, Inc.  (CRGT)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Cortigent%2C%20Inc.%20%20%28CRGT%29&type=S-1&dateb=&owner=include&count=10",
@@ -183,7 +183,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "EMI",
+    "ticker": "",
     "company": "Encore Medical, Inc.  (EMI)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Encore%20Medical%2C%20Inc.%20%20%28EMI%29&type=S-1&dateb=&owner=include&count=10",
@@ -196,7 +196,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "CANE",
+    "ticker": "",
     "company": "Teucrium Commodity Trust  (CANE, CORN, SOYB, TAGS, WEAT)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Teucrium%20Commodity%20Trust%20%20%28CANE%2C%20CORN%2C%20SOYB%2C%20TAGS%2C%20WEAT%29&type=S-1&dateb=&owner=include&count=10",
@@ -222,7 +222,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "BREZ",
+    "ticker": "",
     "company": "Breeze Acquisition Corp. II  (BREZ)",
     "filed_date": "2026-03-03",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Breeze%20Acquisition%20Corp.%20II%20%20%28BREZ%29&type=S-1&dateb=&owner=include&count=10",
@@ -235,7 +235,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AFNX",
+    "ticker": "",
     "company": "AfterNext Acquisition I Corp.  (AFNX)",
     "filed_date": "2026-03-02",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=AfterNext%20Acquisition%20I%20Corp.%20%20%28AFNX%29&type=S-1&dateb=&owner=include&count=10",
@@ -248,7 +248,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "LTGR",
+    "ticker": "",
     "company": "Long Table Growth Corp.  (LTGR)",
     "filed_date": "2026-03-02",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Long%20Table%20Growth%20Corp.%20%20%28LTGR%29&type=S-1&dateb=&owner=include&count=10",
@@ -261,10 +261,10 @@
   },
   {
     "form": "S-1",
-    "ticker": "RYES",
-    "company": "Rise Gold Corp.  (RYES)",
+    "ticker": "",
+    "company": "SUMA Acquisition Corp  (SUMA)",
     "filed_date": "2026-03-02",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Rise%20Gold%20Corp.%20%20%28RYES%29&type=S-1&dateb=&owner=include&count=10",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=SUMA%20Acquisition%20Corp%20%20%28SUMA%29&type=S-1&dateb=&owner=include&count=10",
     "float": null,
     "diluted_float": null,
     "float_date": "",
@@ -274,10 +274,10 @@
   },
   {
     "form": "S-1",
-    "ticker": "SUMA",
-    "company": "SUMA Acquisition Corp  (SUMA)",
+    "ticker": "",
+    "company": "Rise Gold Corp.  (RYES)",
     "filed_date": "2026-03-02",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=SUMA%20Acquisition%20Corp%20%20%28SUMA%29&type=S-1&dateb=&owner=include&count=10",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Rise%20Gold%20Corp.%20%20%28RYES%29&type=S-1&dateb=&owner=include&count=10",
     "float": null,
     "diluted_float": null,
     "float_date": "",
@@ -313,7 +313,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AVAX",
+    "ticker": "",
     "company": "Grayscale Avalanche Trust (AVAX)  (AVAX)",
     "filed_date": "2026-03-02",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Grayscale%20Avalanche%20Trust%20%28AVAX%29%20%20%28AVAX%29&type=S-1&dateb=&owner=include&count=10",
@@ -326,7 +326,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "ETHB",
+    "ticker": "",
     "company": "iShares Staked Ethereum Trust ETF  (ETHB)",
     "filed_date": "2026-03-02",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=iShares%20Staked%20Ethereum%20Trust%20ETF%20%20%28ETHB%29&type=S-1&dateb=&owner=include&count=10",
@@ -352,7 +352,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "QLEP",
+    "ticker": "",
     "company": "Quantum Leap Acquisition Corp  (QLEP)",
     "filed_date": "2026-02-27",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Quantum%20Leap%20Acquisition%20Corp%20%20%28QLEP%29&type=S-1&dateb=&owner=include&count=10",
@@ -365,7 +365,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MODD",
+    "ticker": "",
     "company": "Modular Medical, Inc.  (MODD)",
     "filed_date": "2026-02-27",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Modular%20Medical%2C%20Inc.%20%20%28MODD%29&type=S-1&dateb=&owner=include&count=10",
@@ -378,7 +378,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MTAL",
+    "ticker": "",
     "company": "Metals Acquisition Corp. II  (MTAL)",
     "filed_date": "2026-02-27",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Metals%20Acquisition%20Corp.%20II%20%20%28MTAL%29&type=S-1&dateb=&owner=include&count=10",
@@ -391,7 +391,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MMED",
+    "ticker": "",
     "company": "MiniMed Group, Inc.  (MMED)",
     "filed_date": "2026-02-27",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=MiniMed%20Group%2C%20Inc.%20%20%28MMED%29&type=S-1&dateb=&owner=include&count=10",
@@ -430,7 +430,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "CLBZ",
+    "ticker": "",
     "company": "Collab Z Inc.  (CLBZ)",
     "filed_date": "2026-02-27",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Collab%20Z%20Inc.%20%20%28CLBZ%29&type=S-1&dateb=&owner=include&count=10",
@@ -443,7 +443,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AFA",
+    "ticker": "",
     "company": "FARLONG HOLDING Corp  (AFA)",
     "filed_date": "2026-02-26",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=FARLONG%20HOLDING%20Corp%20%20%28AFA%29&type=S-1&dateb=&owner=include&count=10",
@@ -456,7 +456,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "IPFX",
+    "ticker": "",
     "company": "Inflection Point Acquisition Corp. VI  (IPFX)",
     "filed_date": "2026-02-26",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Inflection%20Point%20Acquisition%20Corp.%20VI%20%20%28IPFX%29&type=S-1&dateb=&owner=include&count=10",
@@ -469,7 +469,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "NGTF",
+    "ticker": "",
     "company": "NightFood Holdings, Inc.  (NGTF)",
     "filed_date": "2026-02-26",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=NightFood%20Holdings%2C%20Inc.%20%20%28NGTF%29&type=S-1&dateb=&owner=include&count=10",
@@ -495,7 +495,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "BHAV",
+    "ticker": "",
     "company": "BHAV Acquisition Corp  (BHAV)",
     "filed_date": "2026-02-25",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=BHAV%20Acquisition%20Corp%20%20%28BHAV%29&type=S-1&dateb=&owner=include&count=10",
@@ -534,7 +534,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AMZE",
+    "ticker": "",
     "company": "AMAZE HOLDINGS, INC.  (AMZE)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=AMAZE%20HOLDINGS%2C%20INC.%20%20%28AMZE%29&type=S-1&dateb=&owner=include&count=10",
@@ -547,7 +547,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MMED",
+    "ticker": "",
     "company": "MiniMed Group, Inc.  (MMED)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=MiniMed%20Group%2C%20Inc.%20%20%28MMED%29&type=S-1&dateb=&owner=include&count=10",
@@ -560,7 +560,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "GLED",
+    "ticker": "",
     "company": "GalaxyEdge Acquisition Corp  (GLED)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=GalaxyEdge%20Acquisition%20Corp%20%20%28GLED%29&type=S-1&dateb=&owner=include&count=10",
@@ -599,7 +599,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "NCPL",
+    "ticker": "",
     "company": "Netcapital Inc.  (NCPL, NCPLW)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Netcapital%20Inc.%20%20%28NCPL%2C%20NCPLW%29&type=S-1&dateb=&owner=include&count=10",
@@ -612,7 +612,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "BWIV",
+    "ticker": "",
     "company": "Blue Water Acquisition Corp. IV  (BWIV)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Blue%20Water%20Acquisition%20Corp.%20IV%20%20%28BWIV%29&type=S-1&dateb=&owner=include&count=10",
@@ -625,7 +625,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MOBX",
+    "ticker": "",
     "company": "MOBIX LABS, INC  (MOBX, MOBXW)",
     "filed_date": "2026-02-24",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=MOBIX%20LABS%2C%20INC%20%20%28MOBX%2C%20MOBXW%29&type=S-1&dateb=&owner=include&count=10",
@@ -638,7 +638,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "GENB",
+    "ticker": "",
     "company": "Generate Biomedicines, Inc.  (GENB)",
     "filed_date": "2026-02-23",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Generate%20Biomedicines%2C%20Inc.%20%20%28GENB%29&type=S-1&dateb=&owner=include&count=10",
@@ -651,7 +651,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "HIFI",
+    "ticker": "",
     "company": "Hillhouse Frontier Holdings Inc.  (HIFI)",
     "filed_date": "2026-02-23",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Hillhouse%20Frontier%20Holdings%20Inc.%20%20%28HIFI%29&type=S-1&dateb=&owner=include&count=10",
@@ -664,7 +664,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "BREZ",
+    "ticker": "",
     "company": "Breeze Acquisition Corp. II  (BREZ)",
     "filed_date": "2026-02-23",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Breeze%20Acquisition%20Corp.%20II%20%20%28BREZ%29&type=S-1&dateb=&owner=include&count=10",
@@ -677,7 +677,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "TKVA",
+    "ticker": "",
     "company": "Salspera, Inc.  (TKVA)",
     "filed_date": "2026-02-23",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Salspera%2C%20Inc.%20%20%28TKVA%29&type=S-1&dateb=&owner=include&count=10",
@@ -690,7 +690,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "BCAC",
+    "ticker": "",
     "company": "Brookline Capital Acquisition Corp II  (BCAC)",
     "filed_date": "2026-02-23",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Brookline%20Capital%20Acquisition%20Corp%20II%20%20%28BCAC%29&type=S-1&dateb=&owner=include&count=10",
@@ -716,7 +716,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "GLED",
+    "ticker": "",
     "company": "GalaxyEdge Acquisition Corp  (GLED)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=GalaxyEdge%20Acquisition%20Corp%20%20%28GLED%29&type=S-1&dateb=&owner=include&count=10",
@@ -742,7 +742,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "IDAC",
+    "ticker": "",
     "company": "Iron Dome Acquisition I Corp.  (IDAC)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Iron%20Dome%20Acquisition%20I%20Corp.%20%20%28IDAC%29&type=S-1&dateb=&owner=include&count=10",
@@ -755,7 +755,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "GLEI",
+    "ticker": "",
     "company": "Galaxy Enterprises Inc. /WY/  (GLEI)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Galaxy%20Enterprises%20Inc.%20/WY/%20%20%28GLEI%29&type=S-1&dateb=&owner=include&count=10",
@@ -768,7 +768,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "MZYX",
+    "ticker": "",
     "company": "MOZAYYX Acquisition Corp.  (MZYX)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=MOZAYYX%20Acquisition%20Corp.%20%20%28MZYX%29&type=S-1&dateb=&owner=include&count=10",
@@ -794,7 +794,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "YCBD",
+    "ticker": "",
     "company": "cbdMD, Inc.  (YCBD)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=cbdMD%2C%20Inc.%20%20%28YCBD%29&type=S-1&dateb=&owner=include&count=10",
@@ -807,7 +807,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "TRGS",
+    "ticker": "",
     "company": "TRG Latin America Acquisitions Corp.  (TRGS)",
     "filed_date": "2026-02-20",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=TRG%20Latin%20America%20Acquisitions%20Corp.%20%20%28TRGS%29&type=S-1&dateb=&owner=include&count=10",
@@ -820,7 +820,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "QMCO",
+    "ticker": "",
     "company": "QUANTUM CORP /DE/  (QMCO)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=QUANTUM%20CORP%20/DE/%20%20%28QMCO%29&type=S-1&dateb=&owner=include&count=10",
@@ -833,7 +833,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "LPSL",
+    "ticker": "",
     "company": "Launchpad Streetlight Acquisition Corp  (LPSL)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Launchpad%20Streetlight%20Acquisition%20Corp%20%20%28LPSL%29&type=S-1&dateb=&owner=include&count=10",
@@ -846,7 +846,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "TRAD",
+    "ticker": "",
     "company": "APEX Tech Acquisition Inc.  (TRAD)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=APEX%20Tech%20Acquisition%20Inc.%20%20%28TRAD%29&type=S-1&dateb=&owner=include&count=10",
@@ -872,7 +872,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "SWMR",
+    "ticker": "",
     "company": "Swarmer, Inc  (SWMR)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Swarmer%2C%20Inc%20%20%28SWMR%29&type=S-1&dateb=&owner=include&count=10",
@@ -898,7 +898,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "COPR",
+    "ticker": "",
     "company": "Idaho Copper Corp  (COPR)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Idaho%20Copper%20Corp%20%20%28COPR%29&type=S-1&dateb=&owner=include&count=10",
@@ -911,7 +911,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "AVAX",
+    "ticker": "",
     "company": "Grayscale Avalanche Trust (AVAX)  (AVAX)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Grayscale%20Avalanche%20Trust%20%28AVAX%29%20%20%28AVAX%29&type=S-1&dateb=&owner=include&count=10",
@@ -924,7 +924,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "PPCB",
+    "ticker": "",
     "company": "Propanc Biopharma, Inc.  (PPCB)",
     "filed_date": "2026-02-19",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Propanc%20Biopharma%2C%20Inc.%20%20%28PPCB%29&type=S-1&dateb=&owner=include&count=10",
@@ -937,7 +937,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "CANE",
+    "ticker": "",
     "company": "Teucrium Commodity Trust  (CANE, CORN, SOYB, TAGS, WEAT)",
     "filed_date": "2026-02-18",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Teucrium%20Commodity%20Trust%20%20%28CANE%2C%20CORN%2C%20SOYB%2C%20TAGS%2C%20WEAT%29&type=S-1&dateb=&owner=include&count=10",
@@ -950,7 +950,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "RR",
+    "ticker": "",
     "company": "RICHTECH ROBOTICS INC.  (RR)",
     "filed_date": "2026-02-18",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=RICHTECH%20ROBOTICS%20INC.%20%20%28RR%29&type=S-1&dateb=&owner=include&count=10",
@@ -1015,7 +1015,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "PFSA",
+    "ticker": "",
     "company": "Profusa, Inc.  (PFSA, NVACW)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Profusa%2C%20Inc.%20%20%28PFSA%2C%20NVACW%29&type=S-1&dateb=&owner=include&count=10",
@@ -1023,8 +1023,8 @@
     "diluted_float": null,
     "float_date": "",
     "short_float_pct": null,
-    "reg_sho": "\u2705",
-    "in_summary": true
+    "reg_sho": "\u274c",
+    "in_summary": false
   },
   {
     "form": "S-1",
@@ -1041,7 +1041,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "VEEA",
+    "ticker": "",
     "company": "VEEA INC.  (VEEA, VEEAW)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=VEEA%20INC.%20%20%28VEEA%2C%20VEEAW%29&type=S-1&dateb=&owner=include&count=10",
@@ -1093,7 +1093,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "GSUI",
+    "ticker": "",
     "company": "Grayscale Sui Trust (SUI)  (GSUI)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Grayscale%20Sui%20Trust%20%28SUI%29%20%20%28GSUI%29&type=S-1&dateb=&owner=include&count=10",
@@ -1119,7 +1119,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "HCWB",
+    "ticker": "",
     "company": "HCW Biologics Inc.  (HCWB)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=HCW%20Biologics%20Inc.%20%20%28HCWB%29&type=S-1&dateb=&owner=include&count=10",
@@ -1132,7 +1132,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "CITR",
+    "ticker": "",
     "company": "CitroTech Inc.  (CITR)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=CitroTech%20Inc.%20%20%28CITR%29&type=S-1&dateb=&owner=include&count=10",
@@ -1158,7 +1158,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "ETHB",
+    "ticker": "",
     "company": "iShares Staked Ethereum Trust ETF  (ETHB)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=iShares%20Staked%20Ethereum%20Trust%20ETF%20%20%28ETHB%29&type=S-1&dateb=&owner=include&count=10",
@@ -1171,7 +1171,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "ASBP",
+    "ticker": "",
     "company": "Aspire Biopharma Holdings, Inc.  (ASBP, ASBPW)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Aspire%20Biopharma%20Holdings%2C%20Inc.%20%20%28ASBP%2C%20ASBPW%29&type=S-1&dateb=&owner=include&count=10",
@@ -1197,7 +1197,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "PALO",
+    "ticker": "",
     "company": "PALOMA ACQUISITION CORP I  (PALO)",
     "filed_date": "2026-02-17",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=PALOMA%20ACQUISITION%20CORP%20I%20%20%28PALO%29&type=S-1&dateb=&owner=include&count=10",
@@ -1236,7 +1236,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "PFSA",
+    "ticker": "",
     "company": "Profusa, Inc.  (PFSA, NVACW)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Profusa%2C%20Inc.%20%20%28PFSA%2C%20NVACW%29&type=S-1&dateb=&owner=include&count=10",
@@ -1244,12 +1244,12 @@
     "diluted_float": null,
     "float_date": "",
     "short_float_pct": null,
-    "reg_sho": "\u2705",
-    "in_summary": true
+    "reg_sho": "\u274c",
+    "in_summary": false
   },
   {
     "form": "S-1",
-    "ticker": "SKAI",
+    "ticker": "",
     "company": "Sky Acquisition Group  (SKAI)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Sky%20Acquisition%20Group%20%20%28SKAI%29&type=S-1&dateb=&owner=include&count=10",
@@ -1262,7 +1262,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "TRWD",
+    "ticker": "",
     "company": "Tradewinds Universal  (TRWD)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Tradewinds%20Universal%20%20%28TRWD%29&type=S-1&dateb=&owner=include&count=10",
@@ -1275,7 +1275,7 @@
   },
   {
     "form": "S-1",
-    "ticker": "FIGR",
+    "ticker": "",
     "company": "Figure Technology Solutions, Inc.  (FIGR)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Figure%20Technology%20Solutions%2C%20Inc.%20%20%28FIGR%29&type=S-1&dateb=&owner=include&count=10",
@@ -1314,7 +1314,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "HCWB",
+    "ticker": "",
     "company": "HCW Biologics Inc.  (HCWB)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=HCW%20Biologics%20Inc.%20%20%28HCWB%29&type=S-1&dateb=&owner=include&count=10",
@@ -1340,7 +1340,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "QMLS",
+    "ticker": "",
     "company": "QumulusAI, Inc.  (QMLS)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=QumulusAI%2C%20Inc.%20%20%28QMLS%29&type=S-1&dateb=&owner=include&count=10",
@@ -1353,16 +1353,16 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "TULP",
+    "ticker": "",
     "company": "BLOOMIA HOLDINGS, INC.  (LDWY, TULP)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=BLOOMIA%20HOLDINGS%2C%20INC.%20%20%28LDWY%2C%20TULP%29&type=S-1&dateb=&owner=include&count=10",
-    "float": 1770000,
-    "diluted_float": 1770000,
-    "float_date": "2026-02-13",
+    "float": null,
+    "diluted_float": null,
+    "float_date": "",
     "short_float_pct": null,
     "reg_sho": "\u274c",
-    "in_summary": true
+    "in_summary": false
   },
   {
     "form": "S-1/A",
@@ -1379,7 +1379,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "LABT",
+    "ticker": "",
     "company": "Lakewood-Amedex Biotherapeutics Inc.  (LABT)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Lakewood-Amedex%20Biotherapeutics%20Inc.%20%20%28LABT%29&type=S-1&dateb=&owner=include&count=10",
@@ -1392,7 +1392,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "FCHS",
+    "ticker": "",
     "company": "First Choice Healthcare Solutions, Inc.  (FCHS)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=First%20Choice%20Healthcare%20Solutions%2C%20Inc.%20%20%28FCHS%29&type=S-1&dateb=&owner=include&count=10",
@@ -1405,7 +1405,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "GENB",
+    "ticker": "",
     "company": "Generate Biomedicines, Inc.  (GENB)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Generate%20Biomedicines%2C%20Inc.%20%20%28GENB%29&type=S-1&dateb=&owner=include&count=10",
@@ -1431,7 +1431,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "FMAC",
+    "ticker": "",
     "company": "Future Money Acquisition Corp  (FMAC)",
     "filed_date": "2026-02-13",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Future%20Money%20Acquisition%20Corp%20%20%28FMAC%29&type=S-1&dateb=&owner=include&count=10",
@@ -1457,7 +1457,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "CTAA",
+    "ticker": "",
     "company": "Clearthink 1 Acquisition Corp.  (CTAA)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Clearthink%201%20Acquisition%20Corp.%20%20%28CTAA%29&type=S-1&dateb=&owner=include&count=10",
@@ -1470,7 +1470,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "CLSO",
+    "ticker": "",
     "company": "Climate Transition Special Opportunities SPAC I  (CLSO)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Climate%20Transition%20Special%20Opportunities%20SPAC%20I%20%20%28CLSO%29&type=S-1&dateb=&owner=include&count=10",
@@ -1483,7 +1483,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "CLRS",
+    "ticker": "",
     "company": "Clear Street Group Inc.  (CLRS)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Clear%20Street%20Group%20Inc.%20%20%28CLRS%29&type=S-1&dateb=&owner=include&count=10",
@@ -1496,7 +1496,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "FIGR",
+    "ticker": "",
     "company": "Figure Technology Solutions, Inc.  (FIGR)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Figure%20Technology%20Solutions%2C%20Inc.%20%20%28FIGR%29&type=S-1&dateb=&owner=include&count=10",
@@ -1509,7 +1509,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "PALO",
+    "ticker": "",
     "company": "PALOMA ACQUISITION CORP I  (PALO)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=PALOMA%20ACQUISITION%20CORP%20I%20%20%28PALO%29&type=S-1&dateb=&owner=include&count=10",
@@ -1522,7 +1522,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "BCHT",
+    "ticker": "",
     "company": "Birchtech Corp.  (BCHT)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Birchtech%20Corp.%20%20%28BCHT%29&type=S-1&dateb=&owner=include&count=10",
@@ -1535,7 +1535,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "MOVE",
+    "ticker": "",
     "company": "Movano Inc.  (MOVE)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Movano%20Inc.%20%20%28MOVE%29&type=S-1&dateb=&owner=include&count=10",
@@ -1548,7 +1548,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "LUDG",
+    "ticker": "",
     "company": "LUDWIG ENTERPRISES, INC.  (LUDG)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=LUDWIG%20ENTERPRISES%2C%20INC.%20%20%28LUDG%29&type=S-1&dateb=&owner=include&count=10",
@@ -1561,7 +1561,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "AACI",
+    "ticker": "",
     "company": "Armada Acquisition Corp. III",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Armada%20Acquisition%20Corp.%20III&type=S-1&dateb=&owner=include&count=10",
@@ -1574,7 +1574,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "ADBT",
+    "ticker": "",
     "company": "Advasa Holdings, Inc.  (ADBT)",
     "filed_date": "2026-02-12",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Advasa%20Holdings%2C%20Inc.%20%20%28ADBT%29&type=S-1&dateb=&owner=include&count=10",
@@ -1600,7 +1600,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "VRHI",
+    "ticker": "",
     "company": "Veri MedTech Holdings, Inc.  (VRHI)",
     "filed_date": "2026-02-11",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Veri%20MedTech%20Holdings%2C%20Inc.%20%20%28VRHI%29&type=S-1&dateb=&owner=include&count=10",
@@ -1613,7 +1613,7 @@
   },
   {
     "form": "S-1/A",
-    "ticker": "GSUI",
+    "ticker": "",
     "company": "Grayscale Sui Trust (SUI)  (GSUI)",
     "filed_date": "2026-02-11",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Grayscale%20Sui%20Trust%20%28SUI%29%20%20%28GSUI%29&type=S-1&dateb=&owner=include&count=10",

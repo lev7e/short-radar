@@ -77,10 +77,24 @@ def save_meta(data):
 
 
 def to_float(val, default=None):
-    if val is None or val in ("-", ""):
-        return default
+    if val is None: return default
+    s = str(val).strip()
+    if s in ("-", "", "N/A", "n/a", "--"): return default
+    s = s.replace("%","").replace(" ","")
+    # Handle B/M/K suffixes (e.g. "1.23B", "456M", "5K")
+    mul = 1
+    if s and s[-1].upper() == "B": s, mul = s[:-1], 1_000_000_000
+    elif s and s[-1].upper() == "M": s, mul = s[:-1], 1_000_000
+    elif s and s[-1].upper() == "K": s, mul = s[:-1], 1_000
+    # European comma vs dot
+    if "," in s and "." in s:
+        s = s.replace(",","")          # 1,234.56 → 1234.56
+    elif "," in s and s.count(",") == 1 and len(s.split(",")[1]) <= 2:
+        s = s.replace(",",".")          # 1,5 → 1.5 (European)
+    else:
+        s = s.replace(",","")          # 1,234 → 1234
     try:
-        return float(str(val).replace("%", "").replace(",", ".").strip())
+        return float(s) * mul
     except Exception:
         return default
 
@@ -507,15 +521,103 @@ def fetch_regsho():
 def fetch_splits():
     print("\n[3/6] Split listesi çekiliyor (StockAnalysis)...")
     rows = []
+    # ── Upcoming #1: TipRanks (needs TIPRANKS_COOKIE secret in GitHub) ────────
+    tipranks_cookie = os.environ.get("TIPRANKS_COOKIE","")
+    if tipranks_cookie:
+        try:
+            tr = requests.get(
+                "https://www.tipranks.com/calendars/stock-splits/upcoming",
+                headers={
+                    **BROWSER_HEADERS,
+                    "Accept": "text/html,*/*",
+                    "Cookie": tipranks_cookie,
+                    "Referer": "https://www.tipranks.com/",
+                },
+                timeout=20,
+            )
+            print(f"    TipRanks: HTTP {tr.status_code}, {len(tr.content)}b")
+            if tr.status_code == 200:
+                import json as _json
+                nd = next_data(tr.text)
+                tr_rows = []
+                if nd:
+                    nd_str = _json.dumps(nd)
+                    # pageProps → various paths
+                    pp = nd.get("props",{}).get("pageProps",{})
+                    for key in list(pp.keys()):
+                        val = pp[key]
+                        if isinstance(val, list) and val and isinstance(val[0], dict):
+                            if any(k in str(val[0]) for k in ["ticker","symbol","ratio","split"]):
+                                tr_rows = val
+                                print(f"    TipRanks pageProps[{key}]: {len(tr_rows)} rows")
+                                break
+                if tr_rows:
+                    for r2 in tr_rows:
+                        sym       = (r2.get("ticker") or r2.get("symbol","")).upper()
+                        ratio_str = str(r2.get("ratio") or r2.get("splitRatio",""))
+                        raw_date  = (r2.get("exDate") or r2.get("date") or
+                                     r2.get("splitDate") or r2.get("payableDate",""))
+                        ratio     = parse_split_ratio(ratio_str)
+                        norm_date = normalize_date(str(raw_date))
+                        if not sym: continue
+                        rows.append({
+                            "Symbol": sym, "Ratio": ratio_str,
+                            "Date": norm_date, "is_reverse": ratio is not None,
+                            "split_ratio": ratio, "split_date": norm_date,
+                            "list_type": "upcoming",
+                        })
+                    print(f"    TipRanks upcoming: {len([r2 for r2 in rows if r2['list_type']=='upcoming'])} splits")
+        except Exception as e:
+            print(f"    TipRanks error: {e}")
+    else:
+        print("    TipRanks: no TIPRANKS_COOKIE secret set, skipping")
+
+    # ── Upcoming #2: Yahoo Finance calendar (confirmed working) ───────────────
+    try:
+        yr = requests.get(
+            "https://finance.yahoo.com/calendar/splits",
+            headers={**BROWSER_HEADERS, "Accept": "text/html,*/*"},
+            timeout=30,
+        )
+        print(f"    Yahoo splits: HTTP {yr.status_code}, {len(yr.content)}b")
+        if yr.status_code == 200:
+            from bs4 import BeautifulSoup as _BS2
+            ys = _BS2(yr.text, "html.parser")
+            for yt in ys.find_all("table"):
+                yh = [th.get_text(strip=True) for th in yt.find_all("th")]
+                if "Symbol" in yh and "Ratio" in yh:
+                    for tr in yt.find_all("tr")[1:]:
+                        cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                        if len(cells) < 3: continue
+                        row  = dict(zip(yh, cells))
+                        sym  = row.get("Symbol","").split(".")[0].strip().upper()
+                        ratio_str = row.get("Ratio","")
+                        raw_date  = row.get("Payable On","") or row.get("Date","")
+                        ratio     = parse_split_ratio(ratio_str)
+                        norm_date = normalize_date(raw_date)
+                        if not sym: continue
+                        try:
+                            from datetime import date as _date
+                            split_dt   = datetime.strptime(norm_date, "%Y-%m-%d").date() if norm_date else None
+                            is_upcoming = split_dt and split_dt >= _date.today()
+                        except Exception:
+                            is_upcoming = True
+                        rows.append({
+                            "Symbol": sym, "Ratio": ratio_str,
+                            "Date": norm_date, "Company": row.get("Company",""),
+                            "is_reverse": ratio is not None, "split_ratio": ratio,
+                            "split_date": norm_date,
+                            "list_type": "upcoming" if is_upcoming else "recent",
+                        })
+                    print(f"    Yahoo: {len(rows)} splits parsed")
+                    break
+    except Exception as e:
+        print(f"    Yahoo splits error: {e}")
+
     SPLIT_URLS = {
         "recent":   [
             "https://stockanalysis.com/actions/splits/",
             "https://stockanalysis.com/actions/splits/?p=quarterly",
-        ],
-        "upcoming": [
-            "https://stockanalysis.com/actions/reverse-splits/",
-            "https://stockanalysis.com/actions/splits/upcoming/",
-            "https://stockanalysis.com/actions/reverse-splits/?p=quarterly",
         ],
     }
     for label, urls in SPLIT_URLS.items():
@@ -773,14 +875,22 @@ def fetch_askedgar_si(tickers: list) -> dict:
                               headers=HDR, timeout=8)
             if r3.status_code == 200:
                 d3 = r3.json()
-                rec["profile_price"]   = d3.get("price")
-                rec["profile_mktcap"]  = d3.get("mktCap")
-                # sharesOutstanding is the closest to float for common stocks
+                rec["profile_price"]      = d3.get("price")
+                rec["profile_mktcap"]     = d3.get("mktCap")
                 rec["shares_outstanding"] = d3.get("sharesOutstanding")
-                # Calculate cash per share if we have cash and shares
-                if rec.get("estimated_cash") and rec.get("shares_outstanding"):
-                    rec["cash_per_share"] = round(
-                        rec["estimated_cash"] / rec["shares_outstanding"], 4)
+                # cash & cashPerShare may come directly from profile
+                rec["cash_per_share"] = (
+                    d3.get("cashPerShare") or
+                    d3.get("cashPerShareTTM") or
+                    d3.get("cash_per_share") or
+                    rec.get("cash_per_share")
+                )
+                # Fallback: compute from estimated_cash / sharesOutstanding
+                if not rec.get("cash_per_share"):
+                    cash  = rec.get("estimated_cash")
+                    shr   = d3.get("sharesOutstanding")
+                    if cash and shr and shr > 0:
+                        rec["cash_per_share"] = round(cash / shr, 4)
             time.sleep(0.1)
 
             if rec:
@@ -1036,10 +1146,13 @@ if __name__ == "__main__":
             "short_vol_pct_30d":    to_float(row.get("shortvol_all_short_pct_30d")),
             "short_vol":            to_float(row.get("10_day_avg_vol")),  # shortvol_all_short
             "shortint_db_pct":      to_float(row.get("shortint_db_pct")),
-            "market_cap":           to_float(row.get("market_cap")),
+            "market_cap":           (to_float(row.get("market_cap")) or
+                                     askedgar_si.get(ticker,{}).get("profile_mktcap")),
             "reg_volume":           to_float(row.get("reg_volume")),
-            "dtc":                  fd.get("dtc"),
-            "cash_per_share":       fd.get("cash_per_share"),
+            "dtc":                  (fd.get("dtc") or
+                                     askedgar_si.get(ticker,{}).get("days_to_cover")),
+            "cash_per_share":       (fd.get("cash_per_share") or
+                                     askedgar_si.get(ticker,{}).get("cash_per_share")),
             "shares_outstanding":   fd.get("shares_outstanding"),
             "avg_vol_10d":          avg_vol_map.get(ticker),
             "price":                to_float(row.get("reg_price")),
@@ -1048,7 +1161,8 @@ if __name__ == "__main__":
             "reg_sho":              "✅" if ticker in regsho_tickers else "❌",
             "has_split":            "✅" if ticker in split_map else "-",
             "split_ratio":          split_map.get(ticker,{}).get("ratio"),
-            "split_date":           split_map.get(ticker,{}).get("date",""),
+            "split_date":           (split_map.get(ticker,{}).get("date","") or
+                                     fd.get("split_date","")),
             "s1_date":              s1r.get("filed_date",""),
             "offering_warning":     bool(s1r and s1r.get("form")=="S-1/A"),
         }

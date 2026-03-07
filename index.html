@@ -214,7 +214,7 @@ td:first-child{text-align:left}
   <div class="tbl-wrap">
     <table id="tbl-summary">
       <thead><tr>
-        <th onclick="srt('tbl-summary',0)"  title="Ticker symbol">Ticker</th>
+        <th onclick="srt('tbl-summary',0)"  title="Ticker symbol" style="position:sticky;left:0;background:var(--surf);z-index:3">Ticker</th>
         <th onclick="srt('tbl-summary',1)"  title="Borrow fee rate (IBKR)">C2B%</th>
         <th onclick="srt('tbl-summary',2)"  title="Shares available to borrow (IBKR)">Avail</th>
         <th onclick="srt('tbl-summary',3)"  title="Shares float">Float</th>
@@ -338,8 +338,7 @@ td:first-child{text-align:left}
           <th onclick="srt('tbl-c2b',4)">SV%</th>
           <th onclick="srt('tbl-c2b',5)">SV 30d%</th>
           <th onclick="srt('tbl-c2b',6)">Price</th>
-          <th onclick="srt('tbl-c2b',7)">Pre%</th>
-          <th onclick="srt('tbl-c2b',8)">RegSHO</th>
+          <th onclick="srt('tbl-c2b',7)">RegSHO</th>
         </tr></thead>
         <tbody id="body-c2b">
           <tr><td colspan="14" class="loading">Loading</td></tr>
@@ -668,7 +667,7 @@ function renderSummary(){
     const c2bCl= c2b>=100?"neg":c2b>=50?"warn":c2b>0?"":"";
     const cash = r.cash_per_share;
     return `<tr class="${inWL(r.ticker)?"wl":""}">
-      <td><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
+      <td style="position:sticky;left:0;background:var(--surf2)"><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
       <td><span class="${c2bCl}">${c2b!=null?c2b+"%":"-"}</span></td>
       <td class="num">${r.shares_avail!=null?fmt(r.shares_avail):"-"}</td>
       <td class="num">${floatCell(r)}</td>
@@ -795,12 +794,13 @@ function renderC2B(){
   const rows=flt(D.c2b,["symbol","ticker","Symbol"]);
   const rs=RS();
   const body=document.getElementById("body-c2b");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="9" class="empty">No results</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const t  =r.symbol||r.ticker||r.Symbol||"-";
     const c2b=parseFloat(r.borrow_fee_rate_ib||r.borrowFeeRateIb||0);
-    const sv =r.shortvol_all_short_pct||r.shortvolAllShortPct;
-    const sv3=r.shortvol_all_short_pct_30d||r.shortvolAllShortPct30d;
+    // CE field names from scraper (exact match from normalize_ce_row)
+    const sv =r.shortvol_all_short_pct||r.shortvolAllShortPct||r["SV%"]||null;
+    const sv3=r.shortvol_all_short_pct_30d||r.shortvolAllShortPct30d||r["SV30D%"]||null;
     return `<tr class="${inWL(t)?"wl":""}">
       <td><span class="ticker">${t}</span>${star(t)}</td>
       <td><span class="${c2b>=100?"neg":c2b>=50?"warn":""}">${c2b?c2b+"%":"-"}</span></td>
@@ -809,7 +809,6 @@ function renderC2B(){
       <td>${sv?sv+"%":"-"}</td>
       <td>${sv3?sv3+"%":"-"}</td>
       <td>${price(r.reg_price||r.regPrice)}</td>
-      <td>${pct(r.pre_change_pct||r.preChangePct)}</td>
       <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
     </tr>`;
   }).join("");

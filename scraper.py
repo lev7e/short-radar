@@ -541,192 +541,171 @@ def fetch_regsho():
     return rows
 
 
-def fetch_splits():
-    print("\n[3/6] Split listesi çekiliyor (StockAnalysis)...")
-    rows = []
-    # ── Upcoming #1: TipRanks (needs TIPRANKS_COOKIE secret in GitHub) ────────
-    tipranks_cookie = os.environ.get("TIPRANKS_COOKIE","")
-    if tipranks_cookie:
-        try:
-            tr = requests.get(
-                "https://www.tipranks.com/calendars/stock-splits/upcoming",
-                headers={
-                    **BROWSER_HEADERS,
-                    "Accept": "text/html,*/*",
-                    "Cookie": tipranks_cookie,
-                    "Referer": "https://www.tipranks.com/",
-                },
-                timeout=20,
-            )
-            print(f"    TipRanks: HTTP {tr.status_code}, {len(tr.content)}b")
-            if tr.status_code == 200:
-                import json as _json
-                nd = next_data(tr.text)
-                tr_rows = []
-                if nd:
-                    nd_str = _json.dumps(nd)
-                    # pageProps → various paths
-                    pp = nd.get("props",{}).get("pageProps",{})
-                    for key in list(pp.keys()):
-                        val = pp[key]
-                        if isinstance(val, list) and val and isinstance(val[0], dict):
-                            if any(k in str(val[0]) for k in ["ticker","symbol","ratio","split"]):
-                                tr_rows = val
-                                print(f"    TipRanks pageProps[{key}]: {len(tr_rows)} rows")
-                                break
-                if tr_rows:
-                    for r2 in tr_rows:
-                        sym       = (r2.get("ticker") or r2.get("symbol","")).upper()
-                        ratio_str = str(r2.get("ratio") or r2.get("splitRatio",""))
-                        raw_date  = (r2.get("exDate") or r2.get("date") or
-                                     r2.get("splitDate") or r2.get("payableDate",""))
-                        ratio     = parse_split_ratio(ratio_str)
-                        norm_date = normalize_date(str(raw_date))
-                        if not sym: continue
-                        rows.append({
-                            "Symbol": sym, "Ratio": ratio_str,
-                            "Date": norm_date, "is_reverse": ratio is not None,
-                            "split_ratio": ratio, "split_date": norm_date,
-                            "list_type": "upcoming",
-                        })
-                    print(f"    TipRanks upcoming: {len([r2 for r2 in rows if r2['list_type']=='upcoming'])} splits")
-        except Exception as e:
-            print(f"    TipRanks error: {e}")
-    else:
-        print("    TipRanks: no TIPRANKS_COOKIE secret set, skipping")
 
-    # ── Upcoming #2: Yahoo Finance calendar (confirmed working) ───────────────
+def fetch_splits():
+    print("\n[3/6] Splits (Yahoo Finance + StockAnalysis)...")
+    rows = []
+
+    # ── Source 1: Yahoo Finance calendar (confirmed HTTP 200) ──────────────
     try:
         yr = requests.get(
             "https://finance.yahoo.com/calendar/splits",
-            headers={**BROWSER_HEADERS, "Accept": "text/html,*/*"},
+            headers={**BROWSER_HEADERS,"Accept":"text/html,*/*"},
             timeout=30,
         )
-        print(f"    Yahoo splits: HTTP {yr.status_code}, {len(yr.content)}b")
+        print(f"    Yahoo: HTTP {yr.status_code}, {len(yr.content)}b")
         if yr.status_code == 200:
-            from bs4 import BeautifulSoup as _BS2
-            ys = _BS2(yr.text, "html.parser")
-            for yt in ys.find_all("table"):
-                yh = [th.get_text(strip=True) for th in yt.find_all("th")]
-                if "Symbol" in yh and "Ratio" in yh:
-                    for tr in yt.find_all("tr")[1:]:
+            soup = BeautifulSoup(yr.text, "html.parser")
+            for tbl in soup.find_all("table"):
+                yh = [th.get_text(strip=True) for th in tbl.find_all("th")]
+                if not yh:
+                    first_tr = tbl.find("tr")
+                    if first_tr:
+                        yh = [td.get_text(strip=True) for td in first_tr.find_all("td")]
+                if "Symbol" in yh:
+                    ratio_col = next((h for h in yh if "ratio" in h.lower()), None)
+                    date_col  = next((h for h in yh if "payable" in h.lower() or "date" in h.lower()), None)
+                    co_col    = next((h for h in yh if "company" in h.lower()), None)
+                    print(f"    Yahoo cols: {yh} ratio_col={ratio_col} date_col={date_col}")
+                    yahoo_rows = 0
+                    for tr in tbl.find_all("tr")[1:]:
                         cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                        if len(cells) < 3: continue
-                        row  = dict(zip(yh, cells))
-                        sym  = row.get("Symbol","").split(".")[0].strip().upper()
-                        ratio_str = row.get("Ratio","")
-                        raw_date  = row.get("Payable On","") or row.get("Date","")
-                        ratio     = parse_split_ratio(ratio_str)
-                        norm_date = normalize_date(raw_date)
+                        if not cells: continue
+                        row   = dict(zip(yh, cells))
+                        sym   = row.get("Symbol","").split(".")[0].strip().upper()
+                        ratio_str = row.get(ratio_col,"") if ratio_col else ""
+                        raw_date  = row.get(date_col,"")  if date_col  else ""
+                        company   = row.get(co_col,"")   if co_col   else ""
                         if not sym: continue
-                        # Debug first few rows
-                        if len(rows) < 5:
-                            print(f"    Yahoo row: sym={sym} ratio={ratio_str!r} parsed={ratio} date={norm_date}")
-                        try:
-                            from datetime import date as _date
-                            split_dt   = datetime.strptime(norm_date, "%Y-%m-%d").date() if norm_date else None
-                            is_upcoming = split_dt and split_dt >= _date.today()
-                        except Exception:
-                            is_upcoming = True
-                        # Mark as reverse if ratio < 1 or ratio_str looks like "1:X" with X>1
-                        is_rev = ratio is not None
+                        ratio     = parse_split_ratio(ratio_str)
+                        # Yahoo doesn't separate reverse from forward —
+                        # detect by ratio: reverse = new<old (1:10, 0.1, etc.)
+                        is_rev = ratio is not None  # parse_split_ratio only returns for reverse
                         if not is_rev and ratio_str:
-                            # Fallback: any "1:N" or "1-for-N" where N>1 → reverse
-                            rm = re.search(r"(\d+)\s*(?::|for)\s*(\d+)", ratio_str.lower().replace("-"," "))
-                            if rm and float(rm.group(2)) > float(rm.group(1)):
-                                is_rev = True
-                                ratio = round(float(rm.group(2))/float(rm.group(1)), 4)
+                            rm = re.search(r"(\d+)\s*(?:[-:]|for)\s*(\d+)", ratio_str.lower())
+                            if rm:
+                                n1,n2 = float(rm.group(1)), float(rm.group(2))
+                                if n2 > n1:   # e.g. "1:10" → reverse
+                                    is_rev = True
+                                    ratio  = round(n2/n1, 4)
+                        norm_date = normalize_date(raw_date)
+                        try:
+                            split_dt   = datetime.strptime(norm_date,"%Y-%m-%d").date() if norm_date else None
+                            from datetime import date as _d
+                            is_up = bool(split_dt and split_dt >= _d.today())
+                        except Exception:
+                            is_up = True
+                        if yahoo_rows < 3:
+                            print(f"    Yahoo sample: {sym!r} ratio={ratio_str!r} is_rev={is_rev} date={norm_date}")
                         rows.append({
-                            "Symbol": sym, "Ratio": ratio_str,
-                            "Date": norm_date, "Company": row.get("Company",""),
+                            "Symbol": sym, "Ratio": ratio_str, "Company": company,
+                            "Date": norm_date, "split_date": norm_date,
                             "is_reverse": is_rev, "split_ratio": ratio,
-                            "split_date": norm_date,
-                            "list_type": "upcoming" if is_upcoming else "recent",
+                            "list_type": "upcoming" if is_up else "recent",
                         })
-                    print(f"    Yahoo: {len(rows)} splits parsed")
+                        yahoo_rows += 1
+                    print(f"    Yahoo: {yahoo_rows} total, {sum(1 for r in rows if r['is_reverse'])} reverse")
                     break
     except Exception as e:
-        print(f"    Yahoo splits error: {e}")
+        print(f"    Yahoo error: {e}")
 
-    SPLIT_URLS = {
-        "recent":   [
-            "https://stockanalysis.com/actions/splits/",
-            "https://stockanalysis.com/actions/splits/?p=quarterly",
-        ],
-    }
-    for label, urls in SPLIT_URLS.items():
-        url, r = urls[0], None
-        for u in urls:
-            try:
-                r = requests.get(u, headers={**BROWSER_HEADERS,"Accept":"text/html,*/*"}, timeout=30)
-                print(f"    {label} {u}: HTTP {r.status_code}, {len(r.content)}b")
-                if r.status_code == 200:
-                    url = u; break
-            except Exception as e:
-                print(f"    {label} {u}: {e}")
-        if not r or r.status_code != 200:
-            continue
+    # ── Source 2: StockAnalysis — all reverse splits (recent + upcoming) ──
+    for sa_url in [
+        "https://stockanalysis.com/actions/splits/",
+        "https://stockanalysis.com/actions/reverse-splits/",
+    ]:
         try:
-            page_rows = []
-            # __NEXT_DATA__
+            r = requests.get(sa_url, headers={**BROWSER_HEADERS,"Accept":"text/html,*/*"}, timeout=30)
+            print(f"    SA {sa_url}: HTTP {r.status_code}, {len(r.content)}b")
+            if r.status_code != 200: continue
+
+            sa_rows = []
+            # Try __NEXT_DATA__ with exhaustive path search
             nd = next_data(r.text)
             if nd:
-                for path in [["props","pageProps","data"],["props","pageProps","splits"],
-                             ["props","pageProps","tableData"]]:
-                    node = nd
-                    try:
-                        for key in path:
-                            node = node[key]
-                        if isinstance(node, list) and node:
-                            page_rows = node
-                            print(f"    {label} __NEXT_DATA__: {len(page_rows)}")
-                            break
-                    except (KeyError, TypeError):
-                        pass
-            # HTML tablo fallback
-            if not page_rows:
+                import json as _j
+                nd_str = _j.dumps(nd)
+                # Find any array with ticker/symbol fields
+                def find_arrays(obj, depth=0):
+                    if depth > 8: return []
+                    if isinstance(obj, list) and len(obj) > 0 and isinstance(obj[0], dict):
+                        keys = set(obj[0].keys())
+                        if any(k in keys for k in ["ticker","symbol","Symbol","Ticker"]):
+                            return [obj]
+                    results = []
+                    if isinstance(obj, dict):
+                        for v in obj.values():
+                            results.extend(find_arrays(v, depth+1))
+                    return results
+
+                arrays = find_arrays(nd)
+                for arr in arrays:
+                    if len(arr) > sa_rows.__len__():
+                        sa_rows = arr
+                if sa_rows:
+                    print(f"    SA __NEXT_DATA__: {len(sa_rows)} rows, sample keys: {list(sa_rows[0].keys())[:8]}")
+
+            # HTML table fallback
+            if not sa_rows:
                 soup = BeautifulSoup(r.text, "html.parser")
-                table = soup.find("table")
-                if table:
-                    hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
-                    for tr in table.find_all("tr")[1:]:
-                        cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                        if cells:
-                            page_rows.append(dict(zip(hdrs, cells)))
-                    print(f"    {label} HTML: {len(page_rows)}")
-            for row in page_rows:
-                sym = (row.get("Symbol") or row.get("symbol") or row.get("ticker",""))
-                ratio_str = (row.get("Ratio") or row.get("ratio") or
-                             row.get("Split Ratio") or row.get("splitRatio",""))
-                raw_date  = (row.get("Date") or row.get("date") or
-                             row.get("Split Date") or row.get("splitDate",""))
-                ratio     = parse_split_ratio(str(ratio_str))
-                norm_date = normalize_date(str(raw_date))
-                # Determine if upcoming: date in future OR label is "upcoming"
+                for tbl in soup.find_all("table"):
+                    hdrs = [th.get_text(strip=True) for th in tbl.find_all("th")]
+                    if not hdrs:
+                        fr = tbl.find("tr")
+                        if fr: hdrs = [td.get_text(strip=True) for td in fr.find_all("td")]
+                    trs = tbl.find_all("tr")[1:]
+                    if trs:
+                        for tr in trs:
+                            cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                            if cells: sa_rows.append(dict(zip(hdrs, cells)))
+                        if sa_rows:
+                            print(f"    SA HTML: {len(sa_rows)} rows, hdrs={hdrs[:6]}")
+                            break
+
+            sa_added = 0
+            for row in sa_rows:
+                sym = (row.get("Symbol") or row.get("symbol") or
+                       row.get("Ticker") or row.get("ticker",""))
+                if isinstance(sym, str): sym = sym.strip().upper()
+                if not sym: continue
+                ratio_str = str(row.get("Ratio") or row.get("ratio") or
+                                row.get("splitRatio") or row.get("Split Ratio",""))
+                raw_date  = str(row.get("Date") or row.get("date") or
+                                row.get("splitDate") or row.get("Split Date",""))
+                ratio     = parse_split_ratio(ratio_str)
+                is_rev    = ratio is not None
+                if not is_rev and ratio_str:
+                    rm = re.search(r"(\d+)\s*(?:[-:]|for)\s*(\d+)", ratio_str.lower())
+                    if rm:
+                        n1,n2 = float(rm.group(1)), float(rm.group(2))
+                        if n2 > n1: is_rev = True; ratio = round(n2/n1, 4)
+                norm_date = normalize_date(raw_date)
                 try:
-                    from datetime import date as _date
-                    split_dt   = datetime.strptime(norm_date, "%Y-%m-%d").date() if norm_date else None
-                    is_upcoming = label == "upcoming" or (split_dt and split_dt >= _date.today())
+                    split_dt = datetime.strptime(norm_date,"%Y-%m-%d").date() if norm_date else None
+                    from datetime import date as _d2
+                    is_up = bool(split_dt and split_dt >= _d2.today())
                 except Exception:
-                    is_upcoming = label == "upcoming"
-                rows.append({
-                    "Symbol":      sym, "Ratio": ratio_str,
-                    "Date":        norm_date,
-                    "is_reverse":  ratio is not None, "split_ratio": ratio,
-                    "split_date":  norm_date,
-                    "list_type":   "upcoming" if is_upcoming else "recent",
-                })
-            time.sleep(0.5)
+                    is_up = False
+                existing = {r["Symbol"] for r in rows}
+                if sym not in existing:
+                    rows.append({
+                        "Symbol": sym, "Ratio": ratio_str,
+                        "Date": norm_date, "split_date": norm_date,
+                        "is_reverse": is_rev, "split_ratio": ratio,
+                        "list_type": "upcoming" if is_up else "recent",
+                    })
+                    sa_added += 1
+            print(f"    SA added: {sa_added} new rows")
+            if sa_added > 0: break
         except Exception as e:
-            print(f"    {label}: {e}")
-    SOURCE_STATUS["splits"] = f"ok:{sum(1 for x in rows if x.get('is_reverse'))}"
+            print(f"    SA error: {e}")
+
+    rev_count = sum(1 for r in rows if r.get("is_reverse"))
+    print(f"    Total: {len(rows)} splits, {rev_count} reverse")
+    SOURCE_STATUS["splits"] = f"ok:{rev_count}" if rev_count else "error:no_reverse"
     save("splits.json", rows, min_records=1)
     return rows
 
-
-# ══════════════════════════════════════════════════
-# 4. FINVIZ — Insider
-# ══════════════════════════════════════════════════
 def fetch_insider():
     print("\n[4/6] Finviz insider taranıyor...")
     rows = []

@@ -675,7 +675,7 @@ function renderSummary(){
       <td class="num">${price(r.price)}</td>
       <td>${pct(r.change_pct)}</td>
       <td class="num">${sfCell(r.short_float_pct)}</td>
-      <td>${r.si_change!=null?pct(r.si_change):"-"}</td>
+      <td>${(r.si_change??r.shortint_position_change_pct)!=null?pct(r.si_change??r.shortint_position_change_pct):"-"}</td>
       <td class="num">${dtcCell(r.dtc)}</td>
       <td style="text-align:center">${r.reg_sho||"❌"}</td>
       <td style="color:var(--muted);font-size:10px">${r.split_date||"-"}</td>
@@ -798,9 +798,11 @@ function renderC2B(){
   body.innerHTML=rows.map(r=>{
     const t  =r.symbol||r.ticker||r.Symbol||"-";
     const c2b=parseFloat(r.borrow_fee_rate_ib||r.borrowFeeRateIb||0);
-    // CE field names from scraper (exact match from normalize_ce_row)
-    const sv =r.shortvol_all_short_pct||r.shortvolAllShortPct||r["SV%"]||null;
-    const sv3=r.shortvol_all_short_pct_30d||r.shortvolAllShortPct30d||r["SV30D%"]||null;
+    // Try every possible field name variant for SV%
+    const sv  = r.shortvol_all_short_pct ?? r.shortvolAllShortPct ?? 
+                r["ShortVolume%"] ?? r.short_vol_pct ?? null;
+    const sv3 = r.shortvol_all_short_pct_30d ?? r.shortvolAllShortPct30d ?? 
+                r["ShortVolume%30D"] ?? r.short_vol_pct_30d ?? null;
     return `<tr class="${inWL(t)?"wl":""}">
       <td><span class="ticker">${t}</span>${star(t)}</td>
       <td><span class="${c2b>=100?"neg":c2b>=50?"warn":""}">${c2b?c2b+"%":"-"}</span></td>

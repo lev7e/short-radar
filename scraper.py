@@ -166,9 +166,24 @@ def _normalize_ce_row(row, hdrs):
     def pick(*keys):
         for k in keys:
             v = row.get(k)
-            if v not in ("", "-", "N/A", "n/a", None, "0", 0):
-                cleaned = str(v).replace("\xa0","").replace(",","").strip()
-                return cleaned if cleaned not in ("", "-") else None
+            if v is None or v in ("", "-", "N/A", "n/a"):
+                continue
+            cleaned = str(v).replace("\xa0","").replace(",","").strip()
+            if cleaned in ("", "-", "N/A", "n/a"):
+                continue
+            return cleaned  # "0" and 0 are valid values (e.g. SI%Change=0)
+        return None
+
+    def pick_nonzero(*keys):
+        """Like pick() but also skips zero values (for shares/price fields)."""
+        for k in keys:
+            v = row.get(k)
+            if v in ("", "-", "N/A", "n/a", None, "0", 0):
+                continue
+            cleaned = str(v).replace("\xa0","").replace(",","").strip()
+            if cleaned in ("", "-", "0"):
+                continue
+            return cleaned
         return None
 
     # Ticker: Symbol kolonu
@@ -183,13 +198,13 @@ def _normalize_ce_row(row, hdrs):
         "symbol":                       ticker,
         "ticker":                       ticker,
         # Gerçek CE kolon adları (log'dan)
-        "borrow_fee_rate_ib":           pick("BorrowFee%IBKR", "Borrow Rate", "C2B Rate",
+        "borrow_fee_rate_ib":           pick_nonzero("BorrowFee%IBKR", "Borrow Rate", "C2B Rate",
                                              "borrow_fee_rate_ib", "BorrowFee%"),
-        "borrow_fee_avail_ib":          pick("BorrowSharesAvailableIBKR", "Available",
+        "borrow_fee_avail_ib":          pick_nonzero("BorrowSharesAvailableIBKR", "Available",
                                              "borrow_fee_avail_ib", "SharesAvailable"),
         "shares_float":                 pick("SharesFloat", "Float", "shares_float",
                                              "Shares Float", "FloatShares"),
-        "reg_price":                    pick("Price", "reg_price", "Close", "Last"),
+        "reg_price":                    pick_nonzero("Price", "reg_price", "Close", "Last"),
         "reg_change_pct":               pick("Change\xa0%", "Change%", "Change %",
                                              "reg_change_pct", "Chg%"),
         "reg_volume":                   pick("Volume", "Vol", "reg_volume"),
@@ -214,7 +229,7 @@ def _normalize_ce_row(row, hdrs):
                                              "PreMarket Price"),
         "pre_change_pct":               pick("PreMarketChange%", "PreMarket Change%",
                                              "Pre Chg %", "pre_change_pct"),
-        "market_cap":                   pick("MarketCap", "Market Cap", "market_cap"),
+        "market_cap":                   pick_nonzero("MarketCap", "Market Cap", "market_cap"),
         "shortint_db_pct":              pick("ShortInterest%DB", "SI%DB", "shortint_db_pct",
                                              "ShortIntDB%", "ShortInterestDB%"),
         "_source":                      "ce_html",
@@ -736,6 +751,12 @@ def fetch_splits():
             if r.status_code != 200: continue
 
             added = 0
+            # Debug: show first 500 chars and script tags
+            has_next = "__NEXT_DATA__" in r.text
+            has_table = "<table" in r.text.lower()
+            script_vars = re.findall(r"window\.([a-zA-Z_]+)\s*=", r.text)
+            print(f"    SA debug: __NEXT_DATA__={has_next}, table={has_table}, window_vars={script_vars[:5]}")
+
             # Strategy A: __NEXT_DATA__
             m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
             if m:
@@ -746,22 +767,30 @@ def fetch_splits():
                         if depth > 8: return []
                         if isinstance(obj, list) and len(obj) > 0 and isinstance(obj[0], dict):
                             k0 = {kk.lower() for kk in obj[0].keys()}
-                            if any(x in k0 for x in ("ticker","symbol","s")):
+                            if any(x in k0 for x in ("ticker","symbol","s","no")):
                                 return [obj]
                         res = []
                         if isinstance(obj, dict):
                             for v in obj.values(): res.extend(find_sa_data(v, depth+1))
                         return res
-                    for arr in find_sa_data(nd):
+                    arrays = find_sa_data(nd)
+                    print(f"    SA arrays found: {len(arrays)}, sizes: {[len(a) for a in arrays[:3]]}")
+                    for arr in arrays:
+                        if arr:
+                            print(f"    SA arr sample keys: {list(arr[0].keys())[:10]}, row: {dict(list(arr[0].items())[:5])}")
                         for item in arr:
                             sym = (item.get("s") or item.get("ticker") or
-                                   item.get("symbol") or item.get("Symbol",""))
+                                   item.get("symbol") or item.get("Symbol") or
+                                   item.get("no") or "")  # SA sometimes uses "no" for ticker
                             ratio_raw = (item.get("ratio") or item.get("splitRatio") or
-                                         item.get("r") or item.get("Ratio",""))
+                                         item.get("r") or item.get("Ratio") or
+                                         item.get("split") or "")
                             date_raw  = (item.get("date") or item.get("exDate") or
-                                         item.get("d") or item.get("Date",""))
-                            add_row(sym, str(ratio_raw), str(date_raw), is_up, "stockanalysis")
-                            added += 1
+                                         item.get("d") or item.get("Date") or
+                                         item.get("exdate") or "")
+                            if sym:
+                                add_row(sym, str(ratio_raw), str(date_raw), is_up, "stockanalysis")
+                                added += 1
                 except json.JSONDecodeError: pass
 
             # Strategy B: HTML table
@@ -845,6 +874,11 @@ def fetch_insider():
         data = r.json()
         hits = data.get("hits", {}).get("hits", [])
         print(f"    Form 4: {len(hits)} hit")
+        if hits:
+            s0 = hits[0].get("_source",{})
+            print(f"    Form4 keys[0]: {list(s0.keys())[:12]}")
+            dn0 = s0.get("display_names",[])
+            print(f"    Form4 display_names[0]: {dn0[:3]}")
 
         for hit in hits:
             s       = hit.get("_source", {})
@@ -872,15 +906,27 @@ def fetch_insider():
                 t2 = s.get("tickers") or s.get("ticker") or ""
                 ticker = (t2[0] if isinstance(t2, list) and t2 else str(t2)).strip()
 
+            # For Form 4: entity in display_names[0] is the ISSUER (the company)
+            # display_names[1] is the filer (the insider/person)
+            # Also try entity_name direct field
+            if not ticker and entity:
+                # Try broader ticker pattern
+                tm = re.search(r"\b([A-Z]{1,6})\b", entity)
+                if tm and len(tm.group(1)) <= 5:
+                    ticker = tm.group(1)
+
             if not ticker:
                 continue  # Form 4 without ticker not useful
 
-            # Filer = the insider (person filing, display_names[1] if present)
+            # Filer = the insider person (display_names[1])
             person = ""
             if isinstance(display, list) and len(display) > 1:
                 f1 = display[1]
                 person = f1.get("name","").strip() if isinstance(f1,dict) else re.sub(r"\s*\(CIK[^)]*\)","",str(f1)).strip()
                 person = re.sub(r"\s*\([A-Z]{1,6}\)\s*$","",person).strip()
+            # Fallback: entity_name of first display_names entry
+            if not person:
+                person = s.get("period_of_report","") or "Insider"
 
             filed = s.get("file_date") or s.get("filed_at") or ""
             uid   = f"{ticker}|{person}|{filed[:10]}"
@@ -1028,15 +1074,21 @@ def fetch_sec_13g():
             r = requests.get(
                 "https://efts.sec.gov/LATEST/search-index",
                 params={"forms": form_type, "dateRange": "custom",
-                        "startdt": start, "enddt": end},
+                        "startdt": start, "enddt": end,
+                        "hits.hits.total.value": 1},
                 headers=SEC_HEADERS, timeout=30,
             )
-            print(f"    {form_type}: HTTP {r.status_code}")
+            print(f"    {form_type}: HTTP {r.status_code}, {len(r.content)}b")
             if r.status_code != 200:
                 continue
             data = r.json()
-            hits = data.get("hits", {}).get("hits", [])
-            print(f"    {form_type}: {len(hits)} hit")
+            total = data.get("hits",{}).get("total",{})
+            hits  = data.get("hits", {}).get("hits", [])
+            print(f"    {form_type}: {len(hits)} hits (total={total})")
+            if hits:
+                s0 = hits[0].get("_source",{})
+                print(f"    13G sample keys: {list(s0.keys())[:8]}")
+                print(f"    13G sample display_names: {s0.get('display_names','')[:3] if isinstance(s0.get('display_names'), list) else s0.get('display_names','')[:80]}")
             for hit in hits:
                 s       = hit.get("_source", {})
                 display = s.get("display_names") or []
@@ -1196,11 +1248,14 @@ def fetch_askedgar_si(tickers: list) -> dict:
                     d3.get("sharesFloat") or
                     None
                 )
-                # fallback: derive float from mktCap/price if no explicit field
+                # NOTE: mktCap/price = shares outstanding (NOT float) — don't use as float
+                # Only use explicit floatShares field
                 if not rec["profile_float"]:
-                    mkt2 = d3.get("mktCap"); prc2 = d3.get("price")
-                    if mkt2 and prc2 and float(prc2) > 0:
-                        rec["profile_float"] = round(float(mkt2) / float(prc2))
+                    # Try sharesOutstanding as last resort only if explicitly present
+                    so = d3.get("sharesOutstanding")
+                    if so and float(so) > 0:
+                        rec["shares_outstanding"] = float(so)
+                    # rec["profile_float"] intentionally NOT set from mktCap/price
                 # cash & cashPerShare may come directly from profile
                 # FMP profile has these cash fields
                 cps = (d3.get("cashPerShare") or d3.get("cashPerShareTTM") or
@@ -1380,13 +1435,16 @@ def fetch_ftd():
         if d.weekday() >= 5:  # Sat/Sun
             continue
         ds = d.strftime("%Y%m%d")
-        url = f"https://www.sec.gov/data/foiadocuments/docs/fails.{ds}.zip"
+        ym = d.strftime("%Y%m")
+        # SEC publishes bimonthly: YYYYMMa (first half) and YYYYMMb (second half)
+        half = "b" if d.day > 15 else "a"
+        url = f"https://www.sec.gov/data/foiadocuments/cnsfails{ym}{half}.zip"
         try:
             r = requests.get(url, headers=SEC_HEADERS, timeout=20)
-            print(f"    FTD {ds}: HTTP {r.status_code}, {len(r.content)}b")
+            print(f"    FTD {ym}{half}: HTTP {r.status_code}, {len(r.content)}b")
             if r.status_code != 200:
                 tried += 1
-                if tried >= 3:
+                if tried >= 4:
                     break
                 continue
 

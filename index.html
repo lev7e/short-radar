@@ -160,9 +160,12 @@ td:first-child{text-align:left}
 <div class="tabs">
   <button class="tab on" onclick="switchTab('watchlist')">★ Takip</button>
   <button class="tab"    onclick="switchTab('summary')">Summary</button>
-  <button class="tab"    onclick="switchTab('splits')">Splits &amp; Float</button>
+  <button class="tab"    onclick="switchTab('splits')">Splits</button>
+  <button class="tab"    onclick="switchTab('c2b')">C2B</button>
+  <button class="tab"    onclick="switchTab('regsho')">Reg SHO</button>
+  <button class="tab"    onclick="switchTab('13g')">13G/13D</button>
+  <button class="tab"    onclick="switchTab('insider')">Insider</button>
   <button class="tab"    onclick="switchTab('s1')">S1</button>
-  <button class="tab"    onclick="switchTab('ref')">Reference ▾</button>
 </div>
 
 <div class="toolbar">
@@ -193,15 +196,17 @@ td:first-child{text-align:left}
         <th onclick="srt('tbl-watchlist',1)">RS Date</th>
         <th onclick="srt('tbl-watchlist',2)">Float (Post)</th>
         <th onclick="srt('tbl-watchlist',3)">Squeeze</th>
-        <th onclick="srt('tbl-watchlist',4)">C2B%</th>
-        <th onclick="srt('tbl-watchlist',5)">SI%</th>
-        <th onclick="srt('tbl-watchlist',6)">DTC</th>
-        <th onclick="srt('tbl-watchlist',7)">RegSHO</th>
-        <th onclick="srt('tbl-watchlist',8)">Price</th>
+        <th onclick="srt('tbl-watchlist',4)" title="Cost-to-Borrow + günlük değişim">C2B%</th>
+        <th onclick="srt('tbl-watchlist',5)" title="Borçlanılabilir hisse + değişim">Avail</th>
+        <th onclick="srt('tbl-watchlist',6)">SI%</th>
+        <th onclick="srt('tbl-watchlist',7)">DTC</th>
+        <th onclick="srt('tbl-watchlist',8)" title="RegSHO + kaç gündür">RegSHO</th>
+        <th onclick="srt('tbl-watchlist',9)" title="Fail-to-Deliver">FTD</th>
+        <th onclick="srt('tbl-watchlist',10)">Price</th>
         <th>–</th>
       </tr></thead>
       <tbody id="body-watchlist">
-        <tr><td colspan="10" class="empty">No tickers added yet.<br>
+        <tr><td colspan="12" class="empty">No tickers added yet.<br>
           <small>Click ☆ in the table or add above.</small></td></tr>
       </tbody>
     </table>
@@ -224,13 +229,14 @@ td:first-child{text-align:left}
         <th onclick="srt('tbl-summary',7)"  title="Short interest %">SI%</th>
         <th onclick="srt('tbl-summary',8)"  title="Short interest position change %">SI Chg%</th>
         <th onclick="srt('tbl-summary',9)"  title="Days to cover">DTC</th>
-        <th onclick="srt('tbl-summary',10)" title="On RegSHO threshold list">RegSHO</th>
+        <th onclick="srt('tbl-summary',10)" title="RegSHO listesinde (kaç gün)">RegSHO</th>
+        <th onclick="srt('tbl-summary',10.5)" title="Fail-to-Deliver hisse sayısı">FTD</th>
         <th onclick="srt('tbl-summary',11)" title="Most recent reverse split date">Last RS</th>
         <th onclick="srt('tbl-summary',12)" title="Cash per share from askedgar">Cash/Sh</th>
         <th onclick="srt('tbl-summary',13)" title="Squeeze score">⚡</th>
       </tr></thead>
       <tbody id="body-summary">
-        <tr><td colspan="14" class="loading">Loading</td></tr>
+        <tr><td colspan="16" class="loading">Loading</td></tr>
       </tbody>
     </table>
   </div>
@@ -321,62 +327,83 @@ td:first-child{text-align:left}
 </div>
 
 <!-- REFERANS -->
-<div class="panel" id="panel-ref">
-  <div class="subtabs">
-    <button class="subtab on" onclick="switchSub('ref','ref-c2b')">C2B</button>
-    <button class="subtab"    onclick="switchSub('ref','ref-regsho')">Reg SHO</button>
-    <button class="subtab"    onclick="switchSub('ref','ref-insider')">Insider</button>
+<div class="panel" id="panel-c2b">
+  <div class="tbl-wrap">
+    <table id="tbl-c2b">
+      <thead><tr>
+        <th onclick="srt('tbl-c2b',0)">Ticker</th>
+        <th onclick="srt('tbl-c2b',1)">C2B%</th>
+        <th onclick="srt('tbl-c2b',2)">Avail</th>
+        <th onclick="srt('tbl-c2b',3)">Float</th>
+        <th onclick="srt('tbl-c2b',4)">SV%</th>
+        <th onclick="srt('tbl-c2b',5)">SV 30d%</th>
+        <th onclick="srt('tbl-c2b',6)">Price</th>
+        <th onclick="srt('tbl-c2b',7)">RegSHO</th>
+      </tr></thead>
+      <tbody id="body-c2b">
+        <tr><td colspan="8" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="subpanel on" id="ref-c2b">
-    <div class="tbl-wrap">
-      <table id="tbl-c2b">
-        <thead><tr>
-          <th onclick="srt('tbl-c2b',0)">Ticker</th>
-          <th onclick="srt('tbl-c2b',1)">C2B%</th>
-          <th onclick="srt('tbl-c2b',2)">Avail</th>
-          <th onclick="srt('tbl-c2b',3)">Float</th>
-          <th onclick="srt('tbl-c2b',4)">SV%</th>
-          <th onclick="srt('tbl-c2b',5)">SV 30d%</th>
-          <th onclick="srt('tbl-c2b',6)">Price</th>
-          <th onclick="srt('tbl-c2b',7)">RegSHO</th>
-        </tr></thead>
-        <tbody id="body-c2b">
-          <tr><td colspan="14" class="loading">Loading</td></tr>
-        </tbody>
-      </table>
-    </div>
+</div>
+
+<div class="panel" id="panel-regsho">
+  <div class="tbl-wrap">
+    <table id="tbl-regsho">
+      <thead><tr>
+        <th onclick="srt('tbl-regsho',0)">Ticker</th>
+        <th onclick="srt('tbl-regsho',1)">Market</th>
+        <th onclick="srt('tbl-regsho',2)">Entry Date</th>
+      </tr></thead>
+      <tbody id="body-regsho">
+        <tr><td colspan="3" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="subpanel" id="ref-regsho">
-    <div class="tbl-wrap">
-      <table id="tbl-regsho">
-        <thead><tr>
-          <th onclick="srt('tbl-regsho',0)">Ticker</th>
-          <th onclick="srt('tbl-regsho',1)">Market</th>
-          <th onclick="srt('tbl-regsho',2)">Entry Date</th>
-        </tr></thead>
-        <tbody id="body-regsho">
-          <tr><td colspan="3" class="loading">Loading</td></tr>
-        </tbody>
-      </table>
-    </div>
+</div>
+
+<div class="panel" id="panel-13g">
+  <div style="margin-bottom:8px">
+    <select id="sel-13g-type" onchange="render13G()" style="background:var(--surf2);color:var(--text);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:12px">
+      <option value="all">SC 13G + 13D</option>
+      <option value="SC 13G">SC 13G only</option>
+      <option value="SC 13D">SC 13D only (Activist)</option>
+    </select>
   </div>
-  <div class="subpanel" id="ref-insider">
-    <div class="tbl-wrap">
-      <table id="tbl-insider">
-        <thead><tr>
-          <th onclick="srt('tbl-insider',0)">Ticker</th>
-          <th onclick="srt('tbl-insider',1)">Transaction</th>
-          <th onclick="srt('tbl-insider',2)">Person</th>
-          <th onclick="srt('tbl-insider',3)">Date</th>
-          <th onclick="srt('tbl-insider',4)">Adet</th>
-          <th onclick="srt('tbl-insider',5)">Value</th>
-          <th onclick="srt('tbl-insider',6)">RegSHO</th>
-        </tr></thead>
-        <tbody id="body-insider">
-          <tr><td colspan="7" class="loading">Loading</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="tbl-wrap">
+    <table id="tbl-13g">
+      <thead><tr>
+        <th onclick="srt('tbl-13g',0)">Ticker</th>
+        <th onclick="srt('tbl-13g',1)">Company</th>
+        <th onclick="srt('tbl-13g',2)">Filer (Institution)</th>
+        <th onclick="srt('tbl-13g',3)">Form</th>
+        <th onclick="srt('tbl-13g',4)">Date</th>
+        <th>RegSHO</th>
+        <th>↗</th>
+      </tr></thead>
+      <tbody id="body-13g">
+        <tr><td colspan="7" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel" id="panel-insider">
+  <div class="tbl-wrap">
+    <table id="tbl-insider">
+      <thead><tr>
+        <th onclick="srt('tbl-insider',0)">Ticker</th>
+        <th onclick="srt('tbl-insider',1)">Transaction</th>
+        <th onclick="srt('tbl-insider',2)">Person</th>
+        <th onclick="srt('tbl-insider',3)">Date</th>
+        <th onclick="srt('tbl-insider',4)">Shares</th>
+        <th onclick="srt('tbl-insider',5)">Value</th>
+        <th>RegSHO</th>
+      </tr></thead>
+      <tbody id="body-insider">
+        <tr><td colspan="7" class="loading">Loading</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -386,10 +413,10 @@ td:first-child{text-align:left}
 // ════════════════════════════════════
 const BASE  = "./data/";
 const TODAY = new Date().toISOString().slice(0,10);
-const TABS  = ["watchlist","summary","splits","s1","ref"];
+const TABS  = ["watchlist","summary","splits","c2b","regsho","13g","insider","s1"];
 
-let D  = { summary:[], floats:[], c2b:[], regsho:[], splits:[], insider:[], s1:[], meta:null };
-let UI = { tab:"watchlist", subSplits:"sp-splits", subRef:"ref-c2b", wlOnly:false, sortDir:{} };
+let D  = { summary:[], floats:[], c2b:[], regsho:[], splits:[], insider:[], s1:[], g13:[], ftd:[], regsho_hist:{}, meta:null };
+let UI = { tab:"watchlist", subSplits:"sp-splits", wlOnly:false, sortDir:{} };
 
 // ════════════════════════════════════
 // WATCHLIST (localStorage)
@@ -592,14 +619,14 @@ function dtcCell(v){
 function renderAll(){
   renderWatchlist(); renderSummary();
   renderSplits(); renderFloat();
-  renderS1(); renderC2B(); renderRegSHO(); renderInsider();
+  renderS1(); renderC2B(); renderRegSHO(); renderInsider(); render13G();
 }
 
 function renderWatchlist(){
   const wl=getWL();
   const body=document.getElementById("body-watchlist");
   if(!wl.length){
-    body.innerHTML=`<tr><td colspan="10" class="empty">No tickers added yet.<br>
+    body.innerHTML=`<tr><td colspan="12" class="empty">No tickers added yet.<br>
       <small>Click ☆ in the table or add above.</small></td></tr>`;
     return;
   }
@@ -636,9 +663,34 @@ function renderWatchlist(){
     const floatVal = effFloat ? fmt(effFloat) : "-";
     const floatCls = isWarn?"warn":"pos";
     const floatPfx = isWarn?"⚠ ":isEst?"✦ ":"";  // ✦ = estimate
+    const floatDateAge = fd.float_date
+      ? Math.round((Date.now() - new Date(fd.float_date)) / 86400000) : 0;
+    const floatDateColor = floatDateAge > 365 ? '#ef4444'
+      : floatDateAge > 180 ? '#f59e0b' : 'var(--muted)';
     const floatDate= fd.float_date
-      ? `<div style="font-size:9px;color:var(--muted);margin-top:1px">${fd.float_date.slice(0,10)}</div>`
+      ? `<div style="font-size:9px;color:${floatDateColor};margin-top:1px">${fd.float_date.slice(0,10)}</div>`
       : "";
+
+    // C2B delta
+    const c2bDelta = r.c2b_delta;
+    const c2bDeltaDisp = c2bDelta!=null
+      ? `<span style="font-size:9px;color:${c2bDelta>0?"#ef4444":c2bDelta<0?"#22c55e":"var(--muted)"}">${c2bDelta>0?"▲":"▼"}${Math.abs(c2bDelta)}%</span>`
+      : "";
+    // Avail delta
+    const avDelta = r.avail_delta;
+    const avDeltaDisp = avDelta!=null
+      ? `<span style="font-size:9px;color:${avDelta<-1000?"#ef4444":avDelta>1000?"#22c55e":"var(--muted)"}">${avDelta>0?"+":""}${fmt(avDelta)}</span>`
+      : "";
+    // RegSHO days
+    const rsDays = r.regsho_days||0;
+    const rsCell = rs.has(t)
+      ? `<span style="color:#22c55e">✅</span>${rsDays>1?`<span style="font-size:9px;color:#f59e0b;margin-left:2px">${rsDays}g</span>`:""}`
+      : `<span style="color:#ef4444">❌</span>`;
+    // FTD
+    const ftdSh = r.ftd_shares||0;
+    const ftdDisp = ftdSh>0
+      ? `<span style="font-size:10px;color:${ftdSh>100000?"#ef4444":ftdSh>10000?"#f59e0b":"var(--muted)"}">${fmt(ftdSh)}</span>`
+      : "-";
 
     return `<tr class="wl">
       <td><span class="ticker">${t}</span>${star(t)}</td>
@@ -648,10 +700,18 @@ function renderWatchlist(){
         ${floatDate}
       </td>
       <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
-      <td>${r.c2b!=null?`<span class="${r.c2b>=100?"neg":r.c2b>=50?"warn":""}">${r.c2b}%</span>`:"-"}</td>
+      <td>
+        ${r.c2b!=null?`<span class="${r.c2b>=100?"neg":r.c2b>=50?"warn":""}">${r.c2b}%</span>`:"-"}
+        ${c2bDeltaDisp}
+      </td>
+      <td>
+        ${r.shares_avail!=null?fmt(r.shares_avail):"-"}
+        ${avDeltaDisp}
+      </td>
       <td>${sfCell(r.short_float_pct)}</td>
       <td>${dtcCell(r.dtc)}</td>
-      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
+      <td style="text-align:center">${rsCell}</td>
+      <td class="num" style="font-size:10px">${ftdDisp}</td>
       <td style="color:var(--muted)">${price(r.price)}</td>
       <td style="text-align:center"><span onclick="removeWL('${t}')" style="cursor:pointer;color:var(--red)">✕</span></td>
     </tr>`;
@@ -661,15 +721,25 @@ function renderWatchlist(){
 function renderSummary(){
   const rows=flt(D.summary,["ticker"]);
   const body=document.getElementById("body-summary");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="14" class="empty">No results</td></tr>`; return; }
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="16" class="empty">No results</td></tr>`; return; }
   body.innerHTML=rows.map(r=>{
     const c2b  = r.c2b!=null ? r.c2b : null;
     const c2bCl= c2b>=100?"neg":c2b>=50?"warn":c2b>0?"":"";
     const cash = r.cash_per_share;
+    const c2bDelta  = r.c2b_delta;
+    const availDelta= r.avail_delta;
+    const rsDays    = r.regsho_days||0;
+    const ftdSh     = r.ftd_shares||0;
     return `<tr class="${inWL(r.ticker)?"wl":""}">
       <td style="position:sticky;left:0;background:var(--surf2)"><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
-      <td><span class="${c2bCl}">${c2b!=null?c2b+"%":"-"}</span></td>
-      <td class="num">${r.shares_avail!=null?fmt(r.shares_avail):"-"}</td>
+      <td>
+        <span class="${c2bCl}">${c2b!=null?c2b+"%":"-"}</span>
+        ${c2bDelta!=null?`<span style="font-size:9px;margin-left:2px;color:${c2bDelta>0?"#ef4444":c2bDelta<0?"#22c55e":"var(--muted)"}">${c2bDelta>0?"▲":"▼"}${Math.abs(c2bDelta)}%</span>`:""}
+      </td>
+      <td class="num">
+        ${r.shares_avail!=null?fmt(r.shares_avail):"-"}
+        ${availDelta!=null?`<br><span style="font-size:9px;color:${availDelta<-1000?"#ef4444":availDelta>1000?"#22c55e":"var(--muted)"}">${availDelta>0?"+":""}${fmt(availDelta)}</span>`:""}
+      </td>
       <td class="num">${floatCell(r)}</td>
       <td class="num">${r.market_cap!=null?fmtMC(r.market_cap):"-"}</td>
       <td class="num">${price(r.price)}</td>
@@ -677,7 +747,10 @@ function renderSummary(){
       <td class="num">${sfCell(r.short_float_pct)}</td>
       <td>${(r.si_change??r.shortint_position_change_pct)!=null?pct(r.si_change??r.shortint_position_change_pct):"-"}</td>
       <td class="num">${dtcCell(r.dtc)}</td>
-      <td style="text-align:center">${r.reg_sho||"❌"}</td>
+      <td style="text-align:center">
+        ${r.reg_sho==="✅"?`<span style="color:#22c55e">✅</span>${rsDays>1?`<span style="font-size:9px;color:#f59e0b;margin-left:2px">${rsDays}g</span>`:""}`:"<span style='color:#ef4444'>❌</span>"}
+      </td>
+      <td class="num" style="font-size:10px">${ftdSh>0?`<span style="color:${ftdSh>100000?"#ef4444":ftdSh>10000?"#f59e0b":"var(--muted)"}">${fmt(ftdSh)}</span>`:"-"}</td>
       <td style="color:var(--muted);font-size:10px">${r.split_date||"-"}</td>
       <td class="num" style="${cash>1?"color:var(--acc)":""}">${cash!=null?"$"+cash.toFixed(2):"-"}</td>
       <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
@@ -832,32 +905,67 @@ function renderRegSHO(){
   }).join("");
 }
 
-function renderInsider(){
-  const rows=flt(D.insider,["Ticker","ticker","Symbol"]);
-  const rs=RS();
-  const body=document.getElementById("body-insider");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const ks=Object.keys(r);
-    const t  =r.Ticker||r.ticker||r.Symbol||r[ks[0]]||"-";
-    const txn=r.Transaction||r.transaction||r[ks[1]]||"-";
-    const who=r["Insider Trading"]||r.Insider||r[ks[2]]||"-";
-    const dt =r.Date||r.date||r[ks[3]]||"-";
-    const sh =r.Shares||r["#Shares"]||r[ks[4]]||"-";
-    const val=r.Value||r["Value ($)"]||r[ks[5]]||"-";
-    const buy=String(txn).toLowerCase().match(/buy|purchase/);
+function render13G(){
+  const body = document.getElementById("body-13g");
+  if(!body) return;
+  const typeF = document.getElementById("sel-13g-type")?.value || "all";
+  const rs = RS();
+  let rows = flt(D.g13||[], ["ticker","company","filer"]);
+  if(typeF !== "all") rows = rows.filter(r => r.form && r.form.startsWith(typeF));
+  if(!rows.length){
+    body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`;
+    return;
+  }
+  // Sort by date desc
+  rows.sort((a,b)=>(b.filed_date||"").localeCompare(a.filed_date||""));
+  body.innerHTML = rows.map(r => {
+    const t = r.ticker || "";
+    const activist = r.activist || r.form?.includes("13D");
+    const formBadge = activist
+      ? `<span class="badge" style="background:#7c3aed;color:#fff">${r.form||"13D"}</span>`
+      : `<span class="badge bb">${r.form||"13G"}</span>`;
+    const tickerDisp = t
+      ? `<span class="ticker">${t}</span>`
+      : `<span style="color:var(--muted);font-size:10px">—</span>`;
+    const co = (r.company||"-").slice(0,30);
+    const filer = (r.filer||"-").slice(0,32);
+    const filerStyle = activist ? "color:var(--ylw);font-weight:600" : "color:var(--text)";
     return `<tr>
-      <td class="ticker">${t}</td>
-      <td><span class="badge ${buy?"bg":"br"}">${txn}</span></td>
-      <td style="font-size:10px;color:var(--muted)">${String(who).slice(0,18)}</td>
-      <td style="font-size:10px">${dt}</td>
-      <td>${fmt(sh)}</td>
-      <td>${val}</td>
+      <td>${tickerDisp}${star(t)}</td>
+      <td style="font-size:11px">${co}</td>
+      <td style="font-size:11px;${filerStyle}">${filer}</td>
+      <td>${formBadge}</td>
+      <td style="font-size:11px;color:var(--muted)">${r.filed_date?.slice(0,10)||"-"}</td>
       <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
+      <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc);font-size:13px">↗</a></td>
     </tr>`;
   }).join("");
 }
 
+function renderInsider(){
+  const rows=flt(D.insider,["ticker","company","person"]);
+  const body=document.getElementById("body-insider");
+  if(!body) return;
+  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`; return; }
+  const rs=RS();
+  // Sort by date desc
+  const sorted=[...rows].sort((a,b)=>(b.filed_date||"").localeCompare(a.filed_date||""));
+  body.innerHTML=sorted.map(r=>{
+    const t=r.ticker||"";
+    const txType=r.transaction||"Buy";
+    const txCl=txType.toLowerCase().includes("buy")?"pos":"neg";
+    const person=(r.person||r.insider_name||r.name||"-").slice(0,24);
+    return `<tr>
+      <td><span class="ticker">${t}</span>${star(t)}</td>
+      <td><span class="${txCl}" style="font-size:10px;padding:2px 5px;border-radius:3px;background:${txCl==='pos'?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)'}">${txType}</span></td>
+      <td style="font-size:11px;color:var(--muted)">${person}</td>
+      <td style="font-size:11px;color:var(--muted)">${fmtDate(r.filed_date||r.date||"")}</td>
+      <td class="num">${fmt(r.shares||r.quantity||r.adet)}</td>
+      <td class="num">${r.value!=null?fmtMC(r.value):"-"}</td>
+      <td style="text-align:center">${rs.has(t)?'<span style="color:#22c55e">✅</span>':'<span style="color:#ef4444">❌</span>'}</td>
+    </tr>`;
+  }).join("");
+}
 // ════════════════════════════════════
 // SORT — sortDir preserved across tab changes
 // ════════════════════════════════════

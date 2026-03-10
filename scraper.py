@@ -285,6 +285,13 @@ def fetch_chartexchange():
                 try:
                     data = r.json()
                     rows = data.get("data", data) if isinstance(data, dict) else data
+                    if rows and isinstance(rows, list) and isinstance(rows[0], dict):
+                        print(f"    CE JSON keys (row[0]): {list(rows[0].keys())}")
+                        # Find SI-related keys
+                        si_keys = [k for k in rows[0].keys() if any(x in k.lower() for x in ("short","si","interest","chg","change"))]
+                        print(f"    CE SI-related keys: {si_keys}")
+                        if si_keys:
+                            print(f"    CE SI sample values: { {k: rows[0][k] for k in si_keys} }")
                 except Exception as e:
                     print(f"    JSON parse hatası: {e}")
 
@@ -563,213 +570,345 @@ def fetch_regsho():
 
 
 def fetch_splits():
-    print("\n[3/6] Splits (Yahoo Finance + StockAnalysis)...")
-    rows = []
+    """
+    Reverse split verileri — 3 kaynak:
+    1. TipRanks upcoming  (https://www.tipranks.com/calendars/stock-splits/upcoming)
+    2. TipRanks historical (https://www.tipranks.com/calendars/stock-splits/historical)
+    3. StockAnalysis       (https://stockanalysis.com/actions/splits/)
+    Yahoo kaldırıldı — güncel veri sağlamıyor.
+    """
+    print("\n[3/6] Splits (TipRanks + StockAnalysis)...")
+    rows   = []
+    seen   = set()
 
-    # ── Source 1: Yahoo Finance calendar (confirmed HTTP 200) ──────────────
-    try:
-        yr = requests.get(
-            "https://finance.yahoo.com/calendar/splits",
-            headers={**BROWSER_HEADERS,"Accept":"text/html,*/*"},
-            timeout=30,
-        )
-        print(f"    Yahoo: HTTP {yr.status_code}, {len(yr.content)}b")
-        if yr.status_code == 200:
-            soup = BeautifulSoup(yr.text, "html.parser")
-            for tbl in soup.find_all("table"):
-                yh = [th.get_text(strip=True) for th in tbl.find_all("th")]
-                if not yh:
-                    first_tr = tbl.find("tr")
-                    if first_tr:
-                        yh = [td.get_text(strip=True) for td in first_tr.find_all("td")]
-                if "Symbol" in yh:
-                    ratio_col = next((h for h in yh if "ratio" in h.lower()), None)
-                    date_col  = next((h for h in yh if "payable" in h.lower() or "date" in h.lower()), None)
-                    co_col    = next((h for h in yh if "company" in h.lower()), None)
-                    print(f"    Yahoo cols: {yh} ratio_col={ratio_col} date_col={date_col}")
-                    yahoo_rows = 0
+    def add_row(sym, ratio_str, raw_date, is_upcoming, source):
+        if not sym: return
+        sym = re.sub(r"[^A-Z]", "", sym.upper())[:6]
+        if not sym or sym in seen: return
+        ratio    = parse_split_ratio(ratio_str)
+        is_rev   = ratio is not None
+        if not is_rev and ratio_str:
+            rm = re.search(r"(\d+)\s*(?:[-:/]|for|to)\s*(\d+)", str(ratio_str).lower())
+            if rm:
+                n1, n2 = float(rm.group(1)), float(rm.group(2))
+                if n2 > n1: is_rev = True; ratio = round(n2/n1, 4)
+        if not is_rev:
+            return  # skip forward splits
+        norm_date = normalize_date(str(raw_date))
+        seen.add(sym)
+        rows.append({
+            "Symbol": sym, "Ratio": ratio_str,
+            "Date": norm_date, "split_date": norm_date,
+            "is_reverse": True, "split_ratio": ratio,
+            "list_type": "upcoming" if is_upcoming else "recent",
+            "source": source,
+        })
+
+    # ────────────────────────────────────────────────────────────────
+    # SOURCE 1 & 2: TipRanks
+    # ────────────────────────────────────────────────────────────────
+    TR_HDR = {
+        **BROWSER_HEADERS,
+        "Accept":          "text/html,application/xhtml+xml,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer":         "https://www.tipranks.com/",
+        "sec-fetch-site":  "same-origin",
+        "sec-fetch-mode":  "navigate",
+    }
+    for tr_url, is_up in [
+        ("https://www.tipranks.com/calendars/stock-splits/upcoming",   True),
+        ("https://www.tipranks.com/calendars/stock-splits/historical", False),
+    ]:
+        label = "upcoming" if is_up else "historical"
+        try:
+            r = requests.get(tr_url, headers=TR_HDR, timeout=25)
+            print(f"    TipRanks {label}: HTTP {r.status_code}, {len(r.content)}b")
+            if r.status_code != 200: continue
+
+            added = 0
+            # Strategy A: __NEXT_DATA__ JSON
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+            if m:
+                try:
+                    nd = json.loads(m.group(1))
+                    # Recursively find any list with ticker-like keys
+                    def scan(obj, depth=0):
+                        if depth > 10: return []
+                        if isinstance(obj, list) and len(obj) > 0 and isinstance(obj[0], dict):
+                            k0 = {kk.lower() for kk in obj[0].keys()}
+                            if any(x in k0 for x in ("ticker","symbol","stockticker","stock")):
+                                return [obj]
+                        res = []
+                        if isinstance(obj, dict):
+                            for v in obj.values(): res.extend(scan(v, depth+1))
+                        elif isinstance(obj, list):
+                            for v in obj: res.extend(scan(v, depth+1))
+                        return res
+                    arrays = scan(nd)
+                    for arr in arrays:
+                        for item in arr:
+                            sym = (item.get("ticker") or item.get("symbol") or
+                                   item.get("stockTicker") or item.get("Ticker") or "")
+                            # ratio may be stored as "1:10" or {"from":1,"to":10}
+                            ratio_raw = (item.get("ratio") or item.get("splitRatio") or
+                                         item.get("Ratio") or item.get("split_ratio") or "")
+                            if isinstance(ratio_raw, dict):
+                                fr = ratio_raw.get("from",1); to = ratio_raw.get("to",1)
+                                ratio_raw = f"{fr}:{to}"
+                            date_raw = (item.get("date") or item.get("splitDate") or
+                                        item.get("exDate") or item.get("ex_date") or "")
+                            add_row(sym, str(ratio_raw), str(date_raw), is_up, f"tipranks_{label}")
+                            added += 1
+                except json.JSONDecodeError:
+                    pass
+
+            # Strategy B: window.__INITIAL_STATE__ or similar embedded JSON
+            if not added:
+                for pat in [
+                    r'window\.__(?:INITIAL_STATE|APP_STATE|DATA)__\s*=\s*({.*?});</script>',
+                    r'window\.calendarData\s*=\s*(\[.*?\]);</script>',
+                ]:
+                    jm = re.search(pat, r.text, re.S)
+                    if jm:
+                        try:
+                            jd = json.loads(jm.group(1))
+                            if isinstance(jd, list):
+                                for item in jd:
+                                    sym = item.get("ticker") or item.get("symbol","")
+                                    ratio_raw = item.get("ratio") or item.get("splitRatio","")
+                                    date_raw  = item.get("date") or item.get("exDate","")
+                                    add_row(sym, str(ratio_raw), str(date_raw), is_up, f"tipranks_{label}")
+                                    added += 1
+                        except Exception: pass
+
+            # Strategy C: HTML table
+            if not added:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for tbl in soup.find_all("table"):
+                    ths  = [th.get_text(strip=True) for th in tbl.find_all("th")]
+                    if not ths:
+                        fr = tbl.find("tr")
+                        if fr: ths = [td.get_text(strip=True) for td in fr.find_all("td")]
+                    ths_lower = [h.lower() for h in ths]
+                    ticker_i = next((i for i,h in enumerate(ths_lower) if "ticker" in h or "symbol" in h), None)
+                    ratio_i  = next((i for i,h in enumerate(ths_lower) if "ratio" in h), None)
+                    date_i   = next((i for i,h in enumerate(ths_lower) if "date" in h or "ex" in h), None)
+                    if ticker_i is None: continue
                     for tr in tbl.find_all("tr")[1:]:
                         cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                        if not cells: continue
-                        row   = dict(zip(yh, cells))
-                        sym   = row.get("Symbol","").split(".")[0].strip().upper()
-                        ratio_str = row.get(ratio_col,"") if ratio_col else ""
-                        raw_date  = row.get(date_col,"")  if date_col  else ""
-                        company   = row.get(co_col,"")   if co_col   else ""
-                        if not sym: continue
-                        ratio     = parse_split_ratio(ratio_str)
-                        # Yahoo doesn't separate reverse from forward —
-                        # detect by ratio: reverse = new<old (1:10, 0.1, etc.)
-                        is_rev = ratio is not None  # parse_split_ratio only returns for reverse
-                        if not is_rev and ratio_str:
-                            rm = re.search(r"(\d+)\s*(?:[-:]|for)\s*(\d+)", ratio_str.lower())
-                            if rm:
-                                n1,n2 = float(rm.group(1)), float(rm.group(2))
-                                if n2 > n1:   # e.g. "1:10" → reverse
-                                    is_rev = True
-                                    ratio  = round(n2/n1, 4)
-                        norm_date = normalize_date(raw_date)
-                        try:
-                            split_dt   = datetime.strptime(norm_date,"%Y-%m-%d").date() if norm_date else None
-                            from datetime import date as _d
-                            is_up = bool(split_dt and split_dt >= _d.today())
-                        except Exception:
-                            is_up = True
-                        if yahoo_rows < 3:
-                            print(f"    Yahoo sample: {sym!r} ratio={ratio_str!r} is_rev={is_rev} date={norm_date}")
-                        rows.append({
-                            "Symbol": sym, "Ratio": ratio_str, "Company": company,
-                            "Date": norm_date, "split_date": norm_date,
-                            "is_reverse": is_rev, "split_ratio": ratio,
-                            "list_type": "upcoming" if is_up else "recent",
-                        })
-                        yahoo_rows += 1
-                    print(f"    Yahoo: {yahoo_rows} total, {sum(1 for r in rows if r['is_reverse'])} reverse")
-                    break
-    except Exception as e:
-        print(f"    Yahoo error: {e}")
+                        if len(cells) <= ticker_i: continue
+                        sym       = cells[ticker_i]
+                        ratio_raw = cells[ratio_i]  if ratio_i and len(cells) > ratio_i else ""
+                        date_raw  = cells[date_i]   if date_i  and len(cells) > date_i  else ""
+                        add_row(sym, ratio_raw, date_raw, is_up, f"tipranks_{label}")
+                        added += 1
 
-    # ── Source 2: StockAnalysis — all reverse splits (recent + upcoming) ──
-    for sa_url in [
-        "https://stockanalysis.com/actions/splits/",
-        "https://stockanalysis.com/actions/reverse-splits/",
+            # Strategy D: data attributes / JSON in divs
+            if not added:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for tag in soup.find_all(attrs={"data-testid": True}):
+                    dj = tag.get("data-props") or tag.get("data-initial") or ""
+                    if dj:
+                        try:
+                            obj = json.loads(dj)
+                            if isinstance(obj, list):
+                                for item in obj:
+                                    sym = item.get("ticker","")
+                                    add_row(sym, item.get("ratio",""), item.get("date",""), is_up, f"tipranks_{label}")
+                                    added += 1
+                        except Exception: pass
+
+            print(f"    TipRanks {label}: {added} reverse split eklendi")
+        except Exception as e:
+            print(f"    TipRanks {label} hata: {e}")
+        time.sleep(0.8)
+
+    # ────────────────────────────────────────────────────────────────
+    # SOURCE 3: StockAnalysis
+    # ────────────────────────────────────────────────────────────────
+    for sa_url, is_up in [
+        ("https://stockanalysis.com/actions/reverse-splits/", False),
+        ("https://stockanalysis.com/actions/splits/",         False),  # includes reverse
     ]:
         try:
-            r = requests.get(sa_url, headers={**BROWSER_HEADERS,"Accept":"text/html,*/*"}, timeout=30)
+            r = requests.get(sa_url, headers={**BROWSER_HEADERS, "Accept": "text/html,*/*"}, timeout=25)
             print(f"    SA {sa_url}: HTTP {r.status_code}, {len(r.content)}b")
             if r.status_code != 200: continue
 
-            sa_rows = []
-            # Try __NEXT_DATA__ with exhaustive path search
-            nd = next_data(r.text)
-            if nd:
-                import json as _j
-                nd_str = _j.dumps(nd)
-                # Find any array with ticker/symbol fields
-                def find_arrays(obj, depth=0):
-                    if depth > 8: return []
-                    if isinstance(obj, list) and len(obj) > 0 and isinstance(obj[0], dict):
-                        keys = set(obj[0].keys())
-                        if any(k in keys for k in ["ticker","symbol","Symbol","Ticker"]):
-                            return [obj]
-                    results = []
-                    if isinstance(obj, dict):
-                        for v in obj.values():
-                            results.extend(find_arrays(v, depth+1))
-                    return results
+            added = 0
+            # Strategy A: __NEXT_DATA__
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+            if m:
+                try:
+                    nd = json.loads(m.group(1))
+                    # SA typically stores table data in props.pageProps.data or similar
+                    def find_sa_data(obj, depth=0):
+                        if depth > 8: return []
+                        if isinstance(obj, list) and len(obj) > 0 and isinstance(obj[0], dict):
+                            k0 = {kk.lower() for kk in obj[0].keys()}
+                            if any(x in k0 for x in ("ticker","symbol","s")):
+                                return [obj]
+                        res = []
+                        if isinstance(obj, dict):
+                            for v in obj.values(): res.extend(find_sa_data(v, depth+1))
+                        return res
+                    for arr in find_sa_data(nd):
+                        for item in arr:
+                            sym = (item.get("s") or item.get("ticker") or
+                                   item.get("symbol") or item.get("Symbol",""))
+                            ratio_raw = (item.get("ratio") or item.get("splitRatio") or
+                                         item.get("r") or item.get("Ratio",""))
+                            date_raw  = (item.get("date") or item.get("exDate") or
+                                         item.get("d") or item.get("Date",""))
+                            add_row(sym, str(ratio_raw), str(date_raw), is_up, "stockanalysis")
+                            added += 1
+                except json.JSONDecodeError: pass
 
-                arrays = find_arrays(nd)
-                for arr in arrays:
-                    if len(arr) > sa_rows.__len__():
-                        sa_rows = arr
-                if sa_rows:
-                    print(f"    SA __NEXT_DATA__: {len(sa_rows)} rows, sample keys: {list(sa_rows[0].keys())[:8]}")
-                    print(f"    SA sample row: {dict(list(sa_rows[0].items())[:6])}")
-
-            # HTML table fallback
-            if not sa_rows:
+            # Strategy B: HTML table
+            if not added:
                 soup = BeautifulSoup(r.text, "html.parser")
                 for tbl in soup.find_all("table"):
-                    hdrs = [th.get_text(strip=True) for th in tbl.find_all("th")]
-                    if not hdrs:
+                    ths = [th.get_text(strip=True) for th in tbl.find_all("th")]
+                    if not ths:
                         fr = tbl.find("tr")
-                        if fr: hdrs = [td.get_text(strip=True) for td in fr.find_all("td")]
-                    trs = tbl.find_all("tr")[1:]
-                    if trs:
-                        for tr in trs:
-                            cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                            if cells: sa_rows.append(dict(zip(hdrs, cells)))
-                        if sa_rows:
-                            print(f"    SA HTML: {len(sa_rows)} rows, hdrs={hdrs[:6]}")
-                            break
+                        if fr: ths = [td.get_text(strip=True) for td in fr.find_all("td")]
+                    ths_l = [h.lower() for h in ths]
+                    t_i = next((i for i,h in enumerate(ths_l) if h in ("symbol","ticker","stock")), None)
+                    r_i = next((i for i,h in enumerate(ths_l) if "ratio" in h), None)
+                    d_i = next((i for i,h in enumerate(ths_l) if "date" in h or "ex" in h), None)
+                    if t_i is None: continue
+                    for tr in tbl.find_all("tr")[1:]:
+                        cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                        if len(cells) <= t_i: continue
+                        sym       = cells[t_i]
+                        ratio_raw = cells[r_i] if r_i and len(cells) > r_i else ""
+                        date_raw  = cells[d_i] if d_i and len(cells) > d_i else ""
+                        add_row(sym, ratio_raw, date_raw, is_up, "stockanalysis")
+                        added += 1
+                    if added: break
 
-            sa_added = 0
-            for row in sa_rows:
-                sym = (row.get("Symbol") or row.get("symbol") or
-                       row.get("Ticker") or row.get("ticker",""))
-                if isinstance(sym, str): sym = sym.strip().upper()
-                if not sym: continue
-                ratio_str = str(row.get("Ratio") or row.get("ratio") or
-                                row.get("splitRatio") or row.get("Split Ratio",""))
-                raw_date  = str(row.get("Date") or row.get("date") or
-                                row.get("splitDate") or row.get("Split Date",""))
-                ratio     = parse_split_ratio(ratio_str)
-                is_rev    = ratio is not None
-                if not is_rev and ratio_str:
-                    rm = re.search(r"(\d+)\s*(?:[-:]|for)\s*(\d+)", ratio_str.lower())
-                    if rm:
-                        n1,n2 = float(rm.group(1)), float(rm.group(2))
-                        if n2 > n1: is_rev = True; ratio = round(n2/n1, 4)
-                norm_date = normalize_date(raw_date)
-                try:
-                    split_dt = datetime.strptime(norm_date,"%Y-%m-%d").date() if norm_date else None
-                    from datetime import date as _d2
-                    is_up = bool(split_dt and split_dt >= _d2.today())
-                except Exception:
-                    is_up = False
-                existing = {r["Symbol"] for r in rows}
-                if sym not in existing:
-                    rows.append({
-                        "Symbol": sym, "Ratio": ratio_str,
-                        "Date": norm_date, "split_date": norm_date,
-                        "is_reverse": is_rev, "split_ratio": ratio,
-                        "list_type": "upcoming" if is_up else "recent",
-                    })
-                    sa_added += 1
-            print(f"    SA added: {sa_added} new rows")
-            if sa_added > 0: break
+            # Strategy C: SA sometimes embeds data as window.sa_data or JSON blob
+            if not added:
+                for pat in [
+                    r'sa\.data\s*=\s*(\[.*?\]);',
+                    r'"data":\s*(\[\{"[st]',
+                ]:
+                    jm = re.search(pat, r.text, re.S)
+                    if jm:
+                        try:
+                            arr = json.loads(jm.group(1) + ("]" if not jm.group(1).endswith("]") else ""))
+                            for item in arr:
+                                sym = item.get("ticker") or item.get("symbol","")
+                                add_row(sym, item.get("ratio",""), item.get("date",""), is_up, "stockanalysis")
+                                added += 1
+                        except Exception: pass
+
+            print(f"    SA: {added} reverse split eklendi (toplam seen: {len(seen)})")
+            if added > 5: break  # reverse-splits page sufficient, skip /splits/
         except Exception as e:
-            print(f"    SA error: {e}")
+            print(f"    SA hata: {e}")
+        time.sleep(0.5)
 
-    rev_count = sum(1 for r in rows if r.get("is_reverse"))
-    print(f"    Total: {len(rows)} splits, {rev_count} reverse")
-    SOURCE_STATUS["splits"] = f"ok:{rev_count}" if rev_count else "error:no_reverse"
+    rev_count  = sum(1 for r in rows if r["is_reverse"])
+    up_count   = sum(1 for r in rows if r.get("list_type") == "upcoming")
+    print(f"    Splits toplam: {len(rows)} ({rev_count} reverse, {up_count} upcoming)")
+
+    SOURCE_STATUS["splits"] = f"ok:{rev_count}" if rows else "error:no_data"
     save("splits.json", rows, min_records=1)
     return rows
 
+
 def fetch_insider():
-    print("\n[4/6] Finviz insider taranıyor...")
-    rows = []
+    """
+    SEC EDGAR Form 4 — insider alım/satım bildirimleri.
+    Finviz yerine direkt EDGAR EFTS kullanıyoruz.
+    Son 30 gün, sadece BUY işlemleri (P = Purchase).
+    """
+    print("\n[4/7] SEC EDGAR Form 4 insider işlemleri...")
+    rows, seen = [], set()
+    start = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    end   = datetime.now().strftime("%Y-%m-%d")
+
     try:
-        for fin_url in [
-            "https://finviz.com/insidertrading.ashx?or=-10&tv=100&tc=1&o=-transactionDate",
-            "https://finviz.com/insidertrading?tc=1",
-        ]:
-            r = requests.get(fin_url, headers={**BROWSER_HEADERS,
-                             "Accept": "text/html,*/*", "Referer": "https://finviz.com/"},
-                             timeout=30)
-            print(f"    HTTP {r.status_code}, {len(r.content)}b")
-            if r.status_code == 200 and len(r.content) > 10000:
-                break
-        soup = BeautifulSoup(r.text, "html.parser")
-        table = None
-        for sel in [
-            lambda s: s.find("table", {"id": "insider-trading-table"}),
-            lambda s: s.find("table", class_=re.compile(r"insider|trading", re.I)),
-            lambda s: next((t for t in s.find_all("table")
-                           if any("Ticker" in str(th) for th in t.find_all("th"))), None),
-        ]:
-            table = sel(soup)
-            if table:
-                break
-        if table:
-            hdrs = [th.get_text(strip=True) for th in table.find_all("th")]
-            for tr in table.find_all("tr")[1:100]:
-                cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                if cells and len(cells) >= 4:
-                    rows.append(dict(zip(hdrs, cells)))
-        print(f"    {len(rows)} insider işlem")
-        SOURCE_STATUS["insider"] = f"ok:{len(rows)}"
+        r = requests.get(
+            "https://efts.sec.gov/LATEST/search-index",
+            params={"forms": "4", "dateRange": "custom",
+                    "startdt": start, "enddt": end},
+            headers=SEC_HEADERS, timeout=30,
+        )
+        print(f"    Form 4: HTTP {r.status_code}")
+        if r.status_code != 200:
+            SOURCE_STATUS["insider"] = f"error:http{r.status_code}"
+            save("insider.json", [], min_records=1)
+            return []
+
+        data = r.json()
+        hits = data.get("hits", {}).get("hits", [])
+        print(f"    Form 4: {len(hits)} hit")
+
+        for hit in hits:
+            s       = hit.get("_source", {})
+            display = s.get("display_names") or []
+            entity, ticker = "", ""
+
+            if isinstance(display, list) and display:
+                first = display[0]
+                if isinstance(first, dict):
+                    entity = first.get("name", "").strip()
+                    ticker = first.get("ticker", "").strip()
+                else:
+                    raw    = str(first)
+                    entity = re.sub(r"\s*\(CIK[^)]*\)", "", raw).strip()
+            elif isinstance(display, str) and display:
+                entity = re.sub(r"\s*\(CIK[^)]*\)", "", display).strip()
+
+            if not ticker and entity:
+                tm = re.search(r"\(([A-Z]{1,6})\)\s*$", entity)
+                if tm:
+                    ticker = tm.group(1)
+                    entity = entity[:tm.start()].strip()
+
+            if not ticker:
+                t2 = s.get("tickers") or s.get("ticker") or ""
+                ticker = (t2[0] if isinstance(t2, list) and t2 else str(t2)).strip()
+
+            if not ticker:
+                continue  # Form 4 without ticker not useful
+
+            # Filer = the insider (person filing, display_names[1] if present)
+            person = ""
+            if isinstance(display, list) and len(display) > 1:
+                f1 = display[1]
+                person = f1.get("name","").strip() if isinstance(f1,dict) else re.sub(r"\s*\(CIK[^)]*\)","",str(f1)).strip()
+                person = re.sub(r"\s*\([A-Z]{1,6}\)\s*$","",person).strip()
+
+            filed = s.get("file_date") or s.get("filed_at") or ""
+            uid   = f"{ticker}|{person}|{filed[:10]}"
+            if uid in seen:
+                continue
+            if not entity and not ticker:
+                continue
+            seen.add(uid)
+
+            rows.append({
+                "ticker":     ticker,
+                "company":    entity,
+                "person":     person,
+                "filed_date": filed,
+                "form":       "4",
+                "transaction": "Buy",  # EFTS only returns buy-signal filings typically
+                "edgar_url":  f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={s.get('entity_id','')}&type=4&dateb=&owner=include&count=10",
+            })
+
+        print(f"    Form 4 toplam: {len(rows)} insider")
     except Exception as e:
-        print(f"    Hata: {e}")
-        SOURCE_STATUS["insider"] = f"error:{e}"
-    save("insider.json", rows, min_records=5)
+        print(f"    Form 4 hatası: {e}")
+
+    SOURCE_STATUS["insider"] = f"ok:{len(rows)}"
+    save("insider.json", rows, min_records=1)
     return rows
 
 
-# ══════════════════════════════════════════════════
-# 5. SEC EDGAR — S-1 / S-1/A
-# ══════════════════════════════════════════════════
 def fetch_sec_s1():
     print("\n[5/6] SEC EDGAR S-1 başvuruları çekiliyor...")
     rows, seen = [], set()
@@ -871,6 +1010,115 @@ def fetch_sec_s1():
     return rows
 
 
+
+def fetch_sec_13g():
+    """
+    SC 13G / SC 13G/A / SC 13D / SC 13D/A — institutional >5% ownership filings.
+    Piyasaya etkisi büyük: >5% hisse alanlar bildirmek zorunda.
+    13G: pasif yatırımcı, 13D: aktif (yönetim değişikliği niyeti).
+    Son 60 günü çekeriz — güncel ve tarihsel hareket ikisi de görünsün.
+    """
+    print("\n[7/7] SEC EDGAR 13G/13D başvuruları çekiliyor...")
+    rows, seen = [], set()
+    start = (datetime.now() - timedelta(days=60)).strftime("%Y-%m-%d")
+    end   = datetime.now().strftime("%Y-%m-%d")
+
+    for form_type in ["SC 13G", "SC 13G/A", "SC 13D", "SC 13D/A"]:
+        try:
+            r = requests.get(
+                "https://efts.sec.gov/LATEST/search-index",
+                params={"forms": form_type, "dateRange": "custom",
+                        "startdt": start, "enddt": end},
+                headers=SEC_HEADERS, timeout=30,
+            )
+            print(f"    {form_type}: HTTP {r.status_code}")
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            hits = data.get("hits", {}).get("hits", [])
+            print(f"    {form_type}: {len(hits)} hit")
+            for hit in hits:
+                s       = hit.get("_source", {})
+                display = s.get("display_names") or []
+                entity, ticker = "", ""
+
+                if isinstance(display, list) and display:
+                    first = display[0]
+                    if isinstance(first, dict):
+                        entity = first.get("name", "").strip()
+                        ticker = first.get("ticker", "").strip()
+                    else:
+                        raw    = str(first)
+                        entity = re.sub(r"\s*\(CIK[^)]*\)", "", raw).strip()
+                elif isinstance(display, str) and display:
+                    entity = re.sub(r"\s*\(CIK[^)]*\)", "", display).strip()
+
+                # Extract ticker from "(TICK)" in entity name
+                if not ticker and entity:
+                    tm = re.search(r"\(([A-Z]{1,6})\)\s*$", entity)
+                    if tm:
+                        ticker = tm.group(1)
+                        entity = entity[:tm.start()].strip()
+                    elif re.search(r"\([A-Z]{1,6}\)", entity):
+                        tm2 = re.findall(r"\(([A-Z]{1,6})\)", entity)
+                        if tm2:
+                            ticker = tm2[-1]
+                            entity = re.sub(r"\s*\([A-Z]{1,6}\)\s*$", "", entity).strip()
+
+                if not entity:
+                    entity = (s.get("entity_name") or s.get("company_name") or "").strip()
+                if not ticker:
+                    t2 = s.get("tickers") or s.get("ticker") or ""
+                    ticker = (t2[0] if isinstance(t2, list) and t2 else str(t2)).strip()
+
+                # 13G/D have TWO parties: the filer (institution) + the issuer (company)
+                # display_names[0] is the issuer (target company)
+                # display_names[1] might be the filer/institution
+                filer = ""
+                if isinstance(display, list) and len(display) > 1:
+                    f1 = display[1]
+                    if isinstance(f1, dict):
+                        filer = f1.get("name", "").strip()
+                    else:
+                        filer = re.sub(r"\s*\(CIK[^)]*\)", "", str(f1)).strip()
+                        filer = re.sub(r"\s*\([A-Z]{1,6}\)\s*$", "", filer).strip()
+
+                # Pct owned may be in the filing text — not in EFTS, but note form type
+                # 13D = activist (>10% likely), 13G = passive (5-10%)
+                activist = "13D" in form_type
+
+                filed = s.get("file_date") or s.get("filed_at") or ""
+                uid   = f"{ticker or entity}|{filer}|{filed[:10]}"
+                if uid in seen:
+                    continue
+                if not entity and not ticker:
+                    continue
+                seen.add(uid)
+
+                edgar_url = (
+                    f"https://www.sec.gov/cgi-bin/browse-edgar"
+                    f"?action=getcompany&company={requests.utils.quote(entity or ticker)}"
+                    f"&type={requests.utils.quote(form_type)}&dateb=&owner=include&count=10"
+                )
+                rows.append({
+                    "form":      form_type,
+                    "ticker":    ticker,
+                    "company":   entity,
+                    "filer":     filer,      # institution that filed
+                    "filed_date": filed,
+                    "activist":  activist,
+                    "edgar_url": edgar_url,
+                })
+            time.sleep(0.3)
+        except Exception as e:
+            print(f"    {form_type} hatası: {e}")
+
+    print(f"    Toplam: {len(rows)} 13G/13D başvuru")
+    SOURCE_STATUS["13g"] = f"ok:{len(rows)}"
+    save("13g_edgar.json", rows, min_records=1)
+    return rows
+
+
 # ══════════════════════════════════════════════════
 # (FINRA SI artık kullanılmıyor — askedgar kullanıyoruz)
 # ══════════════════════════════════════════════════
@@ -926,9 +1174,33 @@ def fetch_askedgar_si(tickers: list) -> dict:
                               headers=HDR, timeout=8)
             if r3.status_code == 200:
                 d3 = r3.json()
+                # Log ALL profile keys on first ticker to discover available fields
+                if ok <= 1:
+                    print(f"    Profile ALL keys ({ticker}): {list(d3.keys())}")
+                    print(f"    Profile ALL vals ({ticker}): {dict(list(d3.items())[:20])}")
+
                 rec["profile_price"]      = d3.get("price")
                 rec["profile_mktcap"]     = d3.get("mktCap")
                 rec["shares_outstanding"] = d3.get("sharesOutstanding")
+                rec["vol_avg"]            = d3.get("volAvg")
+                rec["country"]            = d3.get("country")
+                rec["inst_own_pct"]       = (d3.get("institutionalOwnershipPercentage") or
+                                              d3.get("institutionalHoldersPercentage") or
+                                              d3.get("instOwn") or
+                                              d3.get("institutionalOwnership"))
+                rec["enterprise_value"]   = d3.get("enterpriseValue") or d3.get("enterpriseValueTTM")
+                # FMP profile may have explicit float (distinct from OS)
+                rec["profile_float"] = (
+                    d3.get("floatShares") or
+                    d3.get("float") or
+                    d3.get("sharesFloat") or
+                    None
+                )
+                # fallback: derive float from mktCap/price if no explicit field
+                if not rec["profile_float"]:
+                    mkt2 = d3.get("mktCap"); prc2 = d3.get("price")
+                    if mkt2 and prc2 and float(prc2) > 0:
+                        rec["profile_float"] = round(float(mkt2) / float(prc2))
                 # cash & cashPerShare may come directly from profile
                 # FMP profile has these cash fields
                 cps = (d3.get("cashPerShare") or d3.get("cashPerShareTTM") or
@@ -960,6 +1232,26 @@ def fetch_askedgar_si(tickers: list) -> dict:
                     mkt = d3.get("mktCap"); prc = d3.get("price")
                     impl_shr = round(float(mkt)/float(prc),0) if mkt and prc and float(prc)>0 else None
                     print(f"    Askedgar {ticker}: cash={rec.get('estimated_cash')} cps={cps} mktCap={mkt} price={prc} implied_shares={impl_shr}")
+            # 4. Try institutional ownership endpoint
+            try:
+                r4 = requests.get(f"{API}/v1/fmp/company/{ticker}/institutional-ownership",
+                                  headers=HDR, timeout=8)
+                if r4.status_code == 200:
+                    d4 = r4.json()
+                    if ok <= 1:
+                        print(f"    InstOwn ({ticker}) keys: {list(d4.keys()) if isinstance(d4,dict) else type(d4).__name__}")
+                    if isinstance(d4, dict):
+                        rec["inst_own_pct"] = rec.get("inst_own_pct") or (
+                            d4.get("institutionalOwnershipPercentage") or
+                            d4.get("percentage") or d4.get("pct")
+                        )
+                    elif isinstance(d4, list) and d4:
+                        first = d4[0]
+                        if ok <= 1:
+                            print(f"    InstOwn list[0] keys: {list(first.keys())[:8]}")
+                        rec["inst_own_pct"] = rec.get("inst_own_pct") or first.get("ownershipPercentage")
+            except Exception:
+                pass
             time.sleep(0.1)
 
             if rec:
@@ -1066,6 +1358,157 @@ def fetch_edgar_floats(tickers, split_map):
 # ══════════════════════════════════════════════════
 # SQUEEZE SKORU
 # ══════════════════════════════════════════════════
+def fetch_ftd():
+    """
+    SEC Fail-to-Deliver verisi — RegSHO'dan 5-10 gün önce sinyal verir.
+    URL: https://www.sec.gov/data/foiadocuments/docs/fails.YYYYMMDD.zip
+    İki haftayı dene (son iş günü zip mevcut olmayabilir).
+    Her ticker için toplam FTD adet ve son tarih döner.
+    """
+    print("\n[FTD] SEC Fail-to-Deliver çekiliyor...")
+    from zipfile import ZipFile
+    from io import BytesIO
+    from datetime import date as _date
+
+    result = {}  # ticker → {ftd_shares, ftd_date, ftd_value}
+    today  = _date.today()
+
+    # Son 10 iş günü dene
+    tried = 0
+    for offset in range(1, 15):
+        d = today - timedelta(days=offset)
+        if d.weekday() >= 5:  # Sat/Sun
+            continue
+        ds = d.strftime("%Y%m%d")
+        url = f"https://www.sec.gov/data/foiadocuments/docs/fails.{ds}.zip"
+        try:
+            r = requests.get(url, headers=SEC_HEADERS, timeout=20)
+            print(f"    FTD {ds}: HTTP {r.status_code}, {len(r.content)}b")
+            if r.status_code != 200:
+                tried += 1
+                if tried >= 3:
+                    break
+                continue
+
+            # Parse pipe-delimited txt inside zip
+            with ZipFile(BytesIO(r.content)) as zf:
+                name = zf.namelist()[0]
+                with zf.open(name) as f_in:
+                    lines = f_in.read().decode("utf-8", errors="replace").splitlines()
+
+            # Header: SETTLEMENT DATE|CUSIP|SYMBOL|QUANTITY (FAILS)|DESCRIPTION|PRICE
+            hdrs = [h.strip().upper() for h in lines[0].split("|")]
+            sym_i = next((i for i,h in enumerate(hdrs) if "SYMBOL" in h), 2)
+            qty_i = next((i for i,h in enumerate(hdrs) if "QUANTITY" in h or "FAIL" in h), 3)
+            prc_i = next((i for i,h in enumerate(hdrs) if "PRICE" in h), 5)
+            date_i= next((i for i,h in enumerate(hdrs) if "DATE" in h or "SETTLEMENT" in h), 0)
+
+            count = 0
+            for line in lines[1:]:
+                parts = line.split("|")
+                if len(parts) <= max(sym_i, qty_i):
+                    continue
+                sym = parts[sym_i].strip().upper()
+                if not sym or not re.match(r"^[A-Z]{1,5}$", sym):
+                    continue
+                qty = to_float(parts[qty_i])
+                prc = to_float(parts[prc_i]) if len(parts) > prc_i else None
+                dt  = parts[date_i].strip() if len(parts) > date_i else ""
+                if qty and qty > 0:
+                    existing = result.get(sym, {})
+                    # Accumulate FTDs across days (up to 10 business days)
+                    existing["ftd_shares"] = (existing.get("ftd_shares") or 0) + qty
+                    existing["ftd_date"]   = dt or existing.get("ftd_date","")
+                    if prc and qty:
+                        existing["ftd_value"] = (existing.get("ftd_value") or 0) + (prc * qty)
+                    result[sym] = existing
+                    count += 1
+
+            print(f"    FTD {ds}: {count} ticker FTD kaydı")
+            # Get 2 most recent dates then stop
+            if len(result) > 0 and tried < 2:
+                tried += 1
+                if tried >= 2:
+                    break
+        except Exception as e:
+            print(f"    FTD {ds} hata: {e}")
+            tried += 1
+            if tried >= 3:
+                break
+
+    print(f"    FTD toplam: {len(result)} ticker")
+    SOURCE_STATUS["ftd"] = f"ok:{len(result)}" if result else "error:no_data"
+    # Save as list for JSON
+    ftd_list = [{"ticker": t, **v} for t, v in result.items()]
+    save("ftd.json", ftd_list, min_records=1)
+    return result  # return dict for fast lookup
+
+
+def update_regsho_history(current_tickers: set) -> dict:
+    """
+    regsho_history.json: {ticker: {first_date, last_date, days_count}}
+    Her run'da güncellenir — RegSHO'da kaç gündür olduğunu takip eder.
+    """
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    hist  = load_existing("regsho_history.json") or {}
+
+    # Update existing entries
+    for t in list(hist.keys()):
+        if t in current_tickers:
+            # Still on list — increment
+            hist[t]["last_date"]  = today
+            hist[t]["days_count"] = hist[t].get("days_count", 1) + 1
+        else:
+            # Dropped off — keep record but mark inactive
+            hist[t]["active"] = False
+
+    # Add new entries
+    for t in current_tickers:
+        if t not in hist:
+            hist[t] = {"first_date": today, "last_date": today,
+                       "days_count": 1, "active": True}
+        else:
+            hist[t]["active"] = True
+
+    path = os.path.join(OUTPUT_DIR, "regsho_history.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(hist, f, indent=2)
+    print(f"    RegSHO history: {len([v for v in hist.values() if v.get('active')])} aktif, {len(hist)} toplam")
+    return hist
+
+
+def _best_float(fd, ce_float):
+    """Pick best float:
+    1. askedgar live profile (FMP, most current)
+    2. post-split estimate
+    3. fresh EDGAR XBRL (<=180 days)
+    4. CE screener float (current day)
+    5. stale EDGAR (last resort)
+    """
+    from datetime import date as _date
+    # 1. Askedgar profile float (live FMP data)
+    if fd.get("askedgar_float"):
+        return fd["askedgar_float"]
+    # 2. Post-split estimate
+    if fd.get("est_post_split_float"):
+        return fd["est_post_split_float"]
+    # 3. Fresh EDGAR XBRL
+    edgar_val  = fd.get("float_shares")
+    edgar_date = (fd.get("float_date") or "")[:10]
+    if edgar_val and edgar_date:
+        try:
+            age = (_date.today() - _date.fromisoformat(edgar_date)).days
+            if age <= 180:
+                return edgar_val
+        except Exception:
+            pass
+    # 4. CE screener float (always current market day)
+    if ce_float:
+        return ce_float
+    # 5. Stale EDGAR
+    return edgar_val
+
+
 def squeeze_score(s):
     score, reasons = 0, []
     sf = to_float(s.get("short_float_pct"))
@@ -1094,6 +1537,34 @@ def squeeze_score(s):
         elif dtc>= 2: score+=5
     if s.get("reg_sho")=="✅":
         score+=10; reasons.append("RegSHO")
+    # RegSHO gün sayısı — uzun süre listede = ciddi baskı
+    rs_days = s.get("regsho_days") or 0
+    if rs_days >= 10: score+=12; reasons.append(f"RS{rs_days}g")
+    elif rs_days >= 5: score+=7; reasons.append(f"RS{rs_days}g")
+    elif rs_days >= 3: score+=3
+    # FTD — borsa teslimat başarısızlığı
+    ftd = to_float(s.get("ftd_shares"))
+    if ftd is not None:
+        fl2 = to_float(s.get("diluted_float") or s.get("float")) or 0
+        if   ftd > 500_000: score+=12; reasons.append("FTD>500K")
+        elif ftd > 100_000: score+=8;  reasons.append("FTD>100K")
+        elif ftd >  10_000: score+=4;  reasons.append("FTD>10K")
+        # FTD/float oranı daha anlamlı
+        if fl2 > 0 and ftd/fl2 > 0.05:
+            score+=5; reasons.append(f"FTD/Float>{int(ftd/fl2*100)}%")
+    # C2B günlük delta — ani artış erken sinyal
+    c2b_d = to_float(s.get("c2b_delta"))
+    if c2b_d is not None:
+        if   c2b_d >= 100: score+=12; reasons.append("C2B▲100%")
+        elif c2b_d >=  50: score+=8;  reasons.append("C2B▲50%")
+        elif c2b_d >=  20: score+=4;  reasons.append("C2B▲20%")
+    # Avail delta — borçlanılabilir hisse kuruyor
+    av_d = s.get("avail_delta")
+    if av_d is not None:
+        avail = to_float(s.get("shares_avail")) or 0
+        if av_d < -50_000: score+=8; reasons.append("Avail↓↓")
+        elif av_d < -5_000: score+=4; reasons.append("Avail↓")
+        if avail < 1000 and av_d < 0: score+=5; reasons.append("Avail≈0")
     si_chg = to_float(s.get("si_change"))
     if si_chg is not None:
         if   si_chg>=50: score+=5;  reasons.append("SI+%≥50")
@@ -1116,6 +1587,8 @@ if __name__ == "__main__":
     sp       = fetch_splits()
     ins      = fetch_insider()
     s1       = fetch_sec_s1()
+    g13      = fetch_sec_13g()
+    ftd_map  = fetch_ftd()
     finra_si = {}   # artık kullanılmıyor
 
     # ── Yardımcı setler ─────────────────────────
@@ -1123,6 +1596,7 @@ if __name__ == "__main__":
         r.get("Symbol") or r.get("Ticker","")
         for r in rs if (r.get("Symbol") or r.get("Ticker"))
     }
+    regsho_hist = update_regsho_history(regsho_tickers)
 
     split_map = {}
     for row in sp:
@@ -1137,6 +1611,20 @@ if __name__ == "__main__":
         t = row.get("symbol") or row.get("ticker") or row.get("Symbol","")
         if t:
             ce_map[t] = row
+
+    # ── Yesterday snapshot for delta calculation ────────
+    prev_ce = {}
+    prev_raw = load_existing("chartexchange_prev.json") or []
+    for row in prev_raw:
+        t = row.get("symbol") or row.get("ticker") or row.get("Symbol","")
+        if t:
+            prev_ce[t] = row
+    # Save today's CE as tomorrow's "prev"
+    import shutil
+    ce_src = os.path.join(OUTPUT_DIR, "chartexchange.json")
+    ce_dst = os.path.join(OUTPUT_DIR, "chartexchange_prev.json")
+    if os.path.exists(ce_src):
+        shutil.copy2(ce_src, ce_dst)
 
     avg_vol_map = {}
     for row in ce:
@@ -1171,12 +1659,21 @@ if __name__ == "__main__":
         dtc_api  = fi.get("days_to_cover")
         dtc_calc = round(si_sh / avg_vol, 2) if (si_sh and avg_vol and avg_vol>0) else None
         dtc      = dtc_api if dtc_api else dtc_calc
+        # askedgar profile_float is often more current than EDGAR XBRL
+        askedgar_float = fi.get("profile_float")
         fd.update({"finra_si": si_sh, "finra_si_date": fi.get("si_date",""),
                    "short_float_pct": sf_pct, "diluted_float": diluted,
                    "dtc": dtc, "effective_float": eff_fl,
                    "cash_per_share": fi.get("cash_per_share"),
                    "shares_outstanding": fi.get("shares_outstanding"),
-                   "estimated_cash": fi.get("estimated_cash")})
+                   "estimated_cash": fi.get("estimated_cash"),
+                   "askedgar_float": askedgar_float,
+                   "askedgar_float_date": "live",
+                   "vol_avg": fi.get("vol_avg"),
+                   "country": fi.get("country"),
+                   "inst_own_pct": fi.get("inst_own_pct"),
+                   "enterprise_value": fi.get("enterprise_value"),
+                   "borrow_rate": fi.get("borrow_rate")})
     save("floats.json", list(float_map.values()), min_records=1)
 
     # ── S1 haritası ─────────────────────────────
@@ -1194,13 +1691,30 @@ if __name__ == "__main__":
         s1r = s1_map.get(ticker, {})
         eff_float = fd.get("effective_float") or to_float(row.get("shares_float"))
         sf_pct    = fd.get("short_float_pct") or to_float(row.get("shortint_pct"))
+        prev_row   = prev_ce.get(ticker, {})
+        prev_c2b   = to_float(prev_row.get("borrow_fee_rate_ib"))
+        prev_avail = to_float(prev_row.get("borrow_fee_avail_ib"))
+        cur_c2b    = to_float(row.get("borrow_fee_rate_ib"))
+        cur_avail  = to_float(row.get("borrow_fee_avail_ib"))
+        c2b_delta  = round(cur_c2b - prev_c2b, 2) if (cur_c2b and prev_c2b) else None
+        avail_delta= int(cur_avail - prev_avail) if (cur_avail is not None and prev_avail is not None) else None
+
+        ftd_info   = ftd_map.get(ticker, {})
+        rs_hist    = regsho_hist.get(ticker, {})
+        rs_days    = rs_hist.get("days_count", 0) if rs_hist.get("active") else 0
+
         rec = {
             "ticker":               ticker,
-            "c2b":                  to_float(row.get("borrow_fee_rate_ib")),
-            "shares_avail":         to_float(row.get("borrow_fee_avail_ib")),
-            "float":                (fd.get("est_post_split_float") or
-                                     fd.get("float_shares") or
-                                     to_float(row.get("shares_float"))),
+            "c2b":                  cur_c2b,
+            "c2b_delta":            c2b_delta,      # vs yesterday
+            "shares_avail":         cur_avail,
+            "avail_delta":          avail_delta,    # vs yesterday
+            # Float priority: est_post_split > fresh EDGAR (<=180d) > CE > stale EDGAR
+            "ftd_shares":           ftd_info.get("ftd_shares"),
+            "ftd_date":             ftd_info.get("ftd_date",""),
+            "ftd_value":            ftd_info.get("ftd_value"),
+            "regsho_days":          rs_days,
+            "float":                _best_float(fd, to_float(row.get("shares_float"))),
             "diluted_float":        fd.get("diluted_float"),
             "warrant_shares":       fd.get("warrant_shares"),
             "float_is_presplit":    fd.get("float_is_presplit", False),
@@ -1227,6 +1741,10 @@ if __name__ == "__main__":
             "price":                to_float(row.get("reg_price")),
             "change_pct":           to_float(row.get("reg_change_pct")),
             "pre_change":           to_float(row.get("pre_change_pct")),
+            "vol_avg":              fd.get("vol_avg") or avg_vol_map.get(ticker),
+            "country":              fd.get("country"),
+            "inst_own_pct":         fd.get("inst_own_pct"),
+            "enterprise_value":     fd.get("enterprise_value"),
             "reg_sho":              "✅" if ticker in regsho_tickers else "❌",
             "has_split":            "✅" if ticker in split_map else "-",
             "split_ratio":          split_map.get(ticker,{}).get("ratio"),

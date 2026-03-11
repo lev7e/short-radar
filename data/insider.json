@@ -1,351 +1,423 @@
 [
   {
-    "ticker": "U",
-    "company": "Ehrman Monika U",
-    "person": "Matador Resources Co",
+    "ticker": "W",
+    "company": "Roda Richard W",
+    "person": "MSA Safety Inc",
     "filed_date": "2026-03-10",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "J",
-    "company": "Benjamin Richard J",
-    "person": "CERUS CORP",
-    "filed_date": "2026-03-10",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "H",
-    "company": "Faulk John H",
-    "person": "SERVICE CORP INTERNATIONAL",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "B",
-    "company": "Theophilus Nicole B",
-    "person": "WESTINGHOUSE AIR BRAKE TECHNOLOGIES CORP",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "R",
-    "company": "Azamian Bobak R.",
-    "person": "Tarsus Pharmaceuticals, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "J",
-    "company": "KULEVICH FREDERICK J.",
-    "person": "CDW Corp",
-    "filed_date": "2026-03-09",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
     "ticker": "L",
-    "company": "Ball Dorria L.",
-    "person": "Honest Company, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "DAVIS",
-    "company": "DAVIS JENNIFER JOY",
-    "person": "LEGGETT & PLATT INC",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "D",
-    "company": "Ross Andrew D",
-    "person": "Symbotic Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "A",
-    "company": "Michaud James A",
-    "person": "ALLIENT INC",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "F",
-    "company": "Mahoney Stephen F.",
-    "person": "Viridian Therapeutics, Inc.\\DE",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "LP",
-    "company": "Pentwater Capital Management LP",
-    "person": "AVIS BUDGET GROUP, INC.",
-    "filed_date": "2026-03-09",
+    "company": "Reed David L.",
+    "person": "WASTE MANAGEMENT INC",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
     "ticker": "P",
-    "company": "Lu Curtis P",
-    "person": "FTI CONSULTING, INC",
-    "filed_date": "2026-03-09",
+    "company": "Covington P Emery",
+    "person": "Sixth Street Specialty Lending, Inc.",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
     "ticker": "A",
-    "company": "JOHNSON MITCHELL A",
-    "person": "FEDERAL AGRICULTURAL MORTGAGE CORP",
-    "filed_date": "2026-03-09",
+    "company": "Smith Ryan A",
+    "person": "CAMDEN NATIONAL CORP",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
-    "ticker": "R",
-    "company": "Foxx Anthony R",
-    "person": "CDW Corp",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "E",
-    "company": "West Neal E",
-    "person": "KAISER ALUMINUM CORP",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "DAVID",
-    "company": "DUFFIELD DAVID A",
-    "person": "Workday, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "E",
-    "company": "Susi Roger E.",
-    "person": "IRADIMED CORP",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "GREEN",
-    "company": "GREEN MARIA C",
-    "person": "LITTELFUSE INC /DE",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "JR",
-    "company": "Kendrick Charles Morgan JR",
-    "person": "Elevance Health, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "H",
-    "company": "Keeney Scott H",
-    "person": "NLIGHT, INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "C",
-    "company": "Horgen Jay C.",
-    "person": "AFFILIATED MANAGERS GROUP, INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "W",
-    "company": "Conner Jack W",
-    "person": "HERITAGE COMMERCE CORP",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "G",
-    "company": "Nestor John G.",
-    "person": "Carlyle Secured Lending, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "C",
-    "company": "Barnes Randall C",
-    "person": "Guggenheim Active Allocation Fund",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "LORI",
-    "company": "TANSLEY LORI A.",
-    "person": "ZIFF DAVIS, INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "CHAN",
-    "company": "CHAN KEVIN J",
-    "person": "WORTHINGTON ENTERPRISES, INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "PETER",
-    "company": "ORTHWEIN PETER BUSCH",
-    "person": "THOR INDUSTRIES INC",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "W",
-    "company": "Smail David W",
-    "person": "ADT Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "L",
-    "company": "Caputo Richard L. Jr.",
-    "person": "V2X, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "N",
-    "company": "Boudreaux Chad N.",
-    "person": "HUNTINGTON INGALLS INDUSTRIES, INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "J",
-    "company": "Barger Hugh J. III",
-    "person": "KAISER ALUMINUM CORP",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "S",
-    "company": "Farrow Jeffrey S",
-    "person": "Tarsus Pharmaceuticals, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "A",
-    "company": "ROTHBLATT MARTINE A",
-    "person": "UNITED THERAPEUTICS Corp",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "R",
-    "company": "Goodfellow Paul R A",
-    "person": "TALOS ENERGY INC.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "A",
-    "company": "Castrillo-Salgado Joaquin A.",
-    "person": "EVERTEC, Inc.",
-    "filed_date": "2026-03-09",
-    "form": "4",
-    "transaction": "Buy",
-    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
-  },
-  {
-    "ticker": "BAKER",
-    "company": "BAKER COREY",
-    "person": "Vita Coco Company, Inc.",
-    "filed_date": "2026-03-09",
+    "ticker": "F",
+    "company": "Colbert Sarah F",
+    "person": "STURM RUGER & CO INC",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
     "ticker": "D",
-    "company": "Olian Judy D.",
-    "person": "UNITED THERAPEUTICS Corp",
-    "filed_date": "2026-03-09",
+    "company": "Ryan Christopher D.",
+    "person": "GEO GROUP INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "M",
+    "company": "Stibel Jeffrey M",
+    "person": "LEGALZOOM.COM, INC.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "MARK",
+    "company": "MARK RICHARD A",
+    "person": "Viatris Inc",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "C",
+    "company": "Thomas Charles C.",
+    "person": "LEGALZOOM.COM, INC.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "I",
+    "company": "Blum Robert I",
+    "person": "CYTOKINETICS INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "S",
+    "company": "Grossman Adam S",
+    "person": "ADMA BIOLOGICS, INC.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "ASSET",
+    "company": "HORIZON KINETICS ASSET MANAGEMENT LLC",
+    "person": "Texas Pacific Land Corp",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Morris John J",
+    "person": "WASTE MANAGEMENT INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Vartanian Nishan J.",
+    "person": "MSA Safety Inc",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "V",
+    "company": "Krepline Jason V",
+    "person": "Bank First Corp",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "M",
+    "company": "Swed Ryan M.",
+    "person": "STEWART INFORMATION SERVICES CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "C",
+    "company": "Forman Michael C.",
+    "person": "FS Specialty Lending Fund",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "C",
+    "company": "Collins Alvin C III",
+    "person": "FLUOR CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "R",
+    "company": "Herbert Kevin R.",
+    "person": "NATURES SUNSHINE PRODUCTS INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Corrsin David J",
+    "person": "Ameresco, Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "E",
+    "company": "Apostolides James E",
+    "person": "Baker Hughes Co",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "K",
+    "company": "Schultz Yvette K",
+    "person": "ANTERO RESOURCES Corp",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Reidy Brendan J.",
+    "person": "Acushnet Holdings Corp.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "W",
+    "company": "Reyneke Josias W.",
+    "person": "MILLER INDUSTRIES INC /TN/",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "CUOMO",
+    "company": "CUOMO JOHN A",
+    "person": "VSE CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "KIM",
+    "company": "COCKLIN KIM R",
+    "person": "ATMOS ENERGY CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Miles Allen J III",
+    "person": "Western New England Bancorp, Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "CAREY",
+    "company": "CAREY STEPHEN P.",
+    "person": "ANI PHARMACEUTICALS INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "W",
+    "company": "Podbere Burt W.",
+    "person": "CrowdStrike Holdings, Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "FRANK",
+    "company": "DAMELIO FRANK A",
+    "person": "Viatris Inc",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "L",
+    "company": "Sloan Samantha L.",
+    "person": "FIRST SOLAR, INC.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "R",
+    "company": "Pate R. Hewitt",
+    "person": "CHEVRON CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "H",
+    "company": "Ragsdale Daniel H.",
+    "person": "GEO GROUP INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "P",
+    "company": "Cocks Christian P",
+    "person": "HASBRO, INC.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "M",
+    "company": "Meisner Derek M",
+    "person": "Acumen Pharmaceuticals, Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "M",
+    "company": "Taylor Bernadette M",
+    "person": "FULTON FINANCIAL CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "G",
+    "company": "Mcconnell Jill G.",
+    "person": "Fortrea Holdings Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "JAMES",
+    "company": "ANDERSON JAMES M",
+    "person": "FIRST FINANCIAL BANCORP /OH/",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "B",
+    "company": "Woods Karen B",
+    "person": "FIRST FINANCIAL BANCORP /OH/",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "FRANK",
+    "company": "MADONIA FRANK",
+    "person": "MILLER INDUSTRIES INC /TN/",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
   },
   {
     "ticker": "DAVID",
-    "company": "SPECTOR DAVID",
-    "person": "PennyMac Financial Services, Inc.",
-    "filed_date": "2026-03-09",
+    "company": "SIMMONS DAVID S",
+    "person": "Viatris Inc",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "M",
+    "company": "Wunsch Scott M",
+    "person": "Strata Critical Medical, Inc.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "TONIT",
+    "company": "CALAWAY TONIT M",
+    "person": "BORGWARNER INC",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "FRIES",
+    "company": "FRIES MICHAEL T",
+    "person": "Liberty Global Ltd.",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "J",
+    "company": "Tandy Bradley J",
+    "person": "Enovis CORP",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "D",
+    "company": "Hutchinson Michael D",
+    "person": "TERADATA CORP /DE/",
+    "filed_date": "2026-03-10",
+    "form": "4",
+    "transaction": "Buy",
+    "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"
+  },
+  {
+    "ticker": "L",
+    "company": "Sciullo Stephanie L",
+    "person": "MSA Safety Inc",
+    "filed_date": "2026-03-10",
     "form": "4",
     "transaction": "Buy",
     "edgar_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=&type=4&dateb=&owner=include&count=10"

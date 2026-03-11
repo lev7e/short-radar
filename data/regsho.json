@@ -20,6 +20,11 @@
     "Threshold List Date": ""
   },
   {
+    "Symbol": "BMNG",
+    "Market": "G",
+    "Threshold List Date": ""
+  },
+  {
     "Symbol": "BNAI",
     "Market": "S",
     "Threshold List Date": ""
@@ -57,6 +62,11 @@
   {
     "Symbol": "ELPW",
     "Market": "G",
+    "Threshold List Date": ""
+  },
+  {
+    "Symbol": "FBGL",
+    "Market": "S",
     "Threshold List Date": ""
   },
   {
@@ -116,6 +126,11 @@
   },
   {
     "Symbol": "LGHL",
+    "Market": "S",
+    "Threshold List Date": ""
+  },
+  {
+    "Symbol": "MOBX",
     "Market": "S",
     "Threshold List Date": ""
   },
@@ -190,11 +205,6 @@
     "Threshold List Date": ""
   },
   {
-    "Symbol": "RVSN",
-    "Market": "S",
-    "Threshold List Date": ""
-  },
-  {
     "Symbol": "SEV",
     "Market": "S",
     "Threshold List Date": ""
@@ -215,7 +225,7 @@
     "Threshold List Date": ""
   },
   {
-    "Symbol": "SOUX",
+    "Symbol": "SOFX",
     "Market": "G",
     "Threshold List Date": ""
   },

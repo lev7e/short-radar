@@ -1,5 +1,5 @@
 {
-  "updated": "Mar 13, 2026 16:42 UTC",
+  "updated": "Mar 13, 2026 16:44 UTC",
   "regsho_tickers": [
     "AAPD",
     "AMZD",
@@ -1409,6 +1409,21 @@
       "buyer": "-"
     },
     {
+      "ticker": "CMND",
+      "borrow_rate": "-",
+      "avail_shares": "-",
+      "float": "-",
+      "market_cap": "-",
+      "price": "-",
+      "change_pct": "-",
+      "volume": "-",
+      "short_int_pct": "-",
+      "si_change_pct": "-",
+      "reg_sho": false,
+      "s1_date": "2023-03-27",
+      "buyer": "-"
+    },
+    {
       "ticker": "GCTK",
       "borrow_rate": "-",
       "avail_shares": "-",
@@ -2084,6 +2099,21 @@
       "buyer": "-"
     },
     {
+      "ticker": "ZYBT",
+      "borrow_rate": "-",
+      "avail_shares": "-",
+      "float": "-",
+      "market_cap": "-",
+      "price": "-",
+      "change_pct": "-",
+      "volume": "-",
+      "short_int_pct": "-",
+      "si_change_pct": "-",
+      "reg_sho": false,
+      "s1_date": "-",
+      "buyer": "-"
+    },
+    {
       "ticker": "PCSA",
       "borrow_rate": "-",
       "avail_shares": "-",
@@ -2280,21 +2310,6 @@
     },
     {
       "ticker": "GURE",
-      "borrow_rate": "-",
-      "avail_shares": "-",
-      "float": "-",
-      "market_cap": "-",
-      "price": "-",
-      "change_pct": "-",
-      "volume": "-",
-      "short_int_pct": "-",
-      "si_change_pct": "-",
-      "reg_sho": false,
-      "s1_date": "-",
-      "buyer": "-"
-    },
-    {
-      "ticker": "SEAT",
       "borrow_rate": "-",
       "avail_shares": "-",
       "float": "-",

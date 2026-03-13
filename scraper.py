@@ -184,30 +184,98 @@ def scrape_chartexchange():
     return results
 
 # ── 3. Float from Finviz ──────────────────────────────────────────────────────
-def scrape_float_finviz(tickers):
-    """Get float from Finviz for tickers missing float data."""
-    print(f"→ Finviz Float for {len(tickers)} tickers...")
+def scrape_float_askedgar(tickers):
+    """
+    Fetch float from app.askedgar.io/[TICKER].
+    Tries JSON first, then __NEXT_DATA__, then HTML text scan.
+    """
+    print(f"→ AskEdgar Float for {len(tickers)} tickers...")
     floats = {}
-    for i, ticker in enumerate(tickers[:80]):
-        r = safe_get(f"https://finviz.com/quote.ashx?t={ticker}&ty=c&ta=1&p=d",
-                     headers={**S.headers, "Referer": "https://finviz.com/"})
+    MAX = 100  # cap to avoid long runtimes
+
+    # Regex patterns that match float values in text:
+    # "Float: 1.23M", "Shares Float 4,567,890", "float":1234567", etc.
+    FLOAT_PATTERNS = [
+        re.compile(r'"(?:sharesFloat|shares_float|float(?:Shares)?|floatShares)"\s*:\s*"?([0-9][0-9,\.]+)"?', re.I),
+        re.compile(r'(?:shares?\s+)?float\s*[:\-=]\s*([0-9][0-9,\.]+\s*[MBK]?)', re.I),
+        re.compile(r'float\s*</[^>]+>\s*<[^>]+>\s*([0-9][0-9,\.]+\s*[MBK]?)', re.I),
+    ]
+
+    def parse_float_val(s):
+        """Normalise e.g. '4.5M' → '4.5M', '4500000' → '4500000'"""
+        s = s.strip().replace(",", "")
+        return s if s else None
+
+    for i, ticker in enumerate(tickers[:MAX]):
+        url = f"https://app.askedgar.io/{ticker}"
+        r = safe_get(url, headers={**S.headers, "Referer": "https://app.askedgar.io/"})
         if not r:
             continue
-        # Finviz table: find "Shs Float" cell
-        soup = BeautifulSoup(r.text, "lxml")
-        # snapshot-table2 contains fundamental data
-        for cell in soup.find_all("td"):
-            if cell.get_text(strip=True) == "Shs Float":
-                nxt = cell.find_next_sibling("td")
-                if nxt:
-                    floats[ticker] = nxt.get_text(strip=True)
-                    break
-        if (i + 1) % 20 == 0:
-            print(f"   {i+1}/{min(len(tickers),80)}")
-            time.sleep(0.5)
-        time.sleep(0.3)
 
-    print(f"   Got float for {len(floats)} tickers")
+        val = None
+        ct = r.headers.get("content-type", "")
+
+        # ── JSON response ────────────────────────────────────────────────────
+        if "json" in ct:
+            try:
+                d = r.json()
+                # Common key names
+                for k in ("sharesFloat", "shares_float", "float", "floatShares",
+                          "shareFloat", "Float", "sharesOutstandingFloat"):
+                    if k in d and d[k]:
+                        val = parse_float_val(str(d[k]))
+                        break
+                # Nested under data/stats/fundamentals
+                if not val:
+                    for section in ("data", "stats", "fundamentals", "summary"):
+                        if isinstance(d.get(section), dict):
+                            for k in ("sharesFloat", "shares_float", "float", "floatShares"):
+                                if d[section].get(k):
+                                    val = parse_float_val(str(d[section][k]))
+                                    break
+                        if val:
+                            break
+            except Exception:
+                pass
+
+        # ── HTML / Next.js ───────────────────────────────────────────────────
+        if not val:
+            text = r.text
+
+            # __NEXT_DATA__
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', text, re.S)
+            if m:
+                try:
+                    nd = json.loads(m.group(1))
+                    nd_str = json.dumps(nd)
+                    for pat in FLOAT_PATTERNS:
+                        fm = pat.search(nd_str)
+                        if fm:
+                            val = parse_float_val(fm.group(1))
+                            break
+                except Exception:
+                    pass
+
+            # Raw text scan
+            if not val:
+                for pat in FLOAT_PATTERNS:
+                    fm = pat.search(text)
+                    if fm:
+                        candidate = parse_float_val(fm.group(1))
+                        # Sanity check: float should be a number or end with M/B/K
+                        if candidate and re.match(r'^[\d,\.]+[MBK]?$', candidate):
+                            val = candidate
+                            break
+
+        if val:
+            floats[ticker] = val
+
+        if (i + 1) % 15 == 0:
+            print(f"   {i+1}/{min(len(tickers), MAX)} ({len(floats)} found)")
+            time.sleep(0.5)
+        time.sleep(0.35)
+
+    print(f"   AskEdgar: float for {len(floats)}/{min(len(tickers), MAX)} tickers")
     return floats
 
 # ── 4. Reverse Splits — StockAnalysis ────────────────────────────────────────
@@ -642,14 +710,12 @@ def build():
     for row in screener:
         row["reg_sho"] = row["ticker"] in regsho_set
 
-    # Float enrichment for screener rows missing float
-    need_float = [r["ticker"] for r in screener
-                  if not r.get("float") or r["float"] in ("-", "", "0", "0.0")]
-    if need_float:
-        fmap = scrape_float_finviz(need_float)
-        for row in screener:
-            if row["ticker"] in fmap:
-                row["float"] = fmap[row["ticker"]]
+    # Float from AskEdgar — fetch for all screener tickers (most accurate source)
+    all_tickers = [r["ticker"] for r in screener]
+    fmap = scrape_float_askedgar(all_tickers)
+    for row in screener:
+        if row["ticker"] in fmap:
+            row["float"] = fmap[row["ticker"]]  # AskEdgar overrides ChartExchange
 
     # S1 filings
     s1 = scrape_s1()

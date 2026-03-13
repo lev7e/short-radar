@@ -154,10 +154,10 @@ td{padding:7px 12px;font-family:var(--mono);font-size:12px;color:var(--text);}
 <div id="tab-bar">
   <button class="tab active" onclick="switchTab('screener',this)">SCREENER <span class="tab-badge" id="badge-screener">0</span></button>
   <button class="tab" onclick="switchTab('regsho',this)">REG SHO <span class="tab-badge" id="badge-regsho">0</span></button>
-  <button class="tab" onclick="switchTab('splits',this)">SPLITS <span class="tab-badge" id="badge-splits">0</span></button>
-  <button class="tab" onclick="switchTab('changes',this)">TICKER CHANGES <span class="tab-badge" id="badge-changes">0</span></button>
-  <button class="tab" onclick="switchTab('s1',this)">S-1 FİLİNGS <span class="tab-badge" id="badge-s1">0</span></button>
-  <button class="tab" onclick="switchTab('insiders',this)">INSIDERS <span class="tab-badge" id="badge-insiders">0</span></button>
+  <button class="tab" onclick="switchTab('splits',this)">SPLIT <span class="tab-badge" id="badge-splits">0</span></button>
+  <button class="tab" onclick="switchTab('changes',this)">TICKER CHANGE <span class="tab-badge" id="badge-changes">0</span></button>
+  <button class="tab" onclick="switchTab('s1',this)">S-1 <span class="tab-badge" id="badge-s1">0</span></button>
+  <button class="tab" onclick="switchTab('insiders',this)">INSIDER <span class="tab-badge" id="badge-insiders">0</span></button>
 </div>
 
 <main>
@@ -177,7 +177,7 @@ td{padding:7px 12px;font-family:var(--mono);font-size:12px;color:var(--text);}
         <thead><tr>
           <th onclick="sortTbl('t-screener',0)">Ticker</th>
           <th onclick="sortTbl('t-screener',1)">Borrow Rate</th>
-          <th onclick="sortTbl('t-screener',2)">Avail Shares</th>
+          <th onclick="sortTbl('t-screener',2)">Shares</th>
           <th onclick="sortTbl('t-screener',3)">Float</th>
           <th onclick="sortTbl('t-screener',4)">Price</th>
           <th onclick="sortTbl('t-screener',5)">Chg%</th>

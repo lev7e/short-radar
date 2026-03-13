@@ -1,0 +1,39 @@
+name: Scrape Data
+
+on:
+  workflow_dispatch:   # Manuel tetikleme (GitHub UI'dan veya API'den)
+  schedule:
+    - cron: "0 14 * * 1-5"   # Her hafta içi 14:00 UTC (09:00 EST)
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 lxml playwright
+          playwright install chromium --with-deps
+
+      - name: Run scraper
+        run: python scraper.py
+
+      - name: Commit data.json
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add data.json
+          git diff --staged --quiet && echo "No changes" || \
+            (git commit -m "data: update $(date -u +'%Y-%m-%d %H:%M UTC')" && git push)

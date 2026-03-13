@@ -1,1017 +1,639 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>SHORT RADAR</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Short Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#09090b;--surf:#111114;--surf2:#18181c;
-  --bdr:#27272a;--text:#ffffff;--muted:#71717a;
-  --acc:#22c55e;--red:#ef4444;--ylw:#eab308;--blu:#3b82f6;
-  --mono:'IBM Plex Mono',monospace;
-  --sans:'IBM Plex Sans',sans-serif;
+:root {
+  --bg:      #080b10;
+  --s1:      #0d1117;
+  --s2:      #161b22;
+  --s3:      #21262d;
+  --border:  #30363d;
+  --text:    #e6edf3;
+  --muted:   #7d8590;
+  --accent:  #58a6ff;
+  --green:   #3fb950;
+  --red:     #f85149;
+  --yellow:  #d29922;
+  --orange:  #db6d28;
+  --purple:  #bc8cff;
+  --mono:    'IBM Plex Mono', monospace;
+  --sans:    'IBM Plex Sans', sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh;}
 
-/* HEADER */
-header{
-  position:sticky;top:0;z-index:300;
-  background:rgba(9,9,11,.96);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--bdr);
-  padding:8px 14px;display:flex;align-items:center;gap:8px;
+#header {
+  background:var(--s1);border-bottom:1px solid var(--border);
+  padding:0 16px;height:52px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px;
+  position:sticky;top:0;z-index:200;
 }
-.logo{font-family:var(--mono);font-weight:600;font-size:13px;
-  color:var(--acc);letter-spacing:.14em;white-space:nowrap}
-.logo em{color:var(--muted);font-style:normal;font-weight:400}
-#status{font-family:var(--mono);font-size:10px;color:var(--muted);
-  margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:6px}
-.stale{background:rgba(234,179,8,.12);color:var(--ylw);
-  border:1px solid rgba(234,179,8,.28);font-size:10px;font-family:var(--mono);
-  padding:3px 7px;border-radius:4px;display:none}
-.scraper-err{background:rgba(239,68,68,.12);color:var(--red);
-  border:1px solid rgba(239,68,68,.3);font-size:10px;font-family:var(--mono);
-  padding:3px 7px;border-radius:4px;display:none;cursor:default;position:relative}
-.scraper-err:hover::after{content:attr(data-detail);position:absolute;
-  right:0;top:26px;background:var(--surf2);border:1px solid var(--bdr);
-  border-radius:5px;padding:6px 10px;font-size:10px;color:var(--text);
-  white-space:nowrap;z-index:999}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--acc);
-  flex-shrink:0;animation:pulse 2.2s ease-in-out infinite;display:none}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.btn-r{background:none;border:1px solid var(--bdr);color:var(--muted);
-  font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:4px;cursor:pointer}
-.btn-r:hover{color:var(--acc);border-color:var(--acc)}
+.logo{font-family:var(--mono);font-size:14px;font-weight:700;white-space:nowrap;}
+.logo em{color:var(--accent);font-style:normal;}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+#global-search{
+  background:var(--s2);border:1px solid var(--border);color:var(--text);
+  padding:6px 11px;border-radius:6px;font-family:var(--mono);font-size:12px;
+  width:160px;outline:none;transition:border-color .15s,width .2s;
+}
+#global-search:focus{border-color:var(--accent);width:200px;}
+#global-search::placeholder{color:var(--muted);}
+.status-pill{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+.dot.green{background:var(--green);animation:pulse 2.5s ease-in-out infinite;}
+.dot.spin{background:var(--yellow);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.btn{padding:6px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+.btn-refresh{background:rgba(88,166,255,.1);border-color:rgba(88,166,255,.3);color:var(--accent);}
+.btn-refresh:hover{background:rgba(88,166,255,.18);border-color:var(--accent);}
+.btn-refresh:disabled{opacity:.4;cursor:not-allowed;}
+.btn-settings{background:transparent;border-color:var(--border);color:var(--muted);padding:6px 9px;}
+.btn-settings:hover{border-color:var(--muted);color:var(--text);}
 
-/* TABS */
-.tabs{display:flex;overflow-x:auto;scrollbar-width:none;
-  background:var(--surf);border-bottom:1px solid var(--bdr)}
-.tabs::-webkit-scrollbar{display:none}
-.tab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;
-  text-transform:uppercase;padding:10px 15px;cursor:pointer;
-  white-space:nowrap;color:var(--muted);
-  background:none;border:none;border-bottom:2px solid transparent;transition:.15s}
-.tab:hover{color:var(--text)}
-.tab.on{color:var(--acc);border-bottom-color:var(--acc)}
+#tab-bar{background:var(--s1);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 16px;position:sticky;top:52px;z-index:190;scrollbar-width:none;}
+#tab-bar::-webkit-scrollbar{display:none;}
+.tab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.5px;padding:12px 13px;cursor:pointer;white-space:nowrap;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-badge{background:var(--s3);color:var(--muted);font-size:10px;padding:1px 5px;border-radius:10px;margin-left:4px;}
+.tab.active .tab-badge{background:rgba(88,166,255,.15);color:var(--accent);}
 
-/* TOOLBAR */
-.toolbar{
-  padding:7px 10px;background:var(--surf2);border-bottom:1px solid var(--bdr);
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.inp{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--bdr);
-  color:var(--text);font-family:var(--mono);font-size:11px;
-  padding:6px 9px;border-radius:4px;outline:none}
-.inp:focus{border-color:var(--acc)}
-.inp::placeholder{color:var(--muted)}
-.sel{background:var(--bg);border:1px solid var(--bdr);color:var(--text);
-  font-family:var(--mono);font-size:11px;padding:5px 7px;
-  border-radius:4px;outline:none;cursor:pointer}
-.chip{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:4px;
-  cursor:pointer;border:1px solid rgba(34,197,94,.25);color:var(--acc);
-  background:rgba(34,197,94,.07);white-space:nowrap;transition:.15s}
-.chip:hover,.chip.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+main{padding:16px;max-width:1700px;margin:0 auto;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-/* PANELS / SUBTABS */
-.panel{display:none}.panel.on{display:block}
-.subtabs{display:flex;background:var(--surf2);border-bottom:1px solid var(--bdr)}
-.subtab{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
-  text-transform:uppercase;padding:8px 13px;cursor:pointer;
-  color:var(--muted);background:none;border:none;
-  border-bottom:2px solid transparent;transition:.15s}
-.subtab:hover{color:var(--text)}
-.subtab.on{color:var(--blu);border-bottom-color:var(--blu)}
-.subpanel{display:none}.subpanel.on{display:block}
+.panel{background:var(--s1);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.panel-head{background:var(--s2);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap;}
+.panel-title{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;}
+.panel-meta{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted);}
+.panel-search{background:var(--s1);border:1px solid var(--border);color:var(--text);padding:4px 9px;border-radius:5px;font-family:var(--mono);font-size:11px;outline:none;width:120px;transition:border-color .15s;}
+.panel-search:focus{border-color:var(--accent);}
+.panel-search::placeholder{color:var(--muted);}
 
-/* STAT CARDS */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:8px 10px}
-@media(min-width:480px){.cards{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:720px){.cards{grid-template-columns:repeat(6,1fr)}}
-.card{background:var(--surf);border:1px solid var(--bdr);border-radius:7px;padding:10px 12px}
-.card-l{font-family:var(--mono);font-size:9px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.card-v{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--acc)}
+.t-wrap{overflow-x:auto;overflow-y:auto;max-height:600px;}
+table{width:100%;border-collapse:collapse;white-space:nowrap;}
+thead th{background:var(--s2);padding:8px 12px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;text-align:left;cursor:pointer;user-select:none;position:sticky;top:0;z-index:5;border-bottom:1px solid var(--border);transition:color .15s;}
+thead th:hover{color:var(--text);}
+thead th.sorted-asc::after{content:" ▲";font-size:8px;color:var(--accent);}
+thead th.sorted-desc::after{content:" ▼";font-size:8px;color:var(--accent);}
+thead th.sorted-asc,thead th.sorted-desc{color:var(--accent);}
+tbody tr{border-bottom:1px solid rgba(48,54,61,.6);transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:rgba(88,166,255,.04);}
+tbody tr.hidden{display:none;}
+td{padding:7px 12px;font-family:var(--mono);font-size:12px;color:var(--text);}
 
-/* TABLE */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
-thead th{
-  background:var(--surf);color:var(--muted);font-size:9px;font-weight:500;
-  letter-spacing:.08em;text-transform:uppercase;padding:7px 8px;
-  text-align:right;white-space:nowrap;border-bottom:1px solid var(--bdr);
-  cursor:pointer;user-select:none;position:sticky;top:0;z-index:10}
-thead th:first-child{text-align:left}
-.num{text-align:right;font-family:var(--mono);font-size:11px}
-thead th:hover{color:var(--acc)}
-thead th.asc::after{content:" ▲";color:var(--acc)}
-thead th.desc::after{content:" ▼";color:var(--acc)}
-tbody tr{border-bottom:1px solid rgba(39,39,42,.5);transition:background .1s}
-tbody tr:hover{background:rgba(255,255,255,.022)}
-tbody tr.wl{background:rgba(34,197,94,.035)}
-td{padding:7px 8px;text-align:right;white-space:nowrap}
-td:first-child{text-align:left}
-.ticker{font-weight:600;color:var(--acc);font-size:12px}
+.c-ticker{font-weight:700;font-size:12px;color:#f0f6fc;}
+.c-ticker a{color:inherit;text-decoration:none;}
+.c-ticker a:hover{color:var(--accent);}
+.c-date{color:var(--muted);font-size:11px;}
+.c-dash{color:#21262d;}
+.c-pos{color:var(--green);font-weight:600;}
+.c-neg{color:var(--red);font-weight:600;}
+.c-num{color:#79c0ff;}
+.c-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.3px;}
+.c-badge.green{background:rgba(63,185,80,.12);color:#7ee787;border:1px solid rgba(63,185,80,.2);}
+.c-badge.red{background:rgba(248,81,73,.12);color:#ffa198;border:1px solid rgba(248,81,73,.2);}
+.c-badge.blue{background:rgba(88,166,255,.1);color:#79c0ff;border:1px solid rgba(88,166,255,.2);}
+.c-badge.yellow{background:rgba(210,153,34,.12);color:#e3b341;border:1px solid rgba(210,153,34,.2);}
+.c-badge.purple{background:rgba(188,140,255,.1);color:#bc8cff;border:1px solid rgba(188,140,255,.2);}
+.c-badge.orange{background:rgba(219,109,40,.12);color:#ffa657;border:1px solid rgba(219,109,40,.2);}
+.borrow-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;}
+.borrow-extreme{background:rgba(248,81,73,.15);color:#ff7b72;}
+.borrow-high{background:rgba(219,109,40,.15);color:#ffa657;}
+.borrow-med{background:rgba(210,153,34,.15);color:#e3b341;}
+.borrow-low{background:rgba(63,185,80,.15);color:#7ee787;}
 
-/* SQUEEZE */
-.sq{display:flex;flex-direction:column;gap:3px;min-width:80px}
-.sq-row{display:flex;align-items:center;gap:5px}
-.sq-track{width:40px;height:4px;background:var(--bdr);border-radius:2px;overflow:hidden;flex-shrink:0}
-.sq-fill{height:100%;border-radius:2px;transition:width .3s}
-.sq-num{font-size:11px;font-weight:600;min-width:20px;text-align:right}
-.sq-tags{display:flex;flex-wrap:wrap;gap:2px;margin-top:1px}
-.sq-tag{font-family:var(--sans);font-size:9px;color:var(--muted);
-  background:rgba(255,255,255,.055);border-radius:2px;padding:1px 4px;white-space:nowrap}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
 
-/* MISC */
-.pos{color:var(--acc)}.neg{color:var(--red)}.warn{color:var(--ylw)}
-.empty,.loading{text-align:center;padding:48px 20px;
-  color:var(--muted);font-family:var(--mono);font-size:11px}
-.loading::before{content:"⟳ ";display:inline-block;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.badge{display:inline-block;padding:2px 5px;border-radius:3px;font-size:9px;font-weight:600;letter-spacing:.04em}
-.bg{background:rgba(34,197,94,.12);color:var(--acc)}
-.br{background:rgba(239,68,68,.12);color:var(--red)}
-.by{background:rgba(234,179,8,.12);color:var(--ylw)}
-.bb{background:rgba(59,130,246,.12);color:var(--blu)}
-.bm{background:rgba(82,82,91,.14);color:var(--muted)}
-.new-dot{display:inline-block;width:5px;height:5px;border-radius:50%;
-  background:var(--acc);margin:0 3px;vertical-align:middle}
-.wl-bar{display:flex;gap:7px;padding:8px 10px;border-bottom:1px solid var(--bdr)}
-.wl-add{background:var(--acc);color:var(--bg);border:none;
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  padding:6px 12px;border-radius:4px;cursor:pointer;white-space:nowrap}
+.empty-state{padding:40px 20px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:24px;width:480px;max-width:95vw;}
+.modal h2{font-family:var(--mono);font-size:14px;font-weight:700;margin-bottom:6px;color:var(--accent);}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
+.modal-sub a{color:var(--accent);}
+.modal label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.8px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;}
+.modal input{width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;font-family:var(--mono);font-size:12px;outline:none;margin-bottom:12px;transition:border-color .15s;}
+.modal input:focus{border-color:var(--accent);}
+.modal-note{background:rgba(88,166,255,.07);border:1px solid rgba(88,166,255,.15);border-radius:6px;padding:10px 12px;font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+.btn-save{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
+.btn-save:hover{background:#79c0ff;}
+.btn-cancel{background:transparent;border-color:var(--border);color:var(--muted);}
+
+@media(max-width:640px){
+  main{padding:10px;}
+  #header{padding:0 12px;}
+  #global-search{width:120px;}
+  td,thead th{padding:5px 8px;font-size:11px;}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SHORT<em>/</em>RADAR</div>
-  <div id="status">
-    <span class="scraper-err" id="scraper-err">⛔ Scraper error</span>
-    <span class="stale" id="stale">⚠ Stale</span>
-    <span class="dot"   id="dot"></span>
-    <span id="upd">–</span>
-    <button class="btn-r" onclick="loadAll()">↻</button>
-  </div>
-</header>
-
-<div class="tabs">
-  <button class="tab on" onclick="switchTab('watchlist')">★ Takip</button>
-  <button class="tab"    onclick="switchTab('summary')">Summary</button>
-  <button class="tab"    onclick="switchTab('splits')">Splits</button>
-  <button class="tab"    onclick="switchTab('c2b')">C2B</button>
-  <button class="tab"    onclick="switchTab('regsho')">Reg SHO</button>
-  <button class="tab"    onclick="switchTab('13g')">13G/13D</button>
-  <button class="tab"    onclick="switchTab('insider')">Insider</button>
-  <button class="tab"    onclick="switchTab('s1')">S1</button>
-</div>
-
-<div class="toolbar">
-  <input  class="inp" id="search"  placeholder="Ticker ara…" oninput="renderAll()">
-  <select class="sel" id="sq-flt"  onchange="renderAll()">
-    <option value="0">All Squeeze</option>
-    <option value="50">Skor ≥ 50</option>
-    <option value="70">Skor ≥ 70</option>
-  </select>
-  <select class="sel" id="rs-flt"  onchange="renderAll()">
-    <option value="">All</option>
-    <option value="yes">RegSHO ✅</option>
-  </select>
-  <button class="chip" id="wl-chip" onclick="toggleWLOnly()">★ Watchlist</button>
-</div>
-
-<!-- ★ WATCHLIST -->
-<div class="panel on" id="panel-watchlist">
-  <div class="wl-bar">
-    <input class="inp" id="wl-inp" placeholder="TICKER ekle…"
-           onkeydown="if(event.key==='Enter')addWL()">
-    <button class="wl-add" onclick="addWL()">+ Add</button>
-  </div>
-  <div class="tbl-wrap">
-    <table id="tbl-watchlist">
-      <thead><tr>
-        <th onclick="srt('tbl-watchlist',0)">Ticker</th>
-        <th onclick="srt('tbl-watchlist',1)">RS Date</th>
-        <th onclick="srt('tbl-watchlist',2)">Float (Post)</th>
-        <th onclick="srt('tbl-watchlist',3)">Squeeze</th>
-        <th onclick="srt('tbl-watchlist',4)" title="Cost-to-Borrow + günlük değişim">C2B%</th>
-        <th onclick="srt('tbl-watchlist',5)" title="Borçlanılabilir hisse + değişim">Avail</th>
-        <th onclick="srt('tbl-watchlist',6)">SI%</th>
-        <th onclick="srt('tbl-watchlist',7)">DTC</th>
-        <th onclick="srt('tbl-watchlist',8)" title="RegSHO + kaç gündür">RegSHO</th>
-        <th onclick="srt('tbl-watchlist',9)" title="Fail-to-Deliver">FTD</th>
-        <th onclick="srt('tbl-watchlist',10)">Price</th>
-        <th>–</th>
-      </tr></thead>
-      <tbody id="body-watchlist">
-        <tr><td colspan="12" class="empty">No tickers added yet.<br>
-          <small>Click ☆ in the table or add above.</small></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- SUMMARY -->
-<div class="panel" id="panel-summary">
-  <div class="cards" id="stats"></div>
-  <div class="tbl-wrap">
-    <table id="tbl-summary">
-      <thead><tr>
-        <th onclick="srt('tbl-summary',0)"  title="Ticker symbol" style="position:sticky;left:0;background:var(--surf);z-index:3">Ticker</th>
-        <th onclick="srt('tbl-summary',1)"  title="Borrow fee rate (IBKR)">C2B%</th>
-        <th onclick="srt('tbl-summary',2)"  title="Shares available to borrow (IBKR)">Avail</th>
-        <th onclick="srt('tbl-summary',3)"  title="Shares float">Float</th>
-        <th onclick="srt('tbl-summary',4)"  title="Market cap">Mkt Cap</th>
-        <th onclick="srt('tbl-summary',5)"  title="Current price">Price</th>
-        <th onclick="srt('tbl-summary',6)"  title="Price change %">Chg%</th>
-        <th onclick="srt('tbl-summary',7)"  title="Short interest %">SI%</th>
-        <th onclick="srt('tbl-summary',8)"  title="Short interest position change %">SI Chg%</th>
-        <th onclick="srt('tbl-summary',9)"  title="Days to cover">DTC</th>
-        <th onclick="srt('tbl-summary',10)" title="RegSHO listesinde (kaç gün)">RegSHO</th>
-        <th onclick="srt('tbl-summary',10.5)" title="Fail-to-Deliver hisse sayısı">FTD</th>
-        <th onclick="srt('tbl-summary',11)" title="Most recent reverse split date">Last RS</th>
-        <th onclick="srt('tbl-summary',12)" title="Cash per share from askedgar">Cash/Sh</th>
-        <th onclick="srt('tbl-summary',13)" title="Squeeze score">⚡</th>
-      </tr></thead>
-      <tbody id="body-summary">
-        <tr><td colspan="16" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- SPLITS & FLOAT -->
-<div class="panel" id="panel-splits">
-  <div class="subtabs">
-    <button class="subtab on" onclick="switchSub('splits','sp-splits')">Reverse Splits</button>
-    <button class="subtab"    onclick="switchSub('splits','sp-float')">Float Detail</button>
-  </div>
-  <div class="subpanel on" id="sp-splits">
-    <div class="toolbar" style="padding:6px 10px">
-      <select class="sel" id="sp-type" onchange="renderAll()">
-        <option value="all">Recent + Upcoming</option>
-        <option value="recent">Recent Only</option>
-        <option value="upcoming">Upcoming Only</option>
-      </select>
+<div id="header">
+  <div class="logo"><em>SHORT</em>/TRACKER</div>
+  <div class="header-right">
+    <input type="text" id="global-search" placeholder="Ticker ara…" oninput="globalFilter(this.value)">
+    <div class="status-pill">
+      <div class="dot green" id="status-dot"></div>
+      <span id="status-text">Yükleniyor…</span>
     </div>
-    <div class="tbl-wrap">
-      <table id="tbl-splits">
+    <button class="btn btn-refresh" id="refresh-btn" onclick="triggerRefresh()">↻ Yenile</button>
+    <button class="btn btn-settings" onclick="openSettings()">⚙</button>
+  </div>
+</div>
+
+<div id="tab-bar">
+  <button class="tab active" onclick="switchTab('screener',this)">SCREENER <span class="tab-badge" id="badge-screener">0</span></button>
+  <button class="tab" onclick="switchTab('regsho',this)">REG SHO <span class="tab-badge" id="badge-regsho">0</span></button>
+  <button class="tab" onclick="switchTab('splits',this)">SPLITS <span class="tab-badge" id="badge-splits">0</span></button>
+  <button class="tab" onclick="switchTab('changes',this)">TICKER CHANGES <span class="tab-badge" id="badge-changes">0</span></button>
+  <button class="tab" onclick="switchTab('s1',this)">S-1 FİLİNGS <span class="tab-badge" id="badge-s1">0</span></button>
+  <button class="tab" onclick="switchTab('insiders',this)">INSIDERS <span class="tab-badge" id="badge-insiders">0</span></button>
+</div>
+
+<main>
+
+<!-- SCREENER -->
+<div class="tab-content active" id="tab-screener">
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">BORROW SCREENER — FLOAT &lt;5M · PRICE $0.8–$6 · AVAIL &lt;100K</span>
+      <div class="panel-meta">
+        <span id="screener-count">0 rows</span>
+        <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-screener',this.value)">
+      </div>
+    </div>
+    <div class="t-wrap">
+      <table id="t-screener">
         <thead><tr>
-          <th onclick="srt('tbl-splits',0)">Ticker</th>
-          <th onclick="srt('tbl-splits',1)">Date</th>
-          <th onclick="srt('tbl-splits',2)">Oran</th>
-          <th onclick="srt('tbl-splits',3)">Float (Pre)</th>
-          <th onclick="srt('tbl-splits',4)">Float (Post✦)</th>
-          <th onclick="srt('tbl-splits',5)">SI%</th>
-          <th onclick="srt('tbl-splits',6)">Squeeze</th>
-          <th onclick="srt('tbl-splits',7)">Durum</th>
+          <th onclick="sortTbl('t-screener',0)">Ticker</th>
+          <th onclick="sortTbl('t-screener',1)">Borrow Rate</th>
+          <th onclick="sortTbl('t-screener',2)">Avail Shares</th>
+          <th onclick="sortTbl('t-screener',3)">Float</th>
+          <th onclick="sortTbl('t-screener',4)">Price</th>
+          <th onclick="sortTbl('t-screener',5)">Chg%</th>
+          <th onclick="sortTbl('t-screener',6)">Volume</th>
+          <th onclick="sortTbl('t-screener',7)">SI%</th>
+          <th onclick="sortTbl('t-screener',8)">SI Chg%</th>
+          <th onclick="sortTbl('t-screener',9)">Reg SHO</th>
+          <th onclick="sortTbl('t-screener',10)">S-1 Date</th>
+          <th onclick="sortTbl('t-screener',11)">Buyer</th>
         </tr></thead>
-        <tbody id="body-splits">
-          <tr><td colspan="8" class="loading">Loading</td></tr>
-        </tbody>
+        <tbody id="tb-screener"></tbody>
       </table>
+      <div class="empty-state" id="empty-screener">Henüz veri yok — Yenile butonuna bas.</div>
     </div>
   </div>
-  <div class="subpanel" id="sp-float">
-    <div class="tbl-wrap">
-      <table id="tbl-float">
+</div>
+
+<!-- REG SHO -->
+<div class="tab-content" id="tab-regsho">
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">REG SHO THRESHOLD LIST — NASDAQ / NYSE / ARCA</span>
+      <div class="panel-meta">
+        <span id="regsho-date-label"></span>
+        <span id="regsho-count">0 tickers</span>
+        <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterBadges('regsho-badges',this.value)">
+      </div>
+    </div>
+    <div id="regsho-badges" style="padding:14px;display:flex;flex-wrap:wrap;gap:6px;min-height:60px;"></div>
+  </div>
+</div>
+
+<!-- SPLITS -->
+<div class="tab-content" id="tab-splits">
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-title">RECENT REVERSE SPLITS</span>
+        <div class="panel-meta">
+          <span id="splits-recent-count">0</span>
+          <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-splits-recent',this.value)">
+        </div>
+      </div>
+      <div class="t-wrap">
+        <table id="t-splits-recent">
+          <thead><tr>
+            <th onclick="sortTbl('t-splits-recent',0)">Ticker</th>
+            <th onclick="sortTbl('t-splits-recent',1)">Company</th>
+            <th onclick="sortTbl('t-splits-recent',2)">Ratio</th>
+            <th onclick="sortTbl('t-splits-recent',3)">Date</th>
+          </tr></thead>
+          <tbody id="tb-splits-recent"></tbody>
+        </table>
+        <div class="empty-state" id="empty-splits-recent">Veri bekleniyor…</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-title">UPCOMING REVERSE SPLITS</span>
+        <div class="panel-meta">
+          <span id="splits-upcoming-count">0</span>
+          <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-splits-upcoming',this.value)">
+        </div>
+      </div>
+      <div class="t-wrap">
+        <table id="t-splits-upcoming">
+          <thead><tr>
+            <th onclick="sortTbl('t-splits-upcoming',0)">Ticker</th>
+            <th onclick="sortTbl('t-splits-upcoming',1)">Company</th>
+            <th onclick="sortTbl('t-splits-upcoming',2)">Ratio</th>
+            <th onclick="sortTbl('t-splits-upcoming',3)">Date</th>
+          </tr></thead>
+          <tbody id="tb-splits-upcoming"></tbody>
+        </table>
+        <div class="empty-state" id="empty-splits-upcoming">Veri bekleniyor…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGES -->
+<div class="tab-content" id="tab-changes">
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">TICKER SYMBOL CHANGES — NASDAQ + StockAnalysis</span>
+      <div class="panel-meta">
+        <span id="changes-count">0</span>
+        <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-changes',this.value)">
+      </div>
+    </div>
+    <div class="t-wrap">
+      <table id="t-changes">
         <thead><tr>
-          <th onclick="srt('tbl-float',0)">Ticker</th>
-          <th onclick="srt('tbl-float',1)">Float</th>
-          <th onclick="srt('tbl-float',2)">Post-RS✦</th>
-          <th onclick="srt('tbl-float',3)">Warrant</th>
-          <th onclick="srt('tbl-float',4)">Diluted</th>
-          <th onclick="srt('tbl-float',5)">SI%</th>
-          <th onclick="srt('tbl-float',6)">DTC</th>
-          <th onclick="srt('tbl-float',7)">Float Tar.</th>
-          <th onclick="srt('tbl-float',8)">Form</th>
-          <th onclick="srt('tbl-float',9)">SI Tar.</th>
-          <th onclick="srt('tbl-float',10)">⚠</th>
+          <th onclick="sortTbl('t-changes',0)">New Ticker</th>
+          <th onclick="sortTbl('t-changes',1)">Old Ticker</th>
+          <th onclick="sortTbl('t-changes',2)">Date</th>
+          <th onclick="sortTbl('t-changes',3)">Source</th>
         </tr></thead>
-        <tbody id="body-float">
-          <tr><td colspan="11" class="loading">Loading</td></tr>
-        </tbody>
+        <tbody id="tb-changes"></tbody>
       </table>
+      <div class="empty-state" id="empty-changes">Veri bekleniyor…</div>
     </div>
   </div>
 </div>
 
 <!-- S1 -->
-<div class="panel" id="panel-s1">
-  <div class="toolbar" style="padding:6px 10px">
-    <select class="sel" id="s1-flt" onchange="renderAll()">
-      <option value="all">S-1 + S-1/A</option>
-      <option value="S-1">S-1 Only (new)</option>
-      <option value="S-1/A">S-1/A Only (amendment)</option>
-    </select>
-  </div>
-  <div class="tbl-wrap">
-    <table id="tbl-s1">
-      <thead><tr>
-        <th onclick="srt('tbl-s1',0)">Ticker</th>
-        <th onclick="srt('tbl-s1',1)">Company</th>
-        <th onclick="srt('tbl-s1',2)">Form</th>
-        <th onclick="srt('tbl-s1',3)">Date</th>
-        <th onclick="srt('tbl-s1',4)">Float</th>
-        <th onclick="srt('tbl-s1',5)">SI%</th>
-        <th onclick="srt('tbl-s1',6)">RegSHO</th>
-        <th>↗</th>
-      </tr></thead>
-      <tbody id="body-s1">
-        <tr><td colspan="8" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
+<div class="tab-content" id="tab-s1">
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">S-1 / S-1A FİLİNGS — DilutionTracker</span>
+      <div class="panel-meta">
+        <span id="s1-count">0</span>
+        <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-s1',this.value)">
+      </div>
+    </div>
+    <div class="t-wrap">
+      <table id="t-s1">
+        <thead><tr>
+          <th onclick="sortTbl('t-s1',0)">Ticker</th>
+          <th onclick="sortTbl('t-s1',1)">Company</th>
+          <th onclick="sortTbl('t-s1',2)">Type</th>
+          <th onclick="sortTbl('t-s1',3)">Filed Date</th>
+        </tr></thead>
+        <tbody id="tb-s1"></tbody>
+      </table>
+      <div class="empty-state" id="empty-s1">Veri bekleniyor…</div>
+    </div>
   </div>
 </div>
 
-<!-- REFERANS -->
-<div class="panel" id="panel-c2b">
-  <div class="tbl-wrap">
-    <table id="tbl-c2b">
-      <thead><tr>
-        <th onclick="srt('tbl-c2b',0)">Ticker</th>
-        <th onclick="srt('tbl-c2b',1)">C2B%</th>
-        <th onclick="srt('tbl-c2b',2)">Avail</th>
-        <th onclick="srt('tbl-c2b',3)">Float</th>
-        <th onclick="srt('tbl-c2b',4)">SV%</th>
-        <th onclick="srt('tbl-c2b',5)">SV 30d%</th>
-        <th onclick="srt('tbl-c2b',6)">Price</th>
-        <th onclick="srt('tbl-c2b',7)">RegSHO</th>
-      </tr></thead>
-      <tbody id="body-c2b">
-        <tr><td colspan="8" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
+<!-- INSIDERS -->
+<div class="tab-content" id="tab-insiders">
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">INSIDER BUYS — Finviz</span>
+      <div class="panel-meta">
+        <span id="insiders-count">0</span>
+        <input class="panel-search" type="text" placeholder="Filtrele…" oninput="filterTable('t-insiders',this.value)">
+      </div>
+    </div>
+    <div class="t-wrap">
+      <table id="t-insiders">
+        <thead><tr>
+          <th onclick="sortTbl('t-insiders',0)">Ticker</th>
+          <th onclick="sortTbl('t-insiders',1)">Owner</th>
+          <th onclick="sortTbl('t-insiders',2)">Relationship</th>
+          <th onclick="sortTbl('t-insiders',3)">Date</th>
+          <th onclick="sortTbl('t-insiders',4)">Cost</th>
+          <th onclick="sortTbl('t-insiders',5)">Shares</th>
+          <th onclick="sortTbl('t-insiders',6)">Value</th>
+        </tr></thead>
+        <tbody id="tb-insiders"></tbody>
+      </table>
+      <div class="empty-state" id="empty-insiders">Veri bekleniyor…</div>
+    </div>
   </div>
 </div>
 
-<div class="panel" id="panel-regsho">
-  <div class="tbl-wrap">
-    <table id="tbl-regsho">
-      <thead><tr>
-        <th onclick="srt('tbl-regsho',0)">Ticker</th>
-        <th onclick="srt('tbl-regsho',1)">Market</th>
-        <th onclick="srt('tbl-regsho',2)">Entry Date</th>
-      </tr></thead>
-      <tbody id="body-regsho">
-        <tr><td colspan="3" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+</main>
 
-<div class="panel" id="panel-13g">
-  <div style="margin-bottom:8px">
-    <select id="sel-13g-type" onchange="render13G()" style="background:var(--surf2);color:var(--text);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:12px">
-      <option value="all">SC 13G + 13D</option>
-      <option value="SC 13G">SC 13G only</option>
-      <option value="SC 13D">SC 13D only (Activist)</option>
-    </select>
-  </div>
-  <div class="tbl-wrap">
-    <table id="tbl-13g">
-      <thead><tr>
-        <th onclick="srt('tbl-13g',0)">Ticker</th>
-        <th onclick="srt('tbl-13g',1)">Company</th>
-        <th onclick="srt('tbl-13g',2)">Filer (Institution)</th>
-        <th onclick="srt('tbl-13g',3)">Form</th>
-        <th onclick="srt('tbl-13g',4)">Date</th>
-        <th>RegSHO</th>
-        <th>↗</th>
-      </tr></thead>
-      <tbody id="body-13g">
-        <tr><td colspan="7" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="panel" id="panel-insider">
-  <div class="tbl-wrap">
-    <table id="tbl-insider">
-      <thead><tr>
-        <th onclick="srt('tbl-insider',0)">Ticker</th>
-        <th onclick="srt('tbl-insider',1)">Transaction</th>
-        <th onclick="srt('tbl-insider',2)">Person</th>
-        <th onclick="srt('tbl-insider',3)">Date</th>
-        <th onclick="srt('tbl-insider',4)">Shares</th>
-        <th onclick="srt('tbl-insider',5)">Value</th>
-        <th>RegSHO</th>
-      </tr></thead>
-      <tbody id="body-insider">
-        <tr><td colspan="7" class="loading">Loading</td></tr>
-      </tbody>
-    </table>
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>⚙ GitHub Actions Ayarları</h2>
+    <p class="modal-sub">
+      "Yenile" butonu GitHub Actions workflow'u tetikler ve veriyi çekerek
+      <code>data.json</code>'u otomatik günceller.
+    </p>
+    <div class="modal-note">
+      PAT oluşturmak için: <a href="https://github.com/settings/tokens/new?scopes=workflow" target="_blank">github.com/settings/tokens</a>
+      → sadece <strong>workflow</strong> scope seç.<br>
+      Token yalnızca bu seksteyken bellekte tutulur, hiçbir yere gönderilmez.
+    </div>
+    <label>GitHub Kullanıcı Adı</label>
+    <input type="text" id="cfg-owner" placeholder="kullanici-adin">
+    <label>Repository Adı</label>
+    <input type="text" id="cfg-repo" placeholder="short-tracker">
+    <label>Personal Access Token (PAT)</label>
+    <input type="password" id="cfg-token" placeholder="github_pat_…">
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeSettings()">İptal</button>
+      <button class="btn btn-save" onclick="saveSettings()">Kaydet</button>
+    </div>
   </div>
 </div>
 
 <script>
-// ════════════════════════════════════
-// STATE
-// ════════════════════════════════════
-const BASE  = "./data/";
-const TODAY = new Date().toISOString().slice(0,10);
-const TABS  = ["watchlist","summary","splits","c2b","regsho","13g","insider","s1"];
+// ── CONFIG (session only — token never persisted to disk) ─────────────────────
+let CFG = {};
+try { CFG = JSON.parse(sessionStorage.getItem('st_cfg') || '{}'); } catch(e){}
 
-let D  = { summary:[], floats:[], c2b:[], regsho:[], splits:[], insider:[], s1:[], g13:[], ftd:[], regsho_hist:{}, meta:null };
-let UI = { tab:"watchlist", subSplits:"sp-splits", wlOnly:false, sortDir:{} };
+// ── DATA ──────────────────────────────────────────────────────────────────────
+let DATA = null;
 
-// ════════════════════════════════════
-// WATCHLIST (localStorage)
-// ════════════════════════════════════
-const getWL  = () => { try{ return JSON.parse(localStorage.getItem("wl")||"[]") }catch{ return [] } };
-const saveWL = a  => localStorage.setItem("wl", JSON.stringify(a));
-const inWL   = t  => getWL().includes(t.toUpperCase());
-
-function addWL(){
-  const inp = document.getElementById("wl-inp");
-  const t   = inp.value.trim().toUpperCase();
-  if(!t) return;
-  const wl = getWL();
-  if(!wl.includes(t)){ wl.push(t); saveWL(wl); }
-  inp.value = "";
-  renderWatchlist(); renderSummary();
-}
-function removeWL(t){ saveWL(getWL().filter(x=>x!==t)); renderWatchlist(); renderSummary(); }
-function toggleWatch(t){
-  const wl = getWL();
-  if(wl.includes(t)) saveWL(wl.filter(x=>x!==t));
-  else { wl.push(t); saveWL(wl); }
-  renderAll();
-}
-function toggleWLOnly(){
-  UI.wlOnly = !UI.wlOnly;
-  document.getElementById("wl-chip").classList.toggle("on", UI.wlOnly);
-  renderAll();
-}
-
-// ════════════════════════════════════
-// DATA LOAD
-// ════════════════════════════════════
-async function fetchJ(f){ const r=await fetch(BASE+f+"?t="+Date.now()); return r.ok?r.json():null; }
-
-async function loadAll(){
+async function loadData(force=false) {
+  setStatus('loading','Yükleniyor…');
   try {
-    const [meta,summary,floats,ce,rs,sp,ins,s1] = await Promise.all([
-      fetchJ("meta.json"), fetchJ("summary.json"), fetchJ("floats.json"),
-      fetchJ("chartexchange.json"), fetchJ("regsho.json"), fetchJ("splits.json"),
-      fetchJ("insider.json"), fetchJ("s1_edgar.json"),
-    ]);
-    D = { meta, summary:summary||[], floats:floats||[], c2b:ce||[],
-          regsho:rs||[], splits:sp||[], insider:ins||[], s1:s1||[] };
-
-    if(meta?.updated_at){
-      const d   = new Date(meta.updated_at);
-      const ago = (Date.now()-d.getTime())/3600000;
-      document.getElementById("dot").style.display = "";
-      document.getElementById("upd").textContent =
-        d.toLocaleDateString("en-US")+" "+
-        d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-      const staleEl = document.getElementById("stale");
-      if(ago>26){ staleEl.style.display=""; staleEl.textContent=`⚠ ${Math.round(ago)}h ago`; }
-      else staleEl.style.display="none";
-    }
-    // Scraper error check + source status
-    const errEl = document.getElementById("scraper-err");
-    if(meta){
-      const ss   = meta.source_status||{};
-      const errs = Object.entries(ss).filter(([k,v])=>v&&v.startsWith("error")).map(([k,v])=>`${k}: ${v}`);
-      const pf   = (meta.protected_files||[]);
-      if(meta.scraper_ok===false || pf.length || errs.length){
-        errEl.style.display="";
-        const detail = [
-          pf.length   ? `Korunan: ${pf.join(", ")}` : "",
-          errs.length ? `Error: ${errs.join(" | ")}`  : "",
-        ].filter(Boolean).join(" — ");
-        errEl.dataset.detail = detail || "Showing previous data";
-      } else {
-        errEl.style.display="none";
-      }
-    }
-    renderStats(); renderAll();
+    const url = './data.json' + (force ? '?t='+Date.now() : '');
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.status);
+    DATA = await r.json();
+    renderAll();
+    setStatus('ok','Güncellendi: '+(DATA.updated||'—'));
   } catch(e) {
-    console.warn(e);
-    document.getElementById("body-summary").innerHTML =
-      `<tr><td colspan="9" class="empty">Failed to load data.<br>
-       <small>GitHub Actions may not have run yet.</small></td></tr>`;
+    setStatus('err','Veri yüklenemedi');
   }
 }
 
-// ════════════════════════════════════
-// STATS
-// ════════════════════════════════════
-function renderStats(){
-  const m    = D.meta?.counts||{};
-  const high = D.summary.filter(r=>(r.squeeze_score||0)>=70).length;
-  document.getElementById("stats").innerHTML = [
-    ["C2B Scan", m.chartexchange??D.c2b.length,  ""],
-    ["Reg SHO",    m.regsho??D.regsho.length,       "var(--red)"],
-    ["Rev. Split", m.splits_reverse??0,             "var(--ylw)"],
-    ["S1 (30g)",   m.s1_edgar??D.s1.length,         ""],
-    ["FINRA SI",   m.finra_si??0,                   "var(--blu)"],
-    ["Squeeze≥70", high,                            "var(--red)"],
-  ].map(([l,v,c])=>`
-    <div class="card">
-      <div class="card-l">${l}</div>
-      <div class="card-v" style="${c?"color:"+c:""}">${v}</div>
-    </div>`).join("");
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderAll() {
+  if (!DATA) return;
+  renderScreener(DATA.screener||[]);
+  renderRegSHO(DATA.regsho_tickers||[], DATA.regsho_date||'');
+  renderSplits(DATA.splits_recent||[], DATA.splits_upcoming||[]);
+  renderChanges(DATA.ticker_changes||[]);
+  renderS1(DATA.s1_filings||[]);
+  renderInsiders(DATA.insiders||[]);
+  updateBadges();
 }
 
-// ════════════════════════════════════
-// HELPERS
-// ════════════════════════════════════
-const q     = () => document.getElementById("search").value.toLowerCase().trim();
-const sqFlt = () => parseInt(document.getElementById("sq-flt").value)||0;
-const rsFlt = () => document.getElementById("rs-flt").value;
-const RS    = () => new Set(D.regsho.map(x=>x.Symbol||x.Ticker||""));
-const SPL   = () => new Set(D.splits.filter(x=>x.is_reverse).map(x=>x.Symbol||x.Ticker||x.symbol||x.ticker||""));
+// helpers
+const dash = `<span class="c-dash">—</span>`;
+function esc(v){ return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(v){ return (!v||v==='-')?dash:`<span class="c-date">${esc(v)}</span>`; }
+function fmtNum(v){  return (!v||v==='-'||v==='0')?dash:`<span class="c-num">${esc(v)}</span>`; }
+function fmtPct(v){
+  if (!v||v==='-') return dash;
+  const n=parseFloat(String(v).replace(/[%+,]/g,''));
+  if(isNaN(n)) return esc(v);
+  return `<span class="${n>0?'c-pos':n<0?'c-neg':'c-num'}">${n>0?'+':''}${esc(v)}</span>`;
+}
+function fmtBorrow(v){
+  if(!v||v==='-') return dash;
+  const n=parseFloat(String(v).replace('%',''));
+  const cls=isNaN(n)?'borrow-low':n>=100?'borrow-extreme':n>=50?'borrow-high':n>=20?'borrow-med':'borrow-low';
+  return `<span class="borrow-pill ${cls}">${esc(v)}</span>`;
+}
+function fmtRegSHO(b){ return b?'<span style="color:#3fb950">✅</span>':'<span style="color:#f8514988">❌</span>'; }
+function fmtTicker(t, href){
+  const inner = href ? `<a href="${href}" target="_blank" rel="noreferrer">${esc(t)}</a>` : esc(t);
+  return `<td class="c-ticker">${inner}</td>`;
+}
+function fmtBuyer(v){ return (!v||v==='-')?dash:`<span class="c-badge blue">${esc(v)}</span>`; }
 
-function flt(rows, keys){
-  let r = rows;
-  const qv=q();
-  if(qv) r=r.filter(row=>keys.some(k=>String(row[k]||"").toLowerCase().includes(qv)));
-  const sf=sqFlt();
-  if(sf>0) r=r.filter(row=>(row.squeeze_score||0)>=sf);
-  if(rsFlt()==="yes") r=r.filter(row=>row.reg_sho==="✅"||RS().has(row.ticker||""));
-  if(UI.wlOnly){ const wl=new Set(getWL()); r=r.filter(row=>wl.has((row.ticker||row.Symbol||row.Ticker||"").toUpperCase())); }
-  return r;
+function renderScreener(rows){
+  const tb=document.getElementById('tb-screener');
+  const em=document.getElementById('empty-screener');
+  tb.innerHTML=rows.map(r=>`<tr data-search="${r.ticker.toLowerCase()}">
+    ${fmtTicker(r.ticker,`https://finviz.com/quote.ashx?t=${r.ticker}`)}
+    <td>${fmtBorrow(r.borrow_rate)}</td>
+    <td>${fmtNum(r.avail_shares)}</td>
+    <td>${fmtNum(r.float)}</td>
+    <td>${fmtNum(r.price)}</td>
+    <td>${fmtPct(r.change_pct)}</td>
+    <td>${fmtNum(r.volume)}</td>
+    <td>${fmtPct(r.short_int_pct)}</td>
+    <td>${fmtPct(r.si_change_pct)}</td>
+    <td>${fmtRegSHO(r.reg_sho)}</td>
+    <td>${fmtDate(r.s1_date)}</td>
+    <td>${fmtBuyer(r.buyer)}</td>
+  </tr>`).join('');
+  document.getElementById('screener-count').textContent=rows.length+' rows';
+  em.style.display=rows.length?'none':'block';
 }
 
-function fmt(v){
-  const n=parseFloat(String(v).replace(/[,%]/g,""));
-  if(isNaN(n)||v==null||v==="-") return "-";
-  if(Math.abs(n)>=1e9) return (n/1e9).toFixed(1)+"B";
-  if(Math.abs(n)>=1e6) return (n/1e6).toFixed(1)+"M";
-  if(Math.abs(n)>=1e3) return (n/1e3).toFixed(1)+"K";
-  return String(n);
+function renderRegSHO(tickers, dateStr){
+  const el=document.getElementById('regsho-badges');
+  el.innerHTML=tickers.map(t=>`<span class="c-badge green" data-search="${t.toLowerCase()}">${esc(t)}</span>`).join('');
+  document.getElementById('regsho-count').textContent=tickers.length+' tickers';
+  document.getElementById('regsho-date-label').textContent=dateStr?'As of '+dateStr:'';
 }
 
-function pct(v){
-  const n=parseFloat(String(v).replace("%",""));
-  if(isNaN(n)||v==null||v==="-") return "-";
-  return `<span class="${n>0?"pos":n<0?"neg":""}">${n>0?"+":""}${n.toFixed(2)}%</span>`;
+function renderSplits(recent, upcoming){
+  const tbR=document.getElementById('tb-splits-recent');
+  tbR.innerHTML=recent.map(r=>`<tr data-search="${(r.ticker||'').toLowerCase()}">
+    ${fmtTicker(r.ticker)}
+    <td>${esc(r.company||'')}</td>
+    <td><span class="c-badge red">${esc(r.ratio||'—')}</span></td>
+    <td>${fmtDate(r.date)}</td>
+  </tr>`).join('');
+  document.getElementById('splits-recent-count').textContent=recent.length;
+  document.getElementById('empty-splits-recent').style.display=recent.length?'none':'block';
+
+  const tbU=document.getElementById('tb-splits-upcoming');
+  tbU.innerHTML=upcoming.map(r=>`<tr data-search="${(r.ticker||'').toLowerCase()}">
+    ${fmtTicker(r.ticker)}
+    <td>${esc(r.company||'')}</td>
+    <td><span class="c-badge orange">${esc(r.ratio||'—')}</span></td>
+    <td>${fmtDate(r.date)}</td>
+  </tr>`).join('');
+  document.getElementById('splits-upcoming-count').textContent=upcoming.length;
+  document.getElementById('empty-splits-upcoming').style.display=upcoming.length?'none':'block';
 }
 
-function price(v){ const n=parseFloat(v); return isNaN(n)||v==null?"-":"$"+n.toFixed(2); }
-
-function isNew(d){
-  if(!d) return false;
-  const s=String(d).slice(0,10).replace(/(\d{4})(\d{2})(\d{2})/,"$1-$2-$3");
-  return s===TODAY;
-}
-const newDot = d => isNew(d)?`<span class="new-dot" title="Today"></span>`:"";
-
-function formBadge(f){
-  if(!f||f==="-") return "-";
-  const c=["S-1","S-1/A","8-K"].includes(f)?"bg":f.includes("10-Q")?"by":"br";
-  return `<span class="badge ${c}">${f}</span>`;
+function renderChanges(rows){
+  const tb=document.getElementById('tb-changes');
+  tb.innerHTML=rows.map(r=>`<tr data-search="${((r.new_ticker||'')+' '+(r.old_ticker||'')).toLowerCase()}">
+    <td class="c-ticker">${esc(r.new_ticker||'—')}</td>
+    <td class="c-date">${esc(r.old_ticker||'—')}</td>
+    <td>${fmtDate(r.date)}</td>
+    <td><span class="c-badge ${r.source==='NASDAQ'?'blue':'purple'}">${esc(r.source||'—')}</span></td>
+  </tr>`).join('');
+  document.getElementById('changes-count').textContent=rows.length;
+  document.getElementById('empty-changes').style.display=rows.length?'none':'block';
 }
 
-function siDate(d){
-  if(!d||d.length!==8) return d||"-";
-  return d.slice(6,8)+"/"+d.slice(4,6)+"/"+d.slice(0,4);
+function renderS1(rows){
+  const tb=document.getElementById('tb-s1');
+  tb.innerHTML=rows.map(r=>`<tr data-search="${(r.ticker||'').toLowerCase()}">
+    ${fmtTicker(r.ticker)}
+    <td>${esc(r.company||'—')}</td>
+    <td><span class="c-badge yellow">${esc(r.type||'S-1')}</span></td>
+    <td>${fmtDate(r.date)}</td>
+  </tr>`).join('');
+  document.getElementById('s1-count').textContent=rows.length;
+  document.getElementById('empty-s1').style.display=rows.length?'none':'block';
 }
 
-// Squeeze bar + visible reason tags
-function sqBar(score, reasons){
-  if(score==null) return "-";
-  const col = score>=70?"var(--red)":score>=45?"var(--ylw)":"var(--acc)";
-  const tags = (reasons||"").split(",").filter(Boolean)
-    .map(r=>`<span class="sq-tag">${r.trim()}</span>`).join("");
-  return `<div class="sq">
-    <div class="sq-row">
-      <div class="sq-track"><div class="sq-fill" style="width:${score}%;background:${col}"></div></div>
-      <span class="sq-num" style="color:${col}">${score}</span>
-    </div>
-    ${tags?`<div class="sq-tags">${tags}</div>`:""}
-  </div>`;
+function renderInsiders(rows){
+  const tb=document.getElementById('tb-insiders');
+  tb.innerHTML=rows.map(r=>`<tr data-search="${(r.ticker||'').toLowerCase()}">
+    ${fmtTicker(r.ticker,`https://finviz.com/insidertrading.ashx?tc=1`)}
+    <td>${esc(r.owner||'—')}</td>
+    <td class="c-date">${esc(r.relationship||'—')}</td>
+    <td>${fmtDate(r.date)}</td>
+    <td>${fmtNum(r.cost)}</td>
+    <td>${fmtNum(r.shares)}</td>
+    <td>${fmtNum(r.value)}</td>
+  </tr>`).join('');
+  document.getElementById('insiders-count').textContent=rows.length;
+  document.getElementById('empty-insiders').style.display=rows.length?'none':'block';
 }
 
-// Watchlist star icon
-function star(t){
-  const on=inWL(t);
-  return `<span onclick="toggleWatch('${t}')" style="cursor:pointer;font-size:13px;color:${on?"var(--ylw)":"var(--muted)"};padding:0 3px">${on?"★":"☆"}</span>`;
+function updateBadges(){
+  if(!DATA) return;
+  document.getElementById('badge-screener').textContent=(DATA.screener||[]).length;
+  document.getElementById('badge-regsho').textContent=(DATA.regsho_tickers||[]).length;
+  document.getElementById('badge-splits').textContent=(DATA.splits_recent||[]).length+(DATA.splits_upcoming||[]).length;
+  document.getElementById('badge-changes').textContent=(DATA.ticker_changes||[]).length;
+  document.getElementById('badge-s1').textContent=(DATA.s1_filings||[]).length;
+  document.getElementById('badge-insiders').textContent=(DATA.insiders||[]).length;
 }
 
-// Float display: warn if pre-split
-function floatCell(r){
-  if(r.float_is_presplit)
-    return `<span class="warn" title="Pre-split — see Post column">⚠ ${fmt(r.float)}</span>`;
-  return fmt(r.float)||"-";
-}
-
-function sfCell(pctVal){
-  if(pctVal==null) return "-";
-  const n=parseFloat(pctVal);
-  return `<span class="${n>=30?"neg":n>=15?"warn":""}">${n}%</span>`;
-}
-
-function dtcCell(v){
-  if(v==null) return "-";
-  return `<span class="${v>=10?"neg":v>=5?"warn":""}">${v}d</span>`;
-}
-
-// ════════════════════════════════════
-// RENDER
-// ════════════════════════════════════
-function renderAll(){
-  renderWatchlist(); renderSummary();
-  renderSplits(); renderFloat();
-  renderS1(); renderC2B(); renderRegSHO(); renderInsider(); render13G();
-}
-
-function renderWatchlist(){
-  const wl=getWL();
-  const body=document.getElementById("body-watchlist");
-  if(!wl.length){
-    body.innerHTML=`<tr><td colspan="12" class="empty">No tickers added yet.<br>
-      <small>Click ☆ in the table or add above.</small></td></tr>`;
-    return;
-  }
-  const rs=RS();
-
-  // Ticker → nearest reverse split info
-  const splitM={};
-  (D.splits||[]).filter(x=>x.is_reverse).forEach(x=>{
-    const t2=x.Symbol||x.Ticker||x.symbol||x.ticker||"";
-    if(t2&&!splitM[t2]) splitM[t2]={
-      date:  x.split_date||x.Date||x.date||"",
-      ratio: x.Ratio||x["Split Ratio"]||""
-    };
+// ── FILTER / SORT ─────────────────────────────────────────────────────────────
+function filterTable(id, q){
+  q=q.toLowerCase().trim();
+  document.querySelectorAll(`#${id} tbody tr`).forEach(tr=>{
+    tr.classList.toggle('hidden',!(!q||(tr.dataset.search||'').includes(q)));
   });
-
-  body.innerHTML=wl.map(t=>{
-    const r  = D.summary.find(s=>s.ticker===t)||{};
-    const fd = D.floats.find(s=>s.ticker===t)||{};
-    const sp = splitM[t]||{};
-
-    // RS date — green if <7d, yellow if <30d, gray if older
-    let rsDisp="-";
-    if(sp.date){
-      const daysAgo=(Date.now()-new Date(sp.date).getTime())/86400000;
-      const col=daysAgo<=7?"var(--acc)":daysAgo<=30?"var(--ylw)":"var(--muted)";
-      const lbl=sp.ratio?`${sp.date} <span style="opacity:.6">(${sp.ratio})</span>`:sp.date;
-      rsDisp=`<span style="color:${col};font-size:10px">${lbl}</span>`;
-    }
-
-    // Float — show post-split estimate if available, else EDGAR float
-    const effFloat = fd.est_post_split_float || fd.float_shares || r.float;
-    const isEst    = !!fd.est_post_split_float;
-    const isWarn   = fd.float_is_presplit && !isEst;
-    const floatVal = effFloat ? fmt(effFloat) : "-";
-    const floatCls = isWarn?"warn":"pos";
-    const floatPfx = isWarn?"⚠ ":isEst?"✦ ":"";  // ✦ = estimate
-    const floatDateAge = fd.float_date
-      ? Math.round((Date.now() - new Date(fd.float_date)) / 86400000) : 0;
-    const floatDateColor = floatDateAge > 365 ? '#ef4444'
-      : floatDateAge > 180 ? '#f59e0b' : 'var(--muted)';
-    const floatDate= fd.float_date
-      ? `<div style="font-size:9px;color:${floatDateColor};margin-top:1px">${fd.float_date.slice(0,10)}</div>`
-      : "";
-
-    // C2B delta
-    const c2bDelta = r.c2b_delta;
-    const c2bDeltaDisp = c2bDelta!=null
-      ? `<span style="font-size:9px;color:${c2bDelta>0?"#ef4444":c2bDelta<0?"#22c55e":"var(--muted)"}">${c2bDelta>0?"▲":"▼"}${Math.abs(c2bDelta)}%</span>`
-      : "";
-    // Avail delta
-    const avDelta = r.avail_delta;
-    const avDeltaDisp = avDelta!=null
-      ? `<span style="font-size:9px;color:${avDelta<-1000?"#ef4444":avDelta>1000?"#22c55e":"var(--muted)"}">${avDelta>0?"+":""}${fmt(avDelta)}</span>`
-      : "";
-    // RegSHO days
-    const rsDays = r.regsho_days||0;
-    const rsCell = rs.has(t)
-      ? `<span style="color:#22c55e">✅</span>${rsDays>1?`<span style="font-size:9px;color:#f59e0b;margin-left:2px">${rsDays}g</span>`:""}`
-      : `<span style="color:#ef4444">❌</span>`;
-    // FTD
-    const ftdSh = r.ftd_shares||0;
-    const ftdDisp = ftdSh>0
-      ? `<span style="font-size:10px;color:${ftdSh>100000?"#ef4444":ftdSh>10000?"#f59e0b":"var(--muted)"}">${fmt(ftdSh)}</span>`
-      : "-";
-
-    return `<tr class="wl">
-      <td><span class="ticker">${t}</span>${star(t)}</td>
-      <td>${rsDisp}</td>
-      <td>
-        <span class="${floatCls}">${floatPfx}${floatVal}</span>
-        ${floatDate}
-      </td>
-      <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
-      <td>
-        ${r.c2b!=null?`<span class="${r.c2b>=100?"neg":r.c2b>=50?"warn":""}">${r.c2b}%</span>`:"-"}
-        ${c2bDeltaDisp}
-      </td>
-      <td>
-        ${r.shares_avail!=null?fmt(r.shares_avail):"-"}
-        ${avDeltaDisp}
-      </td>
-      <td>${sfCell(r.short_float_pct)}</td>
-      <td>${dtcCell(r.dtc)}</td>
-      <td style="text-align:center">${rsCell}</td>
-      <td class="num" style="font-size:10px">${ftdDisp}</td>
-      <td style="color:var(--muted)">${price(r.price)}</td>
-      <td style="text-align:center"><span onclick="removeWL('${t}')" style="cursor:pointer;color:var(--red)">✕</span></td>
-    </tr>`;
-  }).join("");
 }
-
-function renderSummary(){
-  const rows=flt(D.summary,["ticker"]);
-  const body=document.getElementById("body-summary");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="16" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const c2b  = r.c2b!=null ? r.c2b : null;
-    const c2bCl= c2b>=100?"neg":c2b>=50?"warn":c2b>0?"":"";
-    const cash = r.cash_per_share;
-    const c2bDelta  = r.c2b_delta;
-    const availDelta= r.avail_delta;
-    const rsDays    = r.regsho_days||0;
-    const ftdSh     = r.ftd_shares||0;
-    return `<tr class="${inWL(r.ticker)?"wl":""}">
-      <td style="position:sticky;left:0;background:var(--surf2)"><span class="ticker">${r.ticker}</span>${star(r.ticker)}</td>
-      <td>
-        <span class="${c2bCl}">${c2b!=null?c2b+"%":"-"}</span>
-        ${c2bDelta!=null?`<span style="font-size:9px;margin-left:2px;color:${c2bDelta>0?"#ef4444":c2bDelta<0?"#22c55e":"var(--muted)"}">${c2bDelta>0?"▲":"▼"}${Math.abs(c2bDelta)}%</span>`:""}
-      </td>
-      <td class="num">
-        ${r.shares_avail!=null?fmt(r.shares_avail):"-"}
-        ${availDelta!=null?`<br><span style="font-size:9px;color:${availDelta<-1000?"#ef4444":availDelta>1000?"#22c55e":"var(--muted)"}">${availDelta>0?"+":""}${fmt(availDelta)}</span>`:""}
-      </td>
-      <td class="num">${floatCell(r)}</td>
-      <td class="num">${r.market_cap!=null?fmtMC(r.market_cap):"-"}</td>
-      <td class="num">${price(r.price)}</td>
-      <td>${pct(r.change_pct)}</td>
-      <td class="num">${sfCell(r.short_float_pct)}</td>
-      <td>${(r.si_change??r.shortint_position_change_pct)!=null?pct(r.si_change??r.shortint_position_change_pct):"-"}</td>
-      <td class="num">${dtcCell(r.dtc)}</td>
-      <td style="text-align:center">
-        ${r.reg_sho==="✅"?`<span style="color:#22c55e">✅</span>${rsDays>1?`<span style="font-size:9px;color:#f59e0b;margin-left:2px">${rsDays}g</span>`:""}`:"<span style='color:#ef4444'>❌</span>"}
-      </td>
-      <td class="num" style="font-size:10px">${ftdSh>0?`<span style="color:${ftdSh>100000?"#ef4444":ftdSh>10000?"#f59e0b":"var(--muted)"}">${fmt(ftdSh)}</span>`:"-"}</td>
-      <td style="color:var(--muted);font-size:10px">${r.split_date||"-"}</td>
-      <td class="num" style="${cash>1?"color:var(--acc)":""}">${cash!=null?"$"+cash.toFixed(2):"-"}</td>
-      <td>${sqBar(r.squeeze_score,r.squeeze_reasons)}</td>
-    </tr>`;
-  }).join("");
-}
-
-function fmtMC(v){
-  if(!v) return "-";
-  if(v>=1e9) return (v/1e9).toFixed(1)+"B";
-  if(v>=1e6) return (v/1e6).toFixed(1)+"M";
-  return fmt(v);
-}
-
-function renderSplits(){
-  const typeF=document.getElementById("sp-type").value;
-  let rows=flt(D.splits.filter(x=>x.is_reverse),["Symbol","Ticker","symbol","ticker"]);
-  if(typeF!=="all") rows=rows.filter(r=>r.list_type===typeF);
-  const body=document.getElementById("body-splits");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const t  =r.Symbol||r.Ticker||r.symbol||r.ticker||"-";
-    const sm =D.summary.find(s=>s.ticker===t)||{};
-    const fd =D.floats.find(s=>s.ticker===t)||{};
-    const dt =r.split_date||r.Date||r.date||"";
-    const est=fd.est_post_split_float!=null
-      ?`<span class="pos">${fmt(fd.est_post_split_float)}</span>`
-      :fd.float_shares&&r.split_ratio
-        ?`<span class="warn">~${fmt(fd.float_shares/r.split_ratio)}</span>`
-        :"-";
-    return `<tr class="${inWL(t)?"wl":""}">
-      <td><span class="ticker">${t}</span>${newDot(dt)}${star(t)}</td>
-      <td>${dt||"-"}</td>
-      <td style="font-weight:600">${r.Ratio||r["Split Ratio"]||"-"}</td>
-      <td style="color:var(--muted)">${fmt(fd.float_shares)||"-"}</td>
-      <td>${est}</td>
-      <td>${sfCell(sm.short_float_pct)}</td>
-      <td>${sqBar(sm.squeeze_score,sm.squeeze_reasons)}</td>
-      <td>${r.list_type==="upcoming"?'<span class="badge bb">UPCOMING</span>':'<span class="badge bm">RECENT</span>'}</td>
-    </tr>`;
-  }).join("");
-}
-
-function renderFloat(){
-  const rows=flt(D.floats,["ticker"]);
-  const body=document.getElementById("body-float");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="11" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const sm=D.summary.find(s=>s.ticker===r.ticker)||{};
-    const fd=(r.float_date||"").slice(0,10);
-    const floatD=r.float_is_presplit
-      ?`<span class="warn" title="Pre-split">⚠ ${fmt(r.float_shares)}</span>`
-      :`<span class="pos">${fmt(r.float_shares)||"-"}</span>`;
-    const est=r.est_post_split_float!=null
-      ?`<span class="pos" title="÷${r.split_ratio}">${fmt(r.est_post_split_float)}</span>`
-      :"-";
-    const ofW=sm.offering_warning
-      ?`<span class="badge by" title="S-1/A filed — float may have increased">⚠</span>`:"-";
-    return `<tr class="${inWL(r.ticker)?"wl":""}">
-      <td><span class="ticker">${r.ticker}</span>${newDot(fd)}</td>
-      <td>${floatD}</td>
-      <td>${est}</td>
-      <td style="color:var(--muted)">${fmt(r.warrant_shares)||"-"}</td>
-      <td style="color:var(--muted)">${fmt(r.diluted_float)||"-"}</td>
-      <td>${sfCell(r.short_float_pct)}</td>
-      <td>${dtcCell(r.dtc)}</td>
-      <td style="font-size:10px;color:var(--muted)">${fd||"-"}</td>
-      <td>${formBadge(r.float_form)}</td>
-      <td style="font-size:10px;color:var(--muted)">${siDate(r.finra_si_date)}</td>
-      <td>${ofW}</td>
-    </tr>`;
-  }).join("");
-}
-
-function renderS1(){
-  const fv=document.getElementById("s1-flt").value;
-  let rows=flt(D.s1,["ticker","company"]);
-  if(fv!=="all") rows=rows.filter(r=>r.form===fv);
-  const body=document.getElementById("body-s1");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    // Ticker may be empty (pre-IPO companies not yet listed)
-    // Company name shown prominently in that case
-    // Ticker may be empty for pre-IPO — show "—" but make company name prominent
-    // Try to extract ticker from "(TICK)" pattern in company field (backup)
-    let s1Ticker = r.ticker || "";
-    let s1Company = r.company || "-";
-    if (!s1Ticker) {
-      const tm = s1Company.match(/\(([A-Z]{1,6})\)\s*$/);
-      if (tm) { s1Ticker = tm[1]; s1Company = s1Company.slice(0, tm.index).trim(); }
-    }
-    const tickerDisp = s1Ticker
-      ? `<span class="ticker">${s1Ticker}</span>${newDot(r.filed_date||"")}`
-      : `<span style="color:var(--muted);font-size:10px" title="${s1Company}">—</span>`;
-    const nameLen  = s1Ticker ? 28 : 36;
-    const nameDisp = s1Company.slice(0, nameLen);
-    const nameStyle = s1Ticker
-      ? "font-size:10px;color:var(--muted)"
-      : "font-size:11px;color:var(--ylw);font-weight:500";
-    return `<tr>
-      <td>${tickerDisp}</td>
-      <td style="${nameStyle}">${nameDisp}${newDot(r.filed_date||"")}</td>
-      <td>${formBadge(r.form)}</td>
-      <td style="font-size:10px">${r.filed_date||"-"}</td>
-      <td>${fmt(r.float)||"-"}</td>
-      <td>${sfCell(r.short_float_pct)}</td>
-      <td style="text-align:center">${r.reg_sho||"❌"}</td>
-      <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc)">↗</a></td>
-    </tr>`;
-  }).join("");
-}
-
-function renderC2B(){
-  const rows=flt(D.c2b,["symbol","ticker","Symbol"]);
-  const rs=RS();
-  const body=document.getElementById("body-c2b");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="8" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const t  =r.symbol||r.ticker||r.Symbol||"-";
-    const c2b=parseFloat(r.borrow_fee_rate_ib||r.borrowFeeRateIb||0);
-    // CE actual field name after normalize: shortvol_all_short_pct
-    const sv  = r.shortvol_all_short_pct ?? r.short_vol_pct ?? null;
-    const sv3 = r.shortvol_all_short_pct_30d ?? r.short_vol_pct_30d ?? null;
-    return `<tr class="${inWL(t)?"wl":""}">
-      <td><span class="ticker">${t}</span>${star(t)}</td>
-      <td><span class="${c2b>=100?"neg":c2b>=50?"warn":""}">${c2b?c2b+"%":"-"}</span></td>
-      <td>${fmt(r.borrow_fee_avail_ib||r.borrowFeeAvailIb)}</td>
-      <td>${fmt(r.shares_float||r.sharesFloat)}</td>
-      <td>${sv?sv+"%":"-"}</td>
-      <td>${sv3?sv3+"%":"-"}</td>
-      <td>${price(r.reg_price||r.regPrice)}</td>
-      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
-    </tr>`;
-  }).join("");
-}
-
-function renderRegSHO(){
-  const rows=flt(D.regsho,["Symbol","Ticker","symbol"]);
-  const body=document.getElementById("body-regsho");
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="3" class="empty">No results</td></tr>`; return; }
-  body.innerHTML=rows.map(r=>{
-    const t =r.Symbol||r.Ticker||r.symbol||"-";
-    // Try every possible date field name the scraper might use
-    const dt = r["Threshold List Date"]||r["ThresholdListDate"]
-              ||r["Entry Date"]||r.Date||r.date||r.listed||"-";
-    const mkt= r.Market||r.Exchange||r.market||r.exchange||"-";
-    return `<tr>
-      <td class="ticker">${t}${newDot(dt)}</td>
-      <td style="color:var(--muted)">${mkt}</td>
-      <td style="font-family:var(--mono);font-size:10px">${dt}</td>
-    </tr>`;
-  }).join("");
-}
-
-function render13G(){
-  const body = document.getElementById("body-13g");
-  if(!body) return;
-  const typeF = document.getElementById("sel-13g-type")?.value || "all";
-  const rs = RS();
-  let rows = flt(D.g13||[], ["ticker","company","filer"]);
-  if(typeF !== "all") rows = rows.filter(r => r.form && r.form.startsWith(typeF));
-  if(!rows.length){
-    body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`;
-    return;
-  }
-  // Sort by date desc
-  rows.sort((a,b)=>(b.filed_date||"").localeCompare(a.filed_date||""));
-  body.innerHTML = rows.map(r => {
-    const t = r.ticker || "";
-    const activist = r.activist || r.form?.includes("13D");
-    const formBadge = activist
-      ? `<span class="badge" style="background:#7c3aed;color:#fff">${r.form||"13D"}</span>`
-      : `<span class="badge bb">${r.form||"13G"}</span>`;
-    const tickerDisp = t
-      ? `<span class="ticker">${t}</span>`
-      : `<span style="color:var(--muted);font-size:10px">—</span>`;
-    const co = (r.company||"-").slice(0,30);
-    const filer = (r.filer||"-").slice(0,32);
-    const filerStyle = activist ? "color:var(--ylw);font-weight:600" : "color:var(--text)";
-    return `<tr>
-      <td>${tickerDisp}${star(t)}</td>
-      <td style="font-size:11px">${co}</td>
-      <td style="font-size:11px;${filerStyle}">${filer}</td>
-      <td>${formBadge}</td>
-      <td style="font-size:11px;color:var(--muted)">${r.filed_date?.slice(0,10)||"-"}</td>
-      <td style="text-align:center">${rs.has(t)?"✅":"❌"}</td>
-      <td><a href="${r.edgar_url||"#"}" target="_blank" style="color:var(--acc);font-size:13px">↗</a></td>
-    </tr>`;
-  }).join("");
-}
-
-function renderInsider(){
-  const rows=flt(D.insider,["ticker","company","person"]);
-  const body=document.getElementById("body-insider");
-  if(!body) return;
-  if(!rows.length){ body.innerHTML=`<tr><td colspan="7" class="empty">No results</td></tr>`; return; }
-  const rs=RS();
-  // Sort by date desc
-  const sorted=[...rows].sort((a,b)=>(b.filed_date||"").localeCompare(a.filed_date||""));
-  body.innerHTML=sorted.map(r=>{
-    const t=r.ticker||"";
-    const txType=r.transaction||"Buy";
-    const txCl=txType.toLowerCase().includes("buy")?"pos":"neg";
-    const person=(r.person||r.insider_name||r.name||"-").slice(0,24);
-    return `<tr>
-      <td><span class="ticker">${t}</span>${star(t)}</td>
-      <td><span class="${txCl}" style="font-size:10px;padding:2px 5px;border-radius:3px;background:${txCl==='pos'?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)'}">${txType}</span></td>
-      <td style="font-size:11px;color:var(--muted)">${person}</td>
-      <td style="font-size:11px;color:var(--muted)">${fmtDate(r.filed_date||r.date||"")}</td>
-      <td class="num">${fmt(r.shares||r.quantity||r.adet)}</td>
-      <td class="num">${r.value!=null?fmtMC(r.value):"-"}</td>
-      <td style="text-align:center">${rs.has(t)?'<span style="color:#22c55e">✅</span>':'<span style="color:#ef4444">❌</span>'}</td>
-    </tr>`;
-  }).join("");
-}
-// ════════════════════════════════════
-// SORT — sortDir preserved across tab changes
-// ════════════════════════════════════
-function srt(tableId, col){
-  const key=`${tableId}_${col}`;
-  const dir=UI.sortDir[key]==="asc"?"desc":"asc";
-  UI.sortDir[key]=dir;
-  const table=document.getElementById(tableId);
-  table.querySelectorAll("th").forEach((th,i)=>{
-    th.classList.remove("asc","desc");
-    if(i===col) th.classList.add(dir);
+function filterBadges(id,q){
+  q=q.toLowerCase();
+  document.querySelectorAll(`#${id} .c-badge`).forEach(el=>{
+    el.style.display=(!q||el.dataset.search.includes(q))?'':'none';
   });
-  const tbody=table.querySelector("tbody");
-  const rows=Array.from(tbody.querySelectorAll("tr")).filter(r=>r.cells.length>1);
+}
+function globalFilter(q){
+  q=q.toLowerCase().trim();
+  ['t-screener','t-splits-recent','t-splits-upcoming','t-changes','t-s1','t-insiders'].forEach(id=>filterTable(id,q));
+  filterBadges('regsho-badges',q);
+}
+
+const _sort={};
+function sortTbl(id,col){
+  const key=id+'_'+col, asc=_sort[key]=!_sort[key];
+  const tbody=document.querySelector(`#${id} tbody`);
+  const rows=Array.from(tbody.querySelectorAll('tr'));
   rows.sort((a,b)=>{
-    const av=a.cells[col]?.innerText.replace(/[^0-9.\-]/g,"")||"";
-    const bv=b.cells[col]?.innerText.replace(/[^0-9.\-]/g,"")||"";
-    const an=parseFloat(av),bn=parseFloat(bv);
-    const cmp=(!isNaN(an)&&!isNaN(bn))?an-bn:av.localeCompare(bv);
-    return dir==="asc"?cmp:-cmp;
+    const av=a.cells[col]?.textContent.trim()||'', bv=b.cells[col]?.textContent.trim()||'';
+    const an=parseFloat(av.replace(/[%$,+]/g,'')), bn=parseFloat(bv.replace(/[%$,+]/g,''));
+    if(!isNaN(an)&&!isNaN(bn)) return asc?an-bn:bn-an;
+    return asc?av.localeCompare(bv):bv.localeCompare(av);
   });
   rows.forEach(r=>tbody.appendChild(r));
+  document.querySelectorAll(`#${id} thead th`).forEach((th,i)=>{
+    th.classList.remove('sorted-asc','sorted-desc');
+    if(i===col) th.classList.add(asc?'sorted-asc':'sorted-desc');
+  });
 }
 
-// ════════════════════════════════════
-// NAVIGATION
-// ════════════════════════════════════
-function switchTab(name){
-  UI.tab=name;
-  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("on",TABS[i]===name));
-  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="panel-"+name));
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(id, el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
 }
 
-function switchSub(panelId, subId){
-  document.querySelectorAll(`#panel-${panelId} .subpanel`).forEach(p=>p.classList.remove("on"));
-  document.getElementById(subId).classList.add("on");
-  document.querySelectorAll(`#panel-${panelId} .subtab`).forEach(t=>
-    t.classList.toggle("on", t.getAttribute("onclick")?.includes(subId))
-  );
+// ── STATUS ────────────────────────────────────────────────────────────────────
+function setStatus(type,msg){
+  document.getElementById('status-dot').className='dot '+(type==='ok'?'green':type==='loading'?'spin':'');
+  document.getElementById('status-text').textContent=msg;
+  document.getElementById('refresh-btn').disabled=(type==='loading');
 }
 
-// ════════════════════════════════════
-// INIT
-// ════════════════════════════════════
-loadAll();
-setInterval(loadAll, 5*60*1000);
+// ── REFRESH ───────────────────────────────────────────────────────────────────
+async function triggerRefresh(){
+  if(!CFG.owner||!CFG.repo||!CFG.token){
+    // No config → just re-fetch data.json (may or may not have changed)
+    openSettings();
+    return;
+  }
+  setStatus('loading','Workflow başlatılıyor…');
+  try {
+    const res=await fetch(
+      `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/actions/workflows/scrape.yml/dispatches`,
+      {method:'POST',headers:{'Authorization':'Bearer '+CFG.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+       body:JSON.stringify({ref:'main'})}
+    );
+    if(res.status===204){
+      setStatus('loading','Çalışıyor… (~2–4 dk bekle)');
+      pollWorkflow();
+    } else {
+      const e=await res.json().catch(()=>({}));
+      setStatus('err','Hata: '+(e.message||res.status));
+    }
+  } catch(e){ setStatus('err','Bağlantı hatası'); }
+}
+
+async function pollWorkflow(){
+  const start=Date.now();
+  const tick=async()=>{
+    if(Date.now()-start>6*60*1000){setStatus('err','Timeout — sayfayı manuel yenile');return;}
+    try {
+      const r=await fetch(`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/actions/runs?per_page=1`,
+        {headers:{'Authorization':'Bearer '+CFG.token,'Accept':'application/vnd.github+json'}});
+      const d=await r.json();
+      const run=(d.workflow_runs||[])[0];
+      if(run&&run.status==='completed'){
+        if(run.conclusion==='success') setTimeout(()=>loadData(true),4000);
+        else setStatus('err','Workflow başarısız: '+run.conclusion);
+        return;
+      }
+    }catch(e){}
+    setTimeout(tick,9000);
+  };
+  setTimeout(tick,12000);
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────────
+function openSettings(){
+  document.getElementById('cfg-owner').value=CFG.owner||'';
+  document.getElementById('cfg-repo').value=CFG.repo||'';
+  document.getElementById('cfg-token').value=CFG.token||'';
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings(){document.getElementById('settings-modal').classList.remove('open');}
+function saveSettings(){
+  CFG={owner:document.getElementById('cfg-owner').value.trim(),repo:document.getElementById('cfg-repo').value.trim(),token:document.getElementById('cfg-token').value.trim()};
+  try{sessionStorage.setItem('st_cfg',JSON.stringify(CFG));}catch(e){}
+  closeSettings();
+}
+document.getElementById('settings-modal').addEventListener('click',e=>{if(e.target.id==='settings-modal')closeSettings();});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadData();
 </script>
 </body>
 </html>
